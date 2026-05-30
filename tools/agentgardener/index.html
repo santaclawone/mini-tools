@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentGardener | agent health dashboard</title>
+<meta name="description" content="Simulated agent status cards with health metrics.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
+.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section ul { list-style: none; padding: 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
+.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
+.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
+.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+@media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div id="cursor-glow"></div><div id="cursor-dot"></div>
+<header class="site-header">
+  <div class="container">
+    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
+    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+  </div>
+</header>
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 15 | interactive</div>
+    <h1>AgentGardener</h1>
+    <p>Simulated agent status cards with health metrics.</p>
+  </div>
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>agent fleet</h3>
+      <div style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:0.5rem">Live status dashboard. No input needed — data is simulated for demonstration.</div>
+      <div class="tool-actions"><button class="btn btn-primary" onclick="renderGardener()">refresh status</button></div>
+    </div>
+    <div class="tool-output-panel">
+      <h3>agent status dashboard</h3>
+      <div id="ag-output"><div class="tool-output-placeholder">Loading agent status...</div></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
+<script>
+(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
+
+var agentsStatus = [
+  {name:"Claudie",type:"Slack Agent",status:"healthy",uptime:"99.8%",tasks:142,errors:3,lastActive:"2 min ago",notes:"All clear"},
+  {name:"Codex",type:"Code Agent",status:"healthy",uptime:"98.5%",tasks:89,errors:1,lastActive:"5 min ago",notes:"Handled PR review queue"},
+  {name:"DataBot",type:"Data Agent",status:"degraded",uptime:"95.2%",tasks:56,errors:8,lastActive:"18 min ago",notes:"API rate limiting — review queue"},
+  {name:"Writer",type:"Content Agent",status:"healthy",uptime:"99.1%",tasks:34,errors:0,lastActive:"1 hour ago",notes:"Idle"},
+  {name:"Monitor",type:"Watchdog Agent",status:"error",uptime:"88.3%",tasks:12,errors:5,lastActive:"3 hours ago",notes:"Needs restart — memory leak detected"},
+  {name:"DeployBot",type:"CI/CD Agent",status:"healthy",uptime:"99.9%",tasks:210,errors:0,lastActive:"30 sec ago",notes:"Active"}
+];
+function renderGardener() {
+  var healthy = agentsStatus.filter(function(a){return a.status==="healthy"}).length;
+  var degraded = agentsStatus.filter(function(a){return a.status==="degraded"}).length;
+  var error = agentsStatus.filter(function(a){return a.status==="error"}).length;
+  var h = '<div class="result-section"><h4>fleet overview</h4><div class="metric-grid"><div class="metric-box"><strong>'+agentsStatus.length+'</strong><span>total agents</span></div><div class="metric-box"><strong style="color:rgba(245,158,11,0.7)">'+healthy+'</strong><span>healthy</span></div><div class="metric-box"><strong style="color:var(--amber)">'+degraded+'</strong><span>degraded</span></div><div class="metric-box"><strong>'+error+'</strong><span>errors</span></div></div></div>';
+  agentsStatus.forEach(function(a) {
+    var color = a.status === "healthy" ? "rgba(245,158,11,0.6)" : a.status === "degraded" ? "var(--amber)" : "#ef4444";
+    var barW = a.status === "healthy" ? 85 + Math.round(Math.random()*15) : a.status === "degraded" ? 50 + Math.round(Math.random()*25) : 25 + Math.round(Math.random()*20);
+    h += '<div class="result-section" style="border:1px solid var(--border);padding:var(--space-sm);border-radius:var(--radius-sm)"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.25rem"><h4 style="margin:0;opacity:1">'+a.name+'</h4><span style="font-size:0.65rem;color:'+color+';font-family:var(--font-heading);text-transform:uppercase">'+a.status+'</span></div><div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.35rem">'+a.type+' | uptime: '+a.uptime+' | tasks: '+a.tasks+' | errors: '+a.errors+'</div><div class="bar-container"><div class="bar-fill" style="width:'+barW+'%;background:linear-gradient(90deg,'+color+',rgba(245,158,11,0.3))"></div></div><div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.2rem">'+a.notes+' | last active: '+a.lastActive+'</div></div>';
+  });
+  var totalIntervention = agentsStatus.filter(function(a){return a.status!=="healthy"}).length;
+  h += '<div class="result-section"><h4>human intervention needed</h4><div class="highlight-block">'+totalIntervention+' agent'+(totalIntervention>1?'s':'')+' need attention. Priority: Monitor (memory leak) followed by DataBot (API rate limiting).</div></div>';
+  document.getElementById("ag-output").innerHTML = h;
+}
+renderGardener();
+
+</script>
+</body>
+</html>

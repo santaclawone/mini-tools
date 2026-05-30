@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SupportLoop | bug report generator</title>
+<meta name="description" content="Describe an issue. Get structured agent bug report.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
+.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section ul { list-style: none; padding: 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
+.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
+.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
+.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+@media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div id="cursor-glow"></div><div id="cursor-dot"></div>
+<header class="site-header">
+  <div class="container">
+    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
+    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+  </div>
+</header>
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 17 | interactive</div>
+    <h1>SupportLoop</h1>
+    <p>Describe an issue. Get structured agent bug report.</p>
+  </div>
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>issue description</h3>
+      <textarea id="sl2-desc" placeholder="Describe the bug or issue you encountered.&#10;&#10;Include: what happened, what you expected, and any error messages." rows="8"></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="generateBugReport()">generate report</button>
+        <button class="sample-btn" onclick="loadSLBug()">sample bug</button>
+      </div>
+    </div>
+    <div class="tool-output-panel">
+      <h3>structured agent bug report</h3>
+      <div id="sl2-output"><div class="tool-output-placeholder">Describe an issue and click "generate report".</div></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
+<script>
+(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
+
+function generateBugReport() {
+  var desc = document.getElementById("sl2-desc").value.trim();
+  if (!desc || desc.split(/\s+/).length < 5) { document.getElementById("sl2-output").innerHTML = '<div class="tool-output-placeholder">Describe the issue in more detail (at least 5 words).</div>'; return; }
+  var lc = desc.toLowerCase();
+  var sections = ["Reproduction Steps", "Expected Behavior", "Actual Behavior", "Environment", "Impact Analysis", "Suggested Fix"];
+  var cat = /error|crash|fail|broken|not working/.test(lc) ? "bug" : /slow|lag|delay|timeout|performance/.test(lc) ? "performance" : /ui|display|layout|alignment|styling|broken|missing/.test(lc) ? "ui" : "general";
+  var sev = /crash|data loss|security|payment|billing|critical/.test(lc) ? "critical" : /broken|not working|wrong|incorrect/.test(lc) ? "high" : /slow|minor|cosmetic|typo|small/.test(lc) ? "low" : "medium";
+  var steps = [];
+  if (lc.match(/login|sign|auth|password/)) {steps.push("1. Navigate to login page");steps.push("2. Enter credentials");steps.push("3. Click submit");}
+  else if (lc.match(/payment|checkout|cart|buy|purchase/)) {steps.push("1. Add item to cart");steps.push("2. Proceed to checkout");steps.push("3. Enter payment details");steps.push("4. Submit order");}
+  else {steps.push("1. Navigate to the relevant page");steps.push("2. Perform the described action");steps.push("3. Observe the unexpected behavior");}
+  var fixMatch = lc.match(/(?:fix|solution|should be|expected|need to) ([^.]+)/i);
+  var fixSuggestion = fixMatch ? fixMatch[1].trim() : "Investigate the component and apply standard error handling.";
+  var h = '<div class="result-section"><h4>bug report</h4><div class="metric-grid"><div class="metric-box"><strong>'+cat+'</strong><span>category</span></div><div class="metric-box"><strong style="color:'+(sev==="critical"?"#ef4444":"var(--amber)")+'">'+sev+'</strong><span>severity</span></div></div></div>';
+  sections.forEach(function(s) {
+    h += '<div class="result-section"><h4>'+s.replace(/([A-Z])/g," $1").trim()+'</h4><div class="highlight-block">';
+    if (s === "Reproduction Steps") { steps.forEach(function(st){h+=st+"<br>"}); }
+    else if (s === "Expected Behavior") { h += 'The system should '+(fixMatch?fixSuggestion:'function correctly without errors.')+' See: '+desc.substring(0,80)+'...'; }
+    else if (s === "Actual Behavior") { h += desc.substring(0,200); }
+    else if (s === "Environment") { h += 'Browser: Chrome 125 | OS: macOS 14.5 | App version: 2.4.1 (production)'; }
+    else if (s === "Impact Analysis") { h += sev==="critical"?'Blocks core workflow for all users.' : sev==="high"?'Affects primary user flow.' : 'Minor impact, cosmetic or edge case.'; }
+    else if (s === "Suggested Fix") { h += fixSuggestion; }
+    h += '</div></div>';
+  });
+  h += '<div class="result-section"><h4>agent-ready summary</h4><div class="highlight-block" style="background:rgba(15,23,42,0.5)"><span style="font-family:var(--font-mono);font-size:0.78rem">BUG | '+sev+' | '+cat+' | '+desc.substring(0,60)+'... | Steps: '+(steps.length)+' | Suggested: '+fixSuggestion+'</span></div></div>';
+  document.getElementById("sl2-output").innerHTML = h;
+}
+function loadSLBug() {
+  document.getElementById("sl2-desc").value = "When I try to complete a payment, the page shows a loading spinner for 10+ seconds and then displays a generic error message. The payment doesn't go through but my card is still charged. This happens with multiple cards and browsers.";
+}
+
+</script>
+</body>
+</html>

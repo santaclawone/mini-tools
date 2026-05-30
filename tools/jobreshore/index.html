@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JobReshore | AI support simulator</title>
+<meta name="description" content="Enter a customer query. Get AI response plus human review.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
+.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section ul { list-style: none; padding: 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
+.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
+.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
+.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+@media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div id="cursor-glow"></div><div id="cursor-dot"></div>
+<header class="site-header">
+  <div class="container">
+    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
+    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+  </div>
+</header>
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 14 | interactive</div>
+    <h1>JobReshore</h1>
+    <p>Enter a customer query. Get AI response plus human review.</p>
+  </div>
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>customer query</h3>
+      <textarea id="jr-input" placeholder="Paste a customer support query..." rows="6"></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="simulateSupport()">simulate response</button>
+        <button class="sample-btn" onclick="loadJRQuery()">sample query</button>
+      </div>
+    </div>
+    <div class="tool-output-panel">
+      <h3>AI response + human review</h3>
+      <div id="jr-output"><div class="tool-output-placeholder">Enter a customer query and click "simulate response".</div></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
+<script>
+(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
+
+function simulateSupport() {
+  var query = document.getElementById("jr-input").value.trim();
+  if (!query) { document.getElementById("jr-output").innerHTML = '<div class="tool-output-placeholder">Enter a customer query.'; return; }
+  var categories = ["billing", "technical", "account", "feature request", "complaint", "general"];
+  var lq = query.toLowerCase();
+  var cat = "general";
+  if (lq.match(/bill|charge|price|pay|refund|invoice/)) cat = "billing";
+  else if (lq.match(/error|bug|crash|not working|install|setup|login|password/)) cat = "technical";
+  else if (lq.match(/account|profile|delete|close|upgrade|downgrade|subscription/)) cat = "account";
+  else if (lq.match(/wish|would love|feature|suggest|request|add|missing/)) cat = "feature request";
+  else if (lq.match(/terrible|bad|awful|worst|angry|furious|unacceptable|complaint/)) cat = "complaint";
+  var confidence = cat === "billing" || cat === "technical" ? Math.round(70 + Math.random() * 20) : cat === "account" ? Math.round(60 + Math.random() * 25) : Math.round(40 + Math.random() * 30);
+  var tier = confidence > 80 ? "tier 1 (auto-resolve)" : confidence > 60 ? "tier 1+ (AI + templates)" : "tier 2 (human needed)";
+  var responses = { "billing": "Thanks for reaching out about billing. I can help with payment questions, invoices, and plan changes. Could you share your account email so I can look up the details?", "technical": "Thanks for reporting this issue. Let me gather some diagnostic info. Could you try clearing your cache and refreshing? If the issue persists, please share your browser version and OS.", "account": "I can help with account management. For security, please verify your email on file and I'll assist with any account changes you need.", "feature request": "Thanks for the suggestion! Our product team reviews all feature requests. I'll log this and you'll get notified if it moves forward.", "complaint": "I understand your frustration and I apologize for the experience. Let me escalate this to our team who can make things right. Could you share more details about what happened?", "general": "Thanks for your message. I'd be happy to help. Could you share a bit more context so I can point you to the right resources?" };
+  var h = '<div class="result-section"><h4>query analysis</h4><ul><li><span>category</span><span>'+cat+'</span></li><li><span>AI confidence</span><span>'+confidence+'%</span></li><li><span>routing</span><span>'+tier+'</span></li></ul></div>';
+  h += '<div class="result-section"><h4>AI response</h4><div class="highlight-block">'+responses[cat]+'</div></div>';
+  h += '<div class="result-section"><h4>human review notes</h4><div class="highlight-block" style="border-left-color:var(--text-muted)">'+(confidence>80?'Response approved for auto-send. No human review needed.'+' Suggested follow-up: check billing system for recent activity.' : confidence>60?'Suggested response: use the AI draft with minor tone adjustments.'+' Flag for review: verify account details before sending.' : 'Escalate to senior support. This requires human judgment.')+'</div></div>';
+  h += '<div class="result-section"><h4>cost calculation</h4><ul><li><span>AI handling cost</span><span>$0.05</span></li><li><span>human review cost</span><span>'+(confidence>80?'$0.00 (auto)':confidence>60?'$1.50 (light review)':'$5.00 (full review)')+'</span></li><li><span>vs traditional support</span><span>$8.50 saved</span></li></ul></div>';
+  document.getElementById("jr-output").innerHTML = h;
+}
+function loadJRQuery() {
+  document.getElementById("jr-input").value = "I was charged twice for my subscription this month. I need a refund for the duplicate charge.";
+}
+
+</script>
+</body>
+</html>

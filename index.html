@@ -7,24 +7,27 @@
 <meta name="description" content="Quick-win tools extracted from podcast conversations. Single-purpose, zero fluff.">
 <link rel="stylesheet" href="style.css">
 <style>
-  .source-ribbon {
-    display: flex;
-    gap: var(--space-sm);
-    align-items: center;
-    padding: var(--space-sm) var(--space-md);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    margin-bottom: var(--space-lg);
-    font-size: 0.85rem;
+  .hero-ambient {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
   }
-  .source-ribbon span:first-child { color: var(--accent-amber); font-weight: 700; }
-  .source-ribbon span:last-child { color: var(--text-dim); }
-  @media (max-width: 600px) {
-    .source-ribbon { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+
+  @media (max-width: 768px) {
+    .hero-ambient { display: none; }
   }
 </style>
 </head>
 <body>
+
+<!-- Custom cursor -->
+<div id="cursor-glow"></div>
+<div id="cursor-dot"></div>
 
 <header class="site-header">
   <div class="container">
@@ -41,10 +44,11 @@
 
 <main class="container">
   <div class="hero">
+    <div class="hero-ambient"></div>
     <div>
-      <p style="color:var(--accent-amber);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.5rem;">Batches 1 & 1.5 — Dan Shipper</p>
-      <h1>small ideas,<br><span style="color:var(--accent-teal)">sharp tools</span></h1>
-      <p>Twenty-one tools extracted from two conversations with Dan Shipper (CEO of Every). Batch 1 from his first appearance. Batch 1.5 from his return episode — predictions for how work changes in 2026.</p>
+      <p style="color:var(--amber);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.5rem;font-family:var(--font-heading);">Batches 1 and 1.5 | Dan Shipper</p>
+      <h1>small ideas,<br><span style="color:var(--amber)">sharp tools</span></h1>
+      <p>Twenty-one tools extracted from two conversations with Dan Shipper, CEO of Every. Batch 1 from his first appearance. Batch 1.5 from his return episode — predictions for how work changes in 2026.</p>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><h3>21</h3><p>tools extracted</p></div>
@@ -55,16 +59,16 @@
 
   <div class="source-ribbon">
     <span>Batch 1</span>
-    <span>Lenny&#39;s Podcast — Dan Shipper / Every</span>
-    <span style="color:var(--text-dim);margin-left:auto;">The AI-native startup: 5 products, 7-figure revenue, 100% AI-written code</span>
+    <span>Lenny's Podcast — Dan Shipper / Every</span>
+    <span>The AI-native startup: 5 products, 7-figure revenue, 100% AI-written code</span>
   </div>
 
   <div id="tools" class="tool-grid">
     <article class="tool-card">
       <div class="tool-tag">ready</div>
       <h3>StylePull</h3>
-      <p class="tool-desc">Feed it any text. It extracts the author&#39;s signature techniques — sentence rhythm, characterization, scene-setting — and produces a playbook you can use.</p>
-      <p class="tool-source">Dan Shipper: &ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&#39;s descriptions into a guide.&rdquo;</p>
+      <p class="tool-desc">Feed it any text. It extracts the author's signature techniques — sentence rhythm, characterization, scene-setting — and produces a playbook you can use.</p>
+      <p class="tool-source">Dan Shipper: "I downloaded War and Peace and had Claude extract all of Tolstoy's descriptions into a guide."</p>
       <a href="tools/stylepull/" class="tool-link">use tool</a>
     </article>
 
@@ -72,167 +76,166 @@
       <div class="tool-tag">ready</div>
       <h3>Manuscript</h3>
       <p class="tool-desc">Drop your meeting transcripts. It builds a voice profile and surfaces patterns: who you interrupt, when you avoid conflict, how your energy shifts.</p>
-      <p class="tool-source">Dan Shipper: &ldquo;I built a benchmark: can it predict what I&#39;m going to say in a meeting?&rdquo;</p>
+      <p class="tool-source">Dan Shipper: "I built a benchmark: can it predict what I'm going to say in a meeting?"</p>
       <a href="tools/manuscript/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
       <div class="tool-tag">ready</div>
-      <h3>Rambler &rarr; PRD</h3>
+      <h3>Rambler to PRD</h3>
       <p class="tool-desc">Speak or type raw ideas. The tool structures them into a proper PRD — problem, users, stories, criteria, edge cases. Compounds as you refine.</p>
-      <p class="tool-source">Dan Shipper: &ldquo;Instead of writing PRDs from scratch, write a prompt that turns rambling into a perfect PRD.&rdquo;</p>
+      <p class="tool-source">Dan Shipper: "Instead of writing PRDs from scratch, write a prompt that turns rambling into a perfect PRD."</p>
       <a href="tools/rambler-prd/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>NeverRepeat</h3>
-      <p class="tool-desc">Every piece of feedback you give becomes a reusable prompt. Build a library of your taste. Your team runs it. You never repeat yourself.</p>
-      <p class="tool-source">Dan: &ldquo;Alex recorded every edit, put it in a prompt, and never made the same mistake twice.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Manager feedback coder. Every piece of feedback becomes a reusable prompt. Build a library of your taste. Your team runs it. You never repeat yourself.</p>
+      <p class="tool-source">Dan: "Alex recorded every edit, put it in a prompt, and never made the same mistake twice."</p>
+      <a href="tools/neverrepeat/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>CopyScout</h3>
-      <p class="tool-desc">Point it at a codebase. It scans all UI copy against a style guide, flags inconsistencies, creates a PR. Your editors review a diff, not a codebase.</p>
-      <p class="tool-source">Dan: &ldquo;A cloud code command checks the entire codebase for copy edits and creates a pull request.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Codebase copy enforcer. Paste code plus style guide. It flags UI copy inconsistencies, tone drift, and brand voice violations.</p>
+      <p class="tool-source">Dan: "A cloud code command checks the entire codebase for copy edits and creates a pull request."</p>
+      <a href="tools/copyscout/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>VibeCheck</h3>
-      <p class="tool-desc">Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and &#8220;feeling.&#8221; Get a comparison matrix that benchmarks actually matter.</p>
-      <p class="tool-source">Dan: &#8220;Vibe checks capture how it feels to use, which standard benchmarks don&#39;t.&#8221;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Model review framework. Select a model, rate 5 dimensions. Get a comparison card that shows quality, speed, cost, and how it feels to use.</p>
+      <p class="tool-source">Dan: "Vibe checks capture how it feels to use, which standard benchmarks don't."</p>
+      <a href="tools/vibecheck/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>MemoryMine</h3>
-      <p class="tool-desc">Weekly self-reflection from your transcripts and writing. It knows your patterns. It shows you growth, blind spots, and what you keep doing wrong.</p>
-      <p class="tool-source">Dan: &#8220;I send it transcripts and ask &#39;how did I do?&#39; It says &#39;you did that thing you normally do.&#39;&#8221;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Personal reflection tool. Paste journal entries. It surfaces patterns: recurring themes, emotional arcs, blind spots you keep repeating.</p>
+      <p class="tool-source">Dan: "I send it transcripts and ask 'how did I do?' It says 'you did that thing you normally do.'"</p>
+      <a href="tools/memorymine/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>Spiral Lite</h3>
-      <p class="tool-desc">Say &#8220;write a tweet about X.&#8221; It reads your docs, drafts 3 variants, scores them, improves the best one. You just review and post.</p>
-      <p class="tool-source">Dan: &#8220;Spiral does content automation. You say what you want, it judges its own output and improves.&#8221;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Content automation. Enter a topic and brief. It drafts 3 variants, scores them, improves the best one. You review and post.</p>
+      <p class="tool-source">Dan: "Spiral does content automation. You say what you want, it judges its own output and improves."</p>
+      <a href="tools/spiral-lite/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>AgentRoster</h3>
-      <p class="tool-desc">A roster of AI agents with taste profiles. Route tasks to the right agent. Run them in parallel. Track which one performs best for each task.</p>
-      <p class="tool-source">Dan: &#8220;Kieran uses Claude Code, Friday, and Charlie simultaneously. Each has a different personality.&#8221;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Agent personality comparison. Select agents, get a taste profile comparison. Route tasks to the right agent based on personality fit.</p>
+      <p class="tool-source">Dan: "Kieran uses Claude Code, Friday, and Charlie simultaneously. Each has a different personality."</p>
+      <a href="tools/agentroster/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>AdoptionMap</h3>
-      <p class="tool-desc">Survey your team. See who&#39;s AI-ready, where the blockers are, and which teams would unlock the most leverage.</p>
-      <p class="tool-source">Dan: &#8220;The number one predictor: does the CEO use ChatGPT? If yes, the whole company adopts.&#8221;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Team AI readiness survey. Answer questions about your team. Get a readiness dashboard showing who's ready and where blockers are.</p>
+      <p class="tool-source">Dan: "The number one predictor: does the CEO use ChatGPT? If yes, the whole company adopts."</p>
+      <a href="tools/adoptionmap/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>PromptLeague</h3>
-      <p class="tool-desc">Weekly stats: who&#39;s using what, top prompts, trending workflows. Celebrate the 10% who figure things out.</p>
-      <p class="tool-source">Dan: &#8220;Share usage stats every week. Highlight the best prompts and who contributed them.&#8221;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Usage stats dashboard. Enter team data. Get a leaderboard showing top prompts, trending workflows, weekly usage stats.</p>
+      <p class="tool-source">Dan: "Share usage stats every week. Highlight the best prompts and who contributed them."</p>
+      <a href="tools/promotleague/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>JobReshore</h3>
-      <p class="tool-desc">AI-augmented customer support for small businesses. Handles tier-1 autonomously, surfaces trends, costs what a part-time hire would.</p>
-      <p class="tool-source">Dan: &#8220;10 people in the Midwest with AI can serve what 100 people would. It reshored the jobs.&#8221;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">AI support simulator. Enter a customer query. Get an AI response plus human review notes. Shows how AI augments small business support.</p>
+      <p class="tool-source">Dan: "10 people in the Midwest with AI can serve what 100 people would. It reshored the jobs."</p>
+      <a href="tools/jobreshore/" class="tool-link">use tool</a>
     </article>
+  </div>
 
-    <div style="grid-column:1/-1;margin:var(--space-sm) 0;border-top:1px solid var(--border);padding-top:var(--space-md);">
-      <div style="display:flex;align-items:center;gap:var(--space-sm);">
-        <span style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--accent-amber);">Batch 1.5</span>
-        <span style="color:var(--text-dim);font-size:0.85rem;">Dan Shipper Returns: 10 bold predictions for work in 2026</span>
-      </div>
-    </div>
+  <div class="batch-separator">
+    <div class="batch-label">Batch 1.5 <span>Dan Shipper Returns: 10 bold predictions for work in 2026</span></div>
+  </div>
 
+  <div class="tool-grid" style="margin-top: var(--space-md);">
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>AgentGardener</h3>
-      <p class="tool-desc">Dashboard for all company agents: health status, error rates, manual intervention needed. &ldquo;Every agent needs a human&rdquo; — this is the ops console for that human.</p>
-      <p class="tool-source">Dan: &ldquo;Nitesh spends his day talking to Claudie in Slack, debugging it, keeping it on track.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Agent health dashboard. No input needed. Shows simulated agent status cards with health, error rates, and manual intervention needs.</p>
+      <p class="tool-source">Dan: "Nitesh spends his day talking to Claudie in Slack, debugging it, keeping it on track."</p>
+      <a href="tools/agentgardener/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>ClaudieCast</h3>
-      <p class="tool-desc">Agent-to-agent handoff. Your personal Codex agent talks to the company&#39;s Slack agent. Full context preserved. No forms to fill — your agent already knows.</p>
-      <p class="tool-source">Dan: &ldquo;Two agents are better than one. Your agent can tell another agent way more than you&#39;d type.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Agent conversation viewer. Paste messages. Get a formatted handoff log showing agent-to-agent conversation with full context preserved.</p>
+      <p class="tool-source">Dan: "Two agents are better than one. Your agent can tell another agent way more than you'd type."</p>
+      <a href="tools/claudiecast/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>SupportLoop</h3>
-      <p class="tool-desc">Agent bug reports: exact repro steps, code analysis, suggested fix. Company agent picks it up, validates, opens PR. Bug to fix in minutes, not days.</p>
-      <p class="tool-source">Dan: &ldquo;An agent bug report is way better than a human one — it has the exact repro steps and what it thinks is wrong.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Bug report generator. Describe an issue. Get a structured agent bug report with repro steps, code analysis, and suggested fix.</p>
+      <p class="tool-source">Dan: "An agent bug report has exact repro steps and what it thinks is wrong."</p>
+      <a href="tools/supportloop/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>NotionPlan</h3>
-      <p class="tool-desc">Agent runs quarterly planning. Interviews every team member, cross-references goals with company strategy, flags conflicts. CEO reads 20 plans in minutes.</p>
-      <p class="tool-source">Dan: &ldquo;We had a Notion agent ask everyone about their goals, pushed back, then produced structured plans. I could read all 20 in the time it used to take for 2.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Quarterly planning tool. Answer goal questions. Get a structured plan document with cross-referenced goals, conflicts, and priorities.</p>
+      <p class="tool-source">Dan: "We had a Notion agent ask everyone about their goals. I could read all 20 plans quickly."</p>
+      <a href="tools/notionplan/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
-      <h3>BenchmarkTunnel</h3>
-      <p class="tool-desc">Dan&#39;s &ldquo;senior engineer benchmark&rdquo; — a fixed prompt that scores every new model against two canonical rewrites. Track which models are actually getting better.</p>
-      <p class="tool-source">Dan: &ldquo;Two senior engineers independently rewrote my vibe-coded app. Now I score every new model against them. GPT-5.5 scored 62/100.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <div class="tool-tag">ready</div>
+      <h3>BenchTunnel</h3>
+      <p class="tool-desc">Model benchmark. Select a model and challenge. Get a score breakdown with comparison against canonical rewrites and human baselines.</p>
+      <p class="tool-source">Dan: "Two senior engineers rewrote my vibe-coded app. Now I score every new model against them."</p>
+      <a href="tools/benchtunnel/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>RideTheModel</h3>
-      <p class="tool-desc">Your personal model benchmark. Save 5-10 tasks you care about. Every new model drop: auto-run, compare, share. &ldquo;It couldn&#39;t do this last time — can it now?&rdquo;</p>
-      <p class="tool-source">Dan: &ldquo;Turn over the same rocks every time. It couldn&#39;t do senior engineer stuff last time — now it scores 62. Ride the model.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Model test suite. Enter tasks you care about. Get a model scorecard comparing performance across your personal benchmarks.</p>
+      <p class="tool-source">Dan: "Turn over the same rocks every time. It couldn't do senior engineer stuff last time — now it scores 62."</p>
+      <a href="tools/ridethemodel/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>SlopFilter</h3>
-      <p class="tool-desc">Review triage for AI-generated work. Auto-scores confidence, completeness, and consistency. Low-confidence flagged for seniors. High-confidence auto-approved.</p>
-      <p class="tool-source">Dan: &ldquo;Data scientists now spend most of their time reviewing bad AI-generated analysis. You need systems to filter it.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Review triage for AI work. Paste AI-generated content. Get a confidence score and routing recommendation: auto-approve, flag for review, or reject.</p>
+      <p class="tool-source">Dan: "Data scientists spend most of their time reviewing bad AI-generated analysis. You need systems to filter it."</p>
+      <a href="tools/slopfilter/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>ClaudiePair</h3>
-      <p class="tool-desc">Collaborative document workspace. You write, agent watches and assists — researches in background, suggests edits, formats. Both see what the other is doing.</p>
-      <p class="tool-source">Dan: &ldquo;The agent has visibility into what I&#39;m doing. I have visibility into what the agent is doing. You don&#39;t need formatting tools — the agent does it.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Collaborative document workspace. Write text. Get agent-suggested edits, background research, and formatting help in real time.</p>
+      <p class="tool-source">Dan: "The agent has visibility into what I'm doing. You don't need formatting tools — the agent does it."</p>
+      <a href="tools/claudiepair/" class="tool-link">use tool</a>
     </article>
 
     <article class="tool-card">
-      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <div class="tool-tag">ready</div>
       <h3>SuperAgent Setup</h3>
-      <p class="tool-desc">Scaffold a company super-agent in Slack. Integrates with data warehouse, docs, codebase. Includes permission framework and feedback loop. Starts general, gets specialized.</p>
-      <p class="tool-source">Dan: &ldquo;One super agent per company. Shopify has River. Ramp has one. A forward deployed engineer maintains it.&rdquo;</p>
-      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+      <p class="tool-desc">Agent scaffold wizard. Make config selections. Get a setup guide and dashboard for deploying a company super-agent in Slack.</p>
+      <p class="tool-source">Dan: "One super agent per company. Shopify has River. Ramp has one. A forward deployed engineer maintains it."</p>
+      <a href="tools/superagentsetup/" class="tool-link">use tool</a>
     </article>
   </div>
 </main>
@@ -243,5 +246,58 @@
   </div>
 </footer>
 
+<script>
+// Custom cursor
+(function initCursor() {
+  const glow = document.getElementById('cursor-glow');
+  const dot = document.getElementById('cursor-dot');
+  if (!glow || !dot) return;
+
+  let mouseX = -100, mouseY = -100;
+  let glowX = -100, glowY = -100;
+  const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (isTouch) { glow.style.display = 'none'; dot.style.display = 'none'; return; }
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
+  });
+
+  function animate() {
+    glowX += (mouseX - glowX) * 0.12;
+    glowY += (mouseY - glowY) * 0.12;
+    glow.style.left = glowX + 'px';
+    glow.style.top = glowY + 'px';
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Scale on interactive elements
+  document.querySelectorAll('a, button, .btn, .tool-card, input, textarea, select, .sample-btn, .suggestion-chip').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      glow.style.width = '48px';
+      glow.style.height = '48px';
+      glow.style.opacity = '0.8';
+    });
+    el.addEventListener('mouseleave', () => {
+      glow.style.width = '32px';
+      glow.style.height = '32px';
+      glow.style.opacity = '1';
+    });
+  });
+
+  document.addEventListener('mousedown', () => {
+    dot.style.width = '4px';
+    dot.style.height = '4px';
+  });
+  document.addEventListener('mouseup', () => {
+    dot.style.width = '6px';
+    dot.style.height = '6px';
+  });
+})();
+</script>
 </body>
 </html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SlopFilter | review triage for AI work</title>
+<meta name="description" content="Paste AI content. Get confidence score and routing.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
+.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section ul { list-style: none; padding: 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
+.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
+.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
+.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+@media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div id="cursor-glow"></div><div id="cursor-dot"></div>
+<header class="site-header">
+  <div class="container">
+    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
+    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+  </div>
+</header>
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 21 | interactive</div>
+    <h1>SlopFilter</h1>
+    <p>Paste AI content. Get confidence score and routing.</p>
+  </div>
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>AI-generated work</h3>
+      <textarea id="sf-input" placeholder="Paste AI-generated text for quality analysis..." rows="8"></textarea>
+      <div class="tool-actions">
+        <button class="btn btn-primary" onclick="analyzeSlop()">analyze</button>
+        <button class="sample-btn" onclick="loadSFSample()">sample AI text</button>
+      </div>
+    </div>
+    <div class="tool-output-panel">
+      <h3>confidence score + routing</h3>
+      <div id="sf-output"><div class="tool-output-placeholder">Paste AI-generated work and click "analyze".</div></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
+<script>
+(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
+
+function analyzeSlop() {
+  var txt = document.getElementById("sf-input").value.trim();
+  if (!txt || txt.split(/\s+/).length < 10) { document.getElementById("sf-output").innerHTML = '<div class="tool-output-placeholder">Paste AI-generated work for review (at least 10 words).</div>'; return; }
+  var w = txt.match(/\b\w+\b/g)||[], sents = txt.match(/[^.!?\n]+[.!?]+/g)||[txt];
+  var signals = [];
+  var reps = 0; var seen={}; w.forEach(function(wd){var l=wd.toLowerCase();if(l.length>3){if(seen[l])reps++;seen[l]=true}});
+  var repRate = reps / Math.max(w.length,1);
+  if (repRate > 0.15) signals.push({type:"repetitive vocabulary", severity:"medium", detail:"High word repetition suggests AI generation ("+(repRate*100).toFixed(0)+"% repeated words)."});
+  var avgSentLen = w.length / Math.max(sents.length,1);
+  if (avgSentLen < 8) signals.push({type:"short, choppy sentences", severity:"low", detail:"Average sentence length under 8 words — possible AI simplification."});
+  if (avgSentLen > 28) signals.push({type:"unusually long sentences", severity:"low", detail:"Average sentence length over 28 words — check for AI verbosity."});
+  var buzz = (txt.match(/\b(delve|leverage|utilize|cutting-edge|synergy|revolutionary|game-changing|transformative|groundbreaking|paradigm|robust|seamless|intuitive|ecosystem|holistic|actionable|best-in-class)\b/gi)||[]).length;
+  if (buzz > 2) signals.push({type:"buzzword density", severity:"high", detail:buzz+" buzzwords detected. AI-generated content often leans on corporate jargon."});
+  var quals = (txt.match(/\b(significantly|notably|importantly|essentially|basically|virtually|practically|arguably|undoubtedly|certainly)\b/gi)||[]).length;
+  if (quals > 3) signals.push({type:"hedging qualifiers", severity:"medium", detail:quals+" qualifiers found — AI hedging language that lacks specific evidence."});
+  var lists = txt.match(/\d+\.\s/g)||[];
+  if (lists.length > 3) signals.push({type:"list-heavy structure", severity:"low", detail:lists.length+" numbered items. AI often overuses lists."});
+  var confidentWords = (txt.match(/\b(always|never|everyone|nobody|everything|nothing|all|none)\b/gi)||[]).length;
+  if (confidentWords > 3) signals.push({type:"over-generalization", severity:"medium", detail:"Absolute language ("+confidentWords+" instances) suggests AI overconfidence."});
+  var confidence = Math.max(10, Math.min(95, 100 - (signals.length * 12 + buzz * 5 + reps * 2)));
+  var routing = confidence >= 80 ? "auto-approve" : confidence >= 50 ? "flag for review" : "reject / rewrite";
+  var color = confidence >= 80 ? "rgba(245,158,11,0.5)" : confidence >= 50 ? "var(--amber)" : "#ef4444";
+  var h = '<div class="result-section"><h4>confidence score</h4><div style="text-align:center;padding:var(--space-md)"><div style="font-size:3rem;font-weight:700;font-family:var(--font-heading);color:'+color+'">'+confidence+'%</div><div style="font-size:0.72rem;color:var(--text-muted);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.1em">'+routing+'</div></div></div>';
+  h += '<div class="result-section"><h4>signals detected</h4><div class="metric-grid"><div class="metric-box"><strong>'+signals.length+'</strong><span>signals</span></div><div class="metric-box"><strong>'+w.length+'</strong><span>words analyzed</span></div></div></div>';
+  if (signals.length === 0) {h += '<div class="result-section"><div class="highlight-block" style="border-left-color:rgba(245,158,11,0.3)">No AI-generation signals detected. Content appears human-written.</div></div>';}
+  else { signals.forEach(function(s, i) {
+      h += '<div class="result-section" style="animation-delay:'+(i*0.05)+'s"><h4 style="color:'+(s.severity==="high"?"var(--amber)":"var(--text-muted)")+'">'+s.severity+' | '+s.type+'</h4><div class="highlight-block">'+s.detail+'</div></div>';
+    });
+  }
+  h += '<div class="result-section"><h4>routing recommendation</h4><div class="highlight-block" style="border-left-color:'+color+'">Confidence: '+confidence+'% | Routing: '+routing+' | '+(confidence>=80?'AI work approved for direct use.':'Send to senior reviewer before publishing.')+'</div></div>';
+  document.getElementById("sf-output").innerHTML = h;
+}
+function loadSFSample() {
+  document.getElementById("sf-input").value = "In today's rapidly evolving digital landscape, it is essential to leverage cutting-edge solutions that drive transformative outcomes. By utilizing our revolutionary platform, organizations can significantly enhance operational efficiency and achieve unprecedented levels of success. Our holistic ecosystem seamlessly integrates best-in-class features that empower teams to collaborate effectively and deliver actionable insights. Importantly, we believe that our game-changing approach fundamentally transforms the way businesses operate in this paradigm shift towards digital transformation. The robust architecture ensures that virtually every stakeholder can benefit from our intuitive interface, which is designed to facilitate seamless workflows and optimize productivity across the entire organization.";
+}
+
+</script>
+</body>
+</html>

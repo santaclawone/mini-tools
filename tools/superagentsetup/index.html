@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SuperAgent Setup | agent scaffold wizard</title>
+<meta name="description" content="Toggle config. Get setup guide and dashboard.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
+.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section ul { list-style: none; padding: 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
+.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
+.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
+.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+@media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div id="cursor-glow"></div><div id="cursor-dot"></div>
+<header class="site-header">
+  <div class="container">
+    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
+    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+  </div>
+</header>
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 23 | interactive</div>
+    <h1>SuperAgent Setup</h1>
+    <p>Toggle config. Get setup guide and dashboard.</p>
+  </div>
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>configure your agent</h3>
+      <div style="margin-bottom:0.5rem;font-size:0.72rem;color:var(--text-muted)">Integrations (click to toggle)</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:var(--space-sm)">
+        <button class="choice-btn" onclick="toggleIntegration('slack')">Slack</button>
+        <button class="choice-btn" onclick="toggleIntegration('github')">GitHub</button>
+        <button class="choice-btn" onclick="toggleIntegration('notion')">Notion</button>
+        <button class="choice-btn" onclick="toggleIntegration('linear')">Linear</button>
+        <button class="choice-btn" onclick="toggleIntegration('docs')">Google Docs</button>
+      </div>
+      <div style="margin-bottom:0.5rem;font-size:0.72rem;color:var(--text-muted)">Tools</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:var(--space-sm)">
+        <button class="choice-btn" onclick="toggleTool('code-review')">Code Review</button>
+        <button class="choice-btn" onclick="toggleTool('data-query')">Data Queries</button>
+        <button class="choice-btn" onclick="toggleTool('monitoring')">Monitoring</button>
+        <button class="choice-btn" onclick="toggleTool('content')">Content</button>
+      </div>
+      <div style="margin-bottom:0.5rem;font-size:0.72rem;color:var(--text-muted)">Permission level</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.35rem">
+        <button class="choice-btn" onclick="setPerm('read-only')">read-only</button>
+        <button class="choice-btn" onclick="setPerm('read-write')">read-write</button>
+        <button class="choice-btn" onclick="setPerm('admin')">admin</button>
+      </div>
+    </div>
+    <div class="tool-output-panel">
+      <h3>setup guide + dashboard</h3>
+      <div id="sa-output"><div class="tool-output-placeholder">Toggle config options to build your setup guide.</div></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
+<script>
+(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
+
+var config = { integrations: [], tools: [], permissions: "" };
+function toggleIntegration(i) { var idx = config.integrations.indexOf(i); idx >= 0 ? config.integrations.splice(idx,1) : config.integrations.push(i); updateSetup(); }
+function toggleTool(t) { var idx = config.tools.indexOf(t); idx >= 0 ? config.tools.splice(idx,1) : config.tools.push(t); updateSetup(); }
+function setPerm(p) { config.permissions = p; updateSetup(); }
+function updateSetup() {
+  var h = '<div class="result-section"><h4>setup configuration</h4><div class="metric-grid"><div class="metric-box"><strong>'+config.integrations.length+'</strong><span>integrations</span></div><div class="metric-box"><strong>'+config.tools.length+'</strong><span>tools enabled</span></div><div class="metric-box"><strong>'+config.permissions||'not set'+'</strong><span>access level</span></div></div></div>';
+  h += '<div class="result-section"><h4>setup guide</h4><div class="highlight-block">1. Create a Slack app with bot token<br>2. Add scopes: '+(config.integrations.includes("slack")?'channels:history, chat:write':' (select integrations first)')+'<br>3. Deploy agent service (Node.js or Python)<br>4. Connect data sources: '+(config.integrations.join(", ")||"none selected")+'<br>5. Configure permission: '+config.permissions||"select below" + '<br>6. Set up feedback loop (Slack channel for human review)<br>7. Test with a low-risk task first</div></div>';
+  h += '<div class="result-section"><h4>dashboard preview</h4><div style="border:1px solid var(--border);border-radius:var(--radius-sm);padding:var(--space-sm);font-size:0.78rem;color:var(--text-secondary)"><div>Status: setup pending</div><div>Integrations: '+(config.integrations.length>0?config.integrations.join(", "):'none')+'</div><div>Agent name: super-agent (editable)</div><div>Team access: '+(config.permissions||"not configured")+'</div></div></div>';
+  h += '<div class="result-section"><h4>estimated deployment</h4><ul><li><span>setup time</span><span>'+(config.integrations.length*15+30)+' minutes</span></li><li><span>maintenance</span><span>'+(config.tools.includes("monitoring")?'automated monitoring configured':'set up monitoring')+'</span></li><li><span>next step</span><span>connect to data warehouse</span></li></ul></div>';
+  document.getElementById("sa-output").innerHTML = h;
+}
+
+</script>
+</body>
+</html>

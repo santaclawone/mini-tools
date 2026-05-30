@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BenchTunnel | model benchmark</title>
+<meta name="description" content="Select model + challenge. Get score breakdown.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
+.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section ul { list-style: none; padding: 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
+.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
+.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
+.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+@media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div id="cursor-glow"></div><div id="cursor-dot"></div>
+<header class="site-header">
+  <div class="container">
+    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
+    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+  </div>
+</header>
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 19 | interactive</div>
+    <h1>BenchTunnel</h1>
+    <p>Select model + challenge. Get score breakdown.</p>
+  </div>
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>select model + challenge</h3>
+      <div style="margin-bottom:0.5rem;font-size:0.72rem;color:var(--text-muted)">Model</div>
+      <div id="bt-models" style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:var(--space-sm)"></div>
+      <div style="margin-bottom:0.5rem;font-size:0.72rem;color:var(--text-muted)">Challenge</div>
+      <div id="bt-challenges" style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:var(--space-sm)"></div>
+      <div class="tool-actions"><button class="btn btn-primary" onclick="runBenchmark()">run benchmark</button></div>
+    </div>
+    <div class="tool-output-panel">
+      <h3>score breakdown</h3>
+      <div id="bt-output"><div class="tool-output-placeholder">Select a model and challenge, then click "run benchmark".</div></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
+<script>
+(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
+
+var models = ["GPT-5.5","Claude 4","Gemini 2.5","Llama 4","DeepSeek-V4"];
+var challenges = ["React component refactor", "SQL query optimization", "API design", "Bug diagnosis", "Code review"];
+var results = {};
+function runBenchmark() {
+  var model = document.querySelector(".model-bt-btn.active");
+  var challenge = document.querySelector(".chal-btn.active");
+  if (!model || !challenge) { document.getElementById("bt-output").innerHTML = '<div class="tool-output-placeholder">Select a model and challenge.</div>'; return; }
+  var m = model.textContent, c = challenge.textContent;
+  var score = Math.round(40 + Math.random() * 55);
+  var speed = Math.round(30 + Math.random() * 65);
+  var quality = Math.round(Math.random() * 10);
+  var humanBaseline = 82;
+  var prevScore = results[m] ? results[m].score : null;
+  if (!results[m]) results[m] = {}; results[m] = {score: score, speed: speed, quality: quality, challenge: c};
+  var h = '<div class="result-section"><h4>'+m+' | '+c+'</h4><div class="metric-grid"><div class="metric-box"><strong>'+score+'/100</strong><span>overall score</span></div><div class="metric-box"><strong>'+speed+'/100</strong><span>execution speed</span></div><div class="metric-box"><strong>'+(humanBaseline)+'/100</strong><span>human baseline</span></div></div></div>';
+  h += '<div class="result-section"><h4>score breakdown</h4><ul><li><span>correctness</span><span>'+(quality>6?'pass':'needs work')+'</span></li><li><span>code quality</span><span>'+quality+'/10</span></li><li><span>edge case handling</span><span>'+(score>60?'good':'limited')+'</span></li><li><span>vs human baseline</span><span>'+Math.abs(score - humanBaseline)+' pts '+(score>humanBaseline?'above':'below')+'</span></li></ul></div>';
+  if (prevScore) h += '<div class="result-section"><h4>improvement</h4><div class="highlight-block">Previous score: '+prevScore+' | Current: '+score+' | '+(score>prevScore?'+':'-')+Math.abs(score-prevScore)+' pts change</div></div>';
+  var gpt55 = results["GPT-5.5"]; var claude4 = results["Claude 4"];
+  if (gpt55 && claude4) {
+    h += '<div class="result-section"><h4>head to head</h4><div class="highlight-block">GPT-5.5: '+gpt55.score+' | Claude 4: '+claude4.score+' | Winner: '+(gpt55.score>claude4.score?'GPT-5.5':'Claude 4')+'</div></div>';
+  }
+  if (score < 60) h += '<div class="result-section"><h4>failure analysis</h4><div class="highlight-block">Score below threshold. Common failure modes: incomplete edge case coverage, suboptimal algorithm choice, missing error handling.</div></div>';
+  else h += '<div class="result-section"><h4>verdict</h4><div class="highlight-block" style="border-left-color:rgba(245,158,11,0.4)">Score: '+score+'/100. '+(score>=70?'Production-ready with minor review.':'Needs senior engineer review before production use.')+'</div></div>';
+  document.getElementById("bt-output").innerHTML = h;
+}
+(function(){var h="";models.forEach(function(m){h+='<button class="choice-btn model-bt-btn" onclick="document.querySelectorAll(\'".model-bt-btn\").forEach(function(b){b.classList.remove(\"active\")});this.classList.add(\"active\")">'+m+'</button> '});document.getElementById("bt-models").innerHTML=h;var h2="";challenges.forEach(function(c){h2+='<button class="choice-btn chal-btn" onclick="document.querySelectorAll(\'".chal-btn\").forEach(function(b){b.classList.remove(\"active\")});this.classList.add(\"active\")">'+c+'</button> '});document.getElementById("bt-challenges").innerHTML=h2;document.querySelector(".model-bt-btn").classList.add("active");document.querySelector(".chal-btn").classList.add("active")})();
+
+</script>
+</body>
+</html>

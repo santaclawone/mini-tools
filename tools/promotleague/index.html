@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PromptLeague | usage stats dashboard</title>
+<meta name="description" content="Enter team data. Get leaderboard and usage statistics.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+.result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
+.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section ul { list-style: none; padding: 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
+.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
+.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
+.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
+.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+@media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
+
+</style>
+</head>
+<body>
+<div id="cursor-glow"></div><div id="cursor-dot"></div>
+<header class="site-header">
+  <div class="container">
+    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
+    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+  </div>
+</header>
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 13 | interactive</div>
+    <h1>PromptLeague</h1>
+    <p>Enter team data. Get leaderboard and usage statistics.</p>
+  </div>
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>add team member</h3>
+      <div style="display:flex;flex-direction:column;gap:0.5rem">
+        <input type="text" id="pl-name" placeholder="Name" style="background:transparent;border:1px solid var(--border);padding:0.4rem 0.6rem;border-radius:var(--radius-sm);color:var(--text);font-family:var(--font-mono);font-size:0.8rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem">
+          <input type="number" id="pl-usage" placeholder="Usage count" style="background:transparent;border:1px solid var(--border);padding:0.4rem 0.6rem;border-radius:var(--radius-sm);color:var(--text);font-family:var(--font-mono);font-size:0.75rem">
+          <input type="number" id="pl-prompts" placeholder="Prompts shared" style="background:transparent;border:1px solid var(--border);padding:0.4rem 0.6rem;border-radius:var(--radius-sm);color:var(--text);font-family:var(--font-mono);font-size:0.75rem">
+          <input type="number" id="pl-quality" placeholder="Quality (1-10)" style="background:transparent;border:1px solid var(--border);padding:0.4rem 0.6rem;border-radius:var(--radius-sm);color:var(--text);font-family:var(--font-mono);font-size:0.75rem">
+        </div>
+      </div>
+      <div class="tool-actions" style="margin-top:0.5rem">
+        <button class="btn btn-primary" onclick="addTeamMember()">add member</button>
+        <button class="sample-btn" onclick="loadPLSample()">load sample data</button>
+      </div>
+    </div>
+    <div class="tool-output-panel">
+      <h3>leaderboard and stats</h3>
+      <div id="pl-output"><div class="tool-output-placeholder">Add team members or load sample data.</div></div>
+    </div>
+  </div>
+</main>
+<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
+<script>
+(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
+
+var teamData = [];
+function addTeamMember() {
+  var name = document.getElementById("pl-name").value.trim(); if (!name) return;
+  var usage = parseInt(document.getElementById("pl-usage").value) || 0;
+  var prompts = parseInt(document.getElementById("pl-prompts").value) || 0;
+  var quality = parseInt(document.getElementById("pl-quality").value) || 0;
+  teamData.push({name: name, usage: usage, prompts: prompts, quality: quality, score: Math.round((usage*0.3 + prompts*0.4 + quality*0.3))});
+  document.getElementById("pl-name").value = ""; document.getElementById("pl-usage").value = ""; document.getElementById("pl-prompts").value = ""; document.getElementById("pl-quality").value = "";
+  renderLeaderboard();
+}
+function renderLeaderboard() {
+  var sorted = teamData.sort(function(a,b){return b.score-a.score});
+  var h = '<div class="result-section"><h4>leaderboard</h4><div class="metric-grid"><div class="metric-box"><strong>'+teamData.length+'</strong><span>team members</span></div><div class="metric-box"><strong>'+(teamData.length>0?sorted[0].score:0)+'</strong><span>top score</span></div><div class="metric-box"><strong>'+(teamData.length>0?sorted[0].name:'—')+'</strong><span>leader</span></div></div></div>';
+  if (teamData.length===0) {h = '<div class="tool-output-placeholder">Add team members to see the leaderboard.</div>';}
+  else { sorted.forEach(function(m, i) {
+      var medal = i===0 ? "| gold" : i===1 ? "| silver" : i===2 ? "| bronze" : "";
+      h += '<div class="result-section"><h4>#'+(i+1)+' '+m.name+' <span style="font-weight:400;color:var(--text-muted)">'+medal+'</span></h4><ul><li><span>weekly usage</span><span>'+m.usage+'</span></li><li><span>prompts contributed</span><span>'+m.prompts+'</span></li><li><span>quality score</span><span>'+m.quality+'/10</span></li><li><span>overall score</span><span>'+m.score+'</span></li></ul></div>';
+    });
+    h += '<div class="result-section"><h4>trending</h4><div class="highlight-block">Top contributor: '+sorted[0].name+' ('+sorted[0].prompts+' prompts shared). Encourage sharing patterns that work.</div></div>';
+  }
+  document.getElementById("pl-output").innerHTML = h;
+}
+function loadPLSample() {
+  teamData = [{name:"Sarah",usage:45,prompts:12,quality:8,score:Math.round(45*0.3+12*0.4+8*0.3)},{name:"Marcus",usage:38,prompts:8,quality:9,score:Math.round(38*0.3+8*0.4+9*0.3)},{name:"Alex",usage:52,prompts:5,quality:6,score:Math.round(52*0.3+5*0.4+6*0.3)},{name:"Priya",usage:28,prompts:15,quality:9,score:Math.round(28*0.3+15*0.4+9*0.3)}];
+  renderLeaderboard();
+}
+
+</script>
+</body>
+</html>
