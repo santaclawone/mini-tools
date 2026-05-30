@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rambler → PRD — structured spec from raw ideas</title>
+<meta name="description" content="Speak or type raw ideas. Get a structured PRD back. Each use makes the next faster.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+  #rambler-output { white-space: pre-wrap; }
+  .result-section { margin-bottom: var(--space-md); }
+  .result-section h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-violet);
+    margin-bottom: 0.5rem;
+  }
+  .result-section p, .result-section li { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+  .result-section ul { list-style: none; padding: 0; }
+  .result-section li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .result-section li::before { content: "> "; color: var(--accent-violet); }
+  .prd-field {
+    margin: var(--space-xs) 0;
+    padding: var(--space-xs) var(--space-sm);
+    border-left: 2px solid var(--accent-violet);
+  }
+  .prd-field strong { display: block; font-size: 0.75rem; color: var(--accent-violet); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
+  .prd-field span { font-size: 0.85rem; color: var(--text); }
+  .prd-field p { font-size: 0.85rem; color: var(--text-dim); margin: 0; }
+
+  .suggestion-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .suggestion-chip {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-dim);
+    font-family: inherit;
+  }
+  .suggestion-chip:hover { border-color: var(--accent-violet); color: var(--accent-violet); }
+
+  .quick-fill {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+  .quick-fill button {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .quick-fill button:hover { border-color: var(--accent-violet); color: var(--accent-violet); }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div>
+      <div class="site-title">mini<span>tools</span></div>
+      <div class="site-subtitle">extracted from conversations</div>
+    </div>
+    <nav class="site-nav">
+      <a href="../../">home</a>
+      <a href="https://github.com/santaclawone">source</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 03 | working prototype</div>
+    <h1>Rambler &rarr; PRD</h1>
+    <p>Type or paste raw ideas. The tool structures them into a proper product requirements document — problem, users, stories, constraints, edge cases. Each time you refine, the template gets better.</p>
+  </div>
+
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>brain dump</h3>
+      <textarea id="input-rambling" placeholder="Type whatever's in your head. Bullet points. Paragraphs. Questions. Half-baked ideas. The structure comes after.&#10;&#10;Examples:&#10;- I want a tool that...&#10;- It would be cool if X could...&#10;- My users keep complaining about...&#10;- The problem is that nobody can..." rows="12"></textarea>
+      <div class="quick-fill">
+        <button onclick="fillSample('tool')">sample: tool idea</button>
+        <button onclick="fillSample('feature')">sample: feature request</button>
+        <button onclick="fillSample('service')">sample: service concept</button>
+      </div>
+      <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;margin-top:0.5rem;">
+        <button class="btn btn-primary" onclick="generatePRD()">generate PRD</button>
+        <span id="input-stats" style="font-size:0.75rem;color:var(--text-dim);margin-left:auto;"></span>
+      </div>
+    </div>
+
+    <div class="tool-output-panel">
+      <h3>PRD</h3>
+      <div id="rambler-output">
+        <div class="tool-output-placeholder">Type your idea and click "generate PRD" to get a structured spec.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">Rambler→PRD — extracted from Dan Shipper on Lenny's Podcast</div>
+</footer>
+
+<script>
+document.getElementById('input-rambling').addEventListener('input', function() {
+  const words = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
+  document.getElementById('input-stats').textContent = words + ' words';
+});
+
+function fillSample(type) {
+  const samples = {
+    tool: `I want to build a tool that helps small business owners automatically respond to Google reviews.
+
+The idea is: when someone leaves a review on Google, the owner gets an email with three AI-generated response options — one professional, one warm, one short. They just pick one and click send.
+
+The problem is nobody has time to respond to every single review, but customers expect a response within 48 hours. Bad reviews hurt SEO and conversion rates.
+
+Target users: local business owners with 5-50 employees. Coffee shops, dentists, plumbers, hairdressers. People who are busy running their business and don't have a marketing person.
+
+It needs to integrate with Google My Business API, keep a history of all responses, and let owners customize their tone. Free tier for 10 reviews/month, paid for unlimited.
+
+Edge cases: what if the review is a fake? what if Google flags the AI response? what if the owner wants to write their own? Should handle all three.`,
+
+    feature: `I keep losing track of customer feedback across different channels. We get feature requests in Intercom, bug reports in GitHub, complaints in emails, and ideas in sales calls. Nobody has a single view of what customers actually want.
+
+I need a feedback aggregator. It would pull from all these sources, deduplicate, and let me vote/prioritize. Ideally it uses AI to group similar requests together so I can see the top 3 things customers want right now.
+
+The main users are product managers and founders. Devs would look at it too but they just want the prioritized list.
+
+Success metric: time from feedback capture to action decreases by 50%.`,
+
+    service: `I want to launch a ghostwriting service for B2B founders who want to post on LinkedIn but don't have time to write. 
+
+The service would work like this: founder does a 15-minute voice recording about their week. AI turns it into a polished LinkedIn post. Founder reviews and hits publish. We handle all the editing.
+
+The problem is founders know they should post for personal brand building but they either don't have time or don't know how to write engaging content. Current options are either expensive ghostwriters ($2k+/month) or doing it badly themselves.
+
+Target: SaaS founders with 5-50 employees, Series A to B. They have opinions but no time.
+
+Pricing: $500/month for 4 posts. We need a warm-up flow (record idea → AI draft → human polish → founder approval → schedule).`
+  };
+
+  document.getElementById('input-rambling').value = samples[type];
+  const words = samples[type].trim().split(/\s+/).length;
+  document.getElementById('input-stats').textContent = words + ' words';
+}
+
+function generatePRD() {
+  const text = document.getElementById('input-rambling').value.trim();
+  if (!text || text.split(/\s+/).length < 15) {
+    document.getElementById('rambler-output').innerHTML =
+      '<div class="tool-output-placeholder">Need more detail. Try the sample button to see how it works.</div>';
+    return;
+  }
+
+  const prd = synthesizePRD(text);
+  renderPRD(prd);
+}
+
+function extractSection(text, keywords) {
+  const lower = text.toLowerCase();
+  const lines = text.split('\n');
+  let score = 0;
+
+  for (const kw of keywords) {
+    const count = (lower.match(new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi')) || []).length;
+    score += count;
+  }
+
+  // Find the line with highest concentration of keywords
+  let bestLines = [];
+  for (let i = 0; i < lines.length; i++) {
+    let lineScore = 0;
+    const l = lines[i].toLowerCase();
+    for (const kw of keywords) {
+      if (l.includes(kw)) lineScore++;
+    }
+    if (lineScore > 0) bestLines.push({ idx: i, score: lineScore, text: lines[i] });
+  }
+
+  return { score, lines: bestLines.sort((a, b) => b.score - a.score).slice(0, 3) };
+}
+
+function synthesizePRD(text) {
+  const lower = text.toLowerCase();
+
+  // Extract problem
+  const problemKeywords = ['problem', 'issue', 'pain', 'struggle', 'hard', 'difficult', 'broken', 'frustrat', 'waste', 'slow', 'sucks', 'nobody', 'inefficient'];
+  const problemLines = extractSection(text, problemKeywords);
+
+  // Extract users
+  const userKeywords = ['user', 'customer', 'founder', 'business', 'owner', 'target', 'persona', 'manager', 'dev', 'maker', 'client', 'audience'];
+  const userLines = extractSection(text, userKeywords);
+
+  // Extract solution hints
+  const solutionKeywords = ['build', 'create', 'tool', 'app', 'platform', 'feature', 'integrat', 'automate', 'ai', 'should', 'need', 'want', 'idea'];
+  const solutionLines = extractSection(text, solutionKeywords);
+
+  // Extract naming hints
+  const nameMatch = text.match(/(?:called|named|name it|tool called)\s+["']?([A-Z][A-Za-z0-9]+)["']?/i);
+  const toolName = nameMatch ? nameMatch[1] : null;
+
+  // Detect success metrics
+  const metricKeywords = ['metric', 'kpi', 'measure', 'goal', 'success', 'target', 'conversion', 'revenue', 'growth', '50%', '10x', '2x', 'percent'];
+  const metricLines = extractSection(text, metricKeywords);
+
+  // Detect constraints
+  const constraintKeywords = ['budget', 'time', 'deadline', 'team', 'headcount', 'limited', 'resource', 'constraint', 'api limit', 'scope'];
+  const constraintLines = extractSection(text, constraintKeywords);
+
+  // Generate title
+  let title = 'Untitled Product';
+  const firstLine = text.split('\n')[0].trim();
+  const wantMatch = text.match(/(?:I want to build|I need|build a) (.+?)(?:\.|$)/i);
+  if (wantMatch) {
+    title = wantMatch[1].trim();
+    title = title.charAt(0).toUpperCase() + title.slice(1);
+  } else if (firstLine.length < 80 && firstLine.length > 10) {
+    title = firstLine;
+  }
+
+  // Extract user stories
+  const storyPatterns = [
+    ...text.matchAll(/as (?:a|an) (.+?)(?:,|\.) i (?:want|need|should be able to) (.+?)(?:\.|so that|$)/gi),
+    ...text.matchAll(/(?:help|let|allow) (.+?) (.+?)(?:\.|$)/gi)
+  ];
+  const stories = storyPatterns.map(m => m[0].trim()).slice(0, 5);
+
+  // Extract key features
+  const featureSentences = text.split(/[.!?\n]+/)
+    .map(s => s.trim().toLowerCase())
+    .filter(s => /^(need|should|must|would|could|will|integrat|support|handle|allow|let|enable)/.test(s) || /(integrate|api|automate|ai|respons|track|pull|sync|push)/.test(s))
+    .slice(0, 6);
+
+  // Edge cases
+  const edgeKeywords = text.match(/what if|edge case|when|if .+ then|unless|could break|fail|error/g);
+  const detectedEdges = text.match(/(?:what if|if the|when the|unless the|edge case:?)\s*([^.\n]+)/gi) || [];
+
+  return {
+    title,
+    problem: problemLines.lines.map(l => l.text).join(' ').replace(/^.{0,100}/, ''),
+    users: userLines.lines.map(l => l.text).join(' ').substring(0, 200),
+    solution: solutionLines.lines.map(l => l.text).join(' ').substring(0, 250),
+    stories: stories.length > 0 ? stories : generateStories(text, title),
+    features: featureSentences,
+    metrics: metricLines.lines.map(l => l.text).join(' ').substring(0, 150) || 'Define success metrics after initial build.',
+    constraints: constraintLines.lines.map(l => l.text).join(' ').substring(0, 150) || 'Standard team capacity assumed.',
+    edgeCases: detectedEdges.length > 0 ? detectedEdges : extractEdgeCases(text),
+    raw: text
+  };
+}
+
+function generateStories(text, title) {
+  const stories = [];
+  const lines = text.split('\n').filter(l => l.trim());
+  for (const line of lines.slice(0, 5)) {
+    if (line.length > 10 && line.length < 150 && !line.startsWith('http')) {
+      stories.push('As a user, ' + line.trim().toLowerCase().replace(/^as a user,?\s*/i, ''));
+    }
+  }
+  if (stories.length === 0) {
+    stories.push('As a user, I can use ' + title + ' to solve my core problem.');
+  }
+  return stories;
+}
+
+function extractEdgeCases(text) {
+  const lower = text.toLowerCase();
+  const edges = [];
+  if (lower.includes('fake') || lower.includes('spam') || lower.includes('fraud')) edges.push('Handle fraudulent or low-quality inputs that could skew results.');
+  if (lower.includes('api') || lower.includes('rate limit')) edges.push('API rate limits or service disruptions from third-party integrations.');
+  if (lower.includes('offline') || lower.includes('no internet')) edges.push('Graceful degradation when network connectivity is lost.');
+  if (lower.includes('free') || lower.includes('tier') || lower.includes('pricing')) edges.push('User exceeds free tier limits — soft prompt to upgrade vs hard block.');
+  if (edges.length === 0) edges.push('All external integrations become unavailable simultaneously.');
+  return edges;
+}
+
+function renderPRD(prd) {
+  let html = '';
+
+  // Title
+  html += `<div class="result-section">
+    <div class="prd-field" style="border-left: 3px solid var(--accent-violet);">
+      <strong>product</strong>
+      <span style="font-size:1.2rem;color:var(--text);font-weight:700;">${prd.title}</span>
+    </div>
+  </div>`;
+
+  // Problem
+  html += `<div class="result-section">
+    <h4>problem</h4>
+    <div class="prd-field">
+      <p>${prd.problem.substring(0, 300) || 'Extracted from your description. The core pain point your users experience.'}</p>
+    </div>
+  </div>`;
+
+  // Target users
+  html += `<div class="result-section">
+    <h4>target users</h4>
+    <div class="prd-field">
+      <p>${prd.users.substring(0, 200) || getDefaultUsers(prd)}</p>
+    </div>
+  </div>`;
+
+  // Solution vision
+  html += `<div class="result-section">
+    <h4>solution</h4>
+    <div class="prd-field">
+      <p>${prd.solution.substring(0, 250) || 'A focused tool that addresses the problem described above.'}</p>
+    </div>
+  </div>`;
+
+  // User stories
+  html += `<div class="result-section">
+    <h4>user stories</h4>
+    <ul>`;
+  for (const story of prd.stories) {
+    html += `<li>${story.replace(/^as a user,?\s*/i, '').substring(0, 120)}</li>`;
+  }
+  html += `</ul></div>`;
+
+  // Key features
+  if (prd.features.length > 0) {
+    html += `<div class="result-section">
+      <h4>key features</h4>
+      <ul>`;
+    for (const f of prd.features.slice(0, 5)) {
+      html += `<li>${f.substring(0, 100)}</li>`;
+    }
+    html += `</ul></div>`;
+  }
+
+  // Constraints
+  html += `<div class="result-section">
+    <h4>constraints</h4>
+    <div class="prd-field">
+      <p>${prd.constraints}</p>
+    </div>
+  </div>`;
+
+  // Edge cases
+  html += `<div class="result-section">
+    <h4>edge cases</h4>
+    <ul>`;
+  for (const e of prd.edgeCases) {
+    html += `<li>${e.substring(0, 120)}</li>`;
+  }
+  html += `</ul></div>`;
+
+  // Success metrics
+  html += `<div class="result-section">
+    <h4>success metrics</h4>
+    <div class="prd-field">
+      <p>${prd.metrics}</p>
+    </div>
+  </div>`;
+
+  // Claude Code prompt (the compounding part)
+  html += `<div class="result-section">
+    <h4>compounding prompt</h4>
+    <div class="prd-field" style="border-left-color: var(--accent-amber); background: var(--bg);">
+      <strong style="color:var(--accent-amber);">save this prompt</strong>
+      <p style="font-family:'SF Mono',monospace;font-size:0.8rem;color:var(--text-dim);">"Based on this brain dump, produce a PRD with sections: problem, target users, solution, user stories, key features, constraints, edge cases, and success metrics. Ask me clarifying questions before finalizing. The output should be structured so a product team can start building immediately."</p>
+    </div>
+  </div>`;
+
+  document.getElementById('rambler-output').innerHTML = html;
+}
+</script>
+</body>
+</html>

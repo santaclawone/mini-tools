@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mini Tools | small ideas, sharp tools</title>
+<meta name="description" content="Quick-win tools extracted from podcast conversations. Single-purpose, zero fluff.">
+<link rel="stylesheet" href="style.css">
+<style>
+  .source-ribbon {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-lg);
+    font-size: 0.85rem;
+  }
+  .source-ribbon span:first-child { color: var(--accent-amber); font-weight: 700; }
+  .source-ribbon span:last-child { color: var(--text-dim); }
+  @media (max-width: 600px) {
+    .source-ribbon { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div>
+      <div class="site-title">mini<span>tools</span></div>
+      <div class="site-subtitle">extracted from conversations, built for one thing</div>
+    </div>
+    <nav class="site-nav">
+      <a href="#tools">tools</a>
+      <a href="https://github.com/santaclawone">source</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <div class="hero">
+    <div>
+      <p style="color:var(--accent-amber);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:0.5rem;">Batch 1 — Dan Shipper</p>
+      <h1>small ideas,<br><span style="color:var(--accent-teal)">sharp tools</span></h1>
+      <p>Every tool on this page started as a throwaway line in a conversation. Dan runs 5 products with 15 people and zero hand-written code. These are the patterns we extracted.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><h3>12</h3><p>tools extracted</p></div>
+      <div class="hero-stat"><h3>1</h3><p>podcast episode</p></div>
+      <div class="hero-stat"><h3>0</h3><p>frameworks used</p></div>
+    </div>
+  </div>
+
+  <div class="source-ribbon">
+    <span>source</span>
+    <span>Lenny&#39;s Podcast — Dan Shipper / Every</span>
+    <span style="color:var(--text-dim);margin-left:auto;">The AI-native startup: 5 products, 7-figure revenue, 100% AI-written code</span>
+  </div>
+
+  <div id="tools" class="tool-grid">
+    <article class="tool-card">
+      <div class="tool-tag">ready</div>
+      <h3>StylePull</h3>
+      <p class="tool-desc">Feed it any text. It extracts the author&#39;s signature techniques — sentence rhythm, characterization, scene-setting — and produces a playbook you can use.</p>
+      <p class="tool-source">Dan Shipper: &ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&#39;s descriptions into a guide.&rdquo;</p>
+      <a href="tools/stylepull/" class="tool-link">use tool</a>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag">ready</div>
+      <h3>Manuscript</h3>
+      <p class="tool-desc">Drop your meeting transcripts. It builds a voice profile and surfaces patterns: who you interrupt, when you avoid conflict, how your energy shifts.</p>
+      <p class="tool-source">Dan Shipper: &ldquo;I built a benchmark: can it predict what I&#39;m going to say in a meeting?&rdquo;</p>
+      <a href="tools/manuscript/" class="tool-link">use tool</a>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag">ready</div>
+      <h3>Rambler &rarr; PRD</h3>
+      <p class="tool-desc">Speak or type raw ideas. The tool structures them into a proper PRD — problem, users, stories, criteria, edge cases. Compounds as you refine.</p>
+      <p class="tool-source">Dan Shipper: &ldquo;Instead of writing PRDs from scratch, write a prompt that turns rambling into a perfect PRD.&rdquo;</p>
+      <a href="tools/rambler-prd/" class="tool-link">use tool</a>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>NeverRepeat</h3>
+      <p class="tool-desc">Every piece of feedback you give becomes a reusable prompt. Build a library of your taste. Your team runs it. You never repeat yourself.</p>
+      <p class="tool-source">Dan: &ldquo;Alex recorded every edit, put it in a prompt, and never made the same mistake twice.&rdquo;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>CopyScout</h3>
+      <p class="tool-desc">Point it at a codebase. It scans all UI copy against a style guide, flags inconsistencies, creates a PR. Your editors review a diff, not a codebase.</p>
+      <p class="tool-source">Dan: &ldquo;A cloud code command checks the entire codebase for copy edits and creates a pull request.&rdquo;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>VibeCheck</h3>
+      <p class="tool-desc">Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and &#8220;feeling.&#8221; Get a comparison matrix that benchmarks actually matter.</p>
+      <p class="tool-source">Dan: &#8220;Vibe checks capture how it feels to use, which standard benchmarks don&#39;t.&#8221;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>MemoryMine</h3>
+      <p class="tool-desc">Weekly self-reflection from your transcripts and writing. It knows your patterns. It shows you growth, blind spots, and what you keep doing wrong.</p>
+      <p class="tool-source">Dan: &#8220;I send it transcripts and ask &#39;how did I do?&#39; It says &#39;you did that thing you normally do.&#39;&#8221;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>Spiral Lite</h3>
+      <p class="tool-desc">Say &#8220;write a tweet about X.&#8221; It reads your docs, drafts 3 variants, scores them, improves the best one. You just review and post.</p>
+      <p class="tool-source">Dan: &#8220;Spiral does content automation. You say what you want, it judges its own output and improves.&#8221;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>AgentRoster</h3>
+      <p class="tool-desc">A roster of AI agents with taste profiles. Route tasks to the right agent. Run them in parallel. Track which one performs best for each task.</p>
+      <p class="tool-source">Dan: &#8220;Kieran uses Claude Code, Friday, and Charlie simultaneously. Each has a different personality.&#8221;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>AdoptionMap</h3>
+      <p class="tool-desc">Survey your team. See who&#39;s AI-ready, where the blockers are, and which teams would unlock the most leverage.</p>
+      <p class="tool-source">Dan: &#8220;The number one predictor: does the CEO use ChatGPT? If yes, the whole company adopts.&#8221;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>PromptLeague</h3>
+      <p class="tool-desc">Weekly stats: who&#39;s using what, top prompts, trending workflows. Celebrate the 10% who figure things out.</p>
+      <p class="tool-source">Dan: &#8220;Share usage stats every week. Highlight the best prompts and who contributed them.&#8221;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+
+    <article class="tool-card">
+      <div class="tool-tag" style="color:var(--text-dim)">coming</div>
+      <h3>JobReshore</h3>
+      <p class="tool-desc">AI-augmented customer support for small businesses. Handles tier-1 autonomously, surfaces trends, costs what a part-time hire would.</p>
+      <p class="tool-source">Dan: &#8220;10 people in the Midwest with AI can serve what 100 people would. It reshored the jobs.&#8221;</p>
+      <span class="tool-link" style="color:var(--text-dim);cursor:default;">in queue</span>
+    </article>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    Mini Tools — extracted by hand from conversations. No AI-generated tools. No fluff.
+  </div>
+</footer>
+
+</body>
+</html>

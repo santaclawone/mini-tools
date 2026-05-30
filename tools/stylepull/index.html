@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>StylePull — author style extractor</title>
+<meta name="description" content="Feed it any text. Extract the author's signature techniques into a usable playbook.">
+<link rel="stylesheet" href="../../style.css">
+<style>
+  .sample-btn {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .sample-btn:hover { border-color: var(--accent-teal); color: var(--accent-teal); }
+
+  #stylepull-result { white-space: pre-wrap; }
+  .result-section { margin-bottom: var(--space-md); }
+  .result-section h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent-teal);
+    margin-bottom: 0.5rem;
+  }
+  .result-section ul { list-style: none; padding: 0; }
+  .result-section li {
+    padding: 0.35rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+  .result-section li span:first-child { color: var(--text); }
+  .result-section li span:last-child { color: var(--text-dim); font-family: "SF Mono", monospace; }
+  .highlight-block {
+    background: var(--bg);
+    border-left: 2px solid var(--accent-violet);
+    padding: var(--space-sm);
+    margin: var(--space-xs) 0;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .tool-body { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div>
+      <div class="site-title">mini<span>tools</span></div>
+      <div class="site-subtitle">extracted from conversations</div>
+    </div>
+    <nav class="site-nav">
+      <a href="../../">home</a>
+      <a href="https://github.com/santaclawone">source</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container tool-page">
+  <div class="tool-page-header">
+    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
+    <div class="tool-badge">tool 01 | working prototype</div>
+    <h1>StylePull</h1>
+    <p>Paste any text. The tool reads your sample, identifies the author&#39;s signature techniques — sentence rhythm, word choices, structural patterns — and produces a style playbook you can apply to your own writing.</p>
+  </div>
+
+  <div class="tool-body">
+    <div class="tool-input-panel">
+      <h3>input text</h3>
+      <textarea id="input-text" placeholder="Paste a passage from any author. Aim for 200+ words.&#10;&#10;Example: paste a paragraph from a novel, a newsletter issue, or a blog post you admire." rows="12"></textarea>
+      <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;margin-top:0.5rem;">
+        <button class="btn btn-primary" onclick="analyzeStyle()">analyze style</button>
+        <button class="sample-btn" onclick="loadSample()">load sample</button>
+        <span id="word-count" style="font-size:0.75rem;color:var(--text-dim);margin-left:auto;"></span>
+      </div>
+    </div>
+
+    <div class="tool-output-panel">
+      <h3>style playbook</h3>
+      <div id="stylepull-result">
+        <div class="tool-output-placeholder">Paste text and click "analyze style" to generate a playbook.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">StylePull — extracted from Dan Shipper on Lenny's Podcast</div>
+</footer>
+
+<script>
+function countWords(text) {
+  return text.trim() ? text.trim().split(/\s+/).length : 0;
+}
+
+document.getElementById('input-text').addEventListener('input', function() {
+  const wc = document.getElementById('word-count');
+  wc.textContent = countWords(this.value) + ' words';
+});
+
+function loadSample() {
+  const sample = `She was one of those pretty and charming girls born, as though fate had blundered over her, into a family of artisans. She had no marriage portion, no expectations, no means of being known, understood, loved, or wedded by a man of wealth and distinction; and she let herself be married off to a little clerk in the Ministry of Education. Her tastes were simple because she had never been able to afford any other, but she was as unhappy as though she had married beneath her; for women have no caste or class, their beauty, grace, and charm serving them for birth or family, their natural delicacy, their instinctive elegance, their nimbleness of wit, are their only mark of ranking, and the girls in that class may be the equal of the great ladies by means of a fine mouth and a well-turned ankle.
+
+She suffered endlessly, feeling herself born for every delicacy and every luxury. She suffered from the poorness of her house, from its mean walls, worn chairs, and ugly curtains. All these things, of which other women of her class would not even have been aware, tormented and insulted her. The sight of the little Breton girl who did her humble housework stirred in her disconsolate regrets and wild daydreams. She imagined silent antechambers, heavy with Oriental tapestries, lit by high bronze candelabra, and two tall footmen in knee breeches, drowsy in the great armchairs, overcome by the heavy warmth of the stove. She imagined vast drawing-rooms hung in antique silks, exquisite pieces of furniture supporting priceless ornaments, and the small, perfumed, intimate rooms, created for five o'clock chats with the closest friends, men famous and sought after, whose attention all women envied and desired.`;
+
+  document.getElementById('input-text').value = sample;
+  document.getElementById('word-count').textContent = countWords(sample) + ' words';
+}
+
+function analyzeStyle() {
+  const text = document.getElementById('input-text').value.trim();
+  if (!text || countWords(text) < 20) {
+    document.getElementById('stylepull-result').innerHTML =
+      '<div class="tool-output-placeholder">Need at least 20 words to extract meaningful patterns.</div>';
+    return;
+  }
+
+  const result = extractStyleGuide(text);
+  document.getElementById('stylepull-result').innerHTML = renderResult(result);
+}
+
+function extractStyleGuide(text) {
+  const sentences = text.match(/[^.!?\n]+[.!?]+/g) || [text];
+  const words = text.match(/\b\w+\b/g) || [];
+  const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim());
+
+  // Sentence length analysis
+  const sentLens = sentences.map(s => s.trim().split(/\s+/).length);
+  const avgSentLen = (sentLens.reduce((a, b) => a + b, 0) / sentLens.length).toFixed(1);
+  const shortSents = sentLens.filter(l => l <= 8).length;
+  const longSents = sentLens.filter(l => l >= 25).length;
+
+  // Word length / vocabulary
+  const uniqueWords = new Set(words.map(w => w.toLowerCase().replace(/[^a-z]/g, '')));
+  const avgWordLen = (words.reduce((sum, w) => sum + w.length, 0) / words.length).toFixed(1);
+
+  // Punctuation markers
+  const commas = (text.match(/,/g) || []).length;
+  const semicolons = (text.match(/;/g) || []).length;
+  const dashes = (text.match(/—|--/g) || []).length;
+  const colons = (text.match(/:/g) || []).length;
+
+  // Lead-in phrases
+  const leadIns = text.match(/\b(She|He|It|They|There|This|That|These|Those)\s+(was|were|had|came|felt|knew|saw|thought|wanted|imagined)\b/gi) || [];
+
+  // Repeated structural patterns
+  const andChains = text.match(/\w+(,\s+\w+)*,\s+and\s+\w+/g) || [];
+
+  // Key adjectives
+  const adjPattern = /\b(\w+)\s+(walls|curtains|rooms|chairs|house|tapestries|candelabra|armchairs|silks|furniture|ornaments)\b/gi;
+  const adjMatches = [...text.matchAll(adjPattern)];
+  const modifiers = adjMatches.map(m => ({ adj: m[1], noun: m[2] }));
+
+  // Emotional / sensory vocabulary
+  const emotionWords = words.filter(w => /^(suffered|tormented|disconsolate|wild|envied|desired|unhappy|regrets|dreams|warmth|delicacy|luxury|charm|grace|beauty)$/i.test(w));
+  const sensoryWords = words.filter(w => /^(heavy|warm|sweet|perfumed|fine|well-turned|mean|ugly|silent|vast|intimate|small|high|deep|thick)$/i.test(w));
+
+  // Sentence start analysis
+  const starts = sentences.map(s => s.trim().match(/^\w+/)?.[0] || '');
+  const startFreq = {};
+  starts.forEach(w => { startFreq[w] = (startFreq[w] || 0) + 1; });
+  const topStarts = Object.entries(startFreq).sort((a, b) => b[1] - a[1]).slice(0, 5);
+
+  return {
+    text,
+    sentences,
+    words,
+    stats: {
+      sentenceCount: sentences.length,
+      avgSentenceLen: avgSentLen,
+      shortSents: shortSents,
+      longSents: longSents,
+      vocabSize: uniqueWords.size,
+      avgWordLen: avgWordLen,
+      totalWords: words.length,
+      paragraphs: paragraphs.length
+    },
+    punctuation: {
+      commas,
+      semicolons,
+      dashes,
+      colons,
+      commasPerSent: (commas / sentences.length).toFixed(1)
+    },
+    rhythm: {
+      topStarts,
+      andChains: andChains.length,
+      leadIns: leadIns.length
+    },
+    vocabulary: {
+      emotionWords: [...new Set(emotionWords.map(w => w.toLowerCase()))],
+      sensoryWords: [...new Set(sensoryWords.map(w => w.toLowerCase()))],
+      modifiers
+    },
+    topSentences: sentences
+      .map(s => s.trim())
+      .filter(s => s.split(/\s+/).length > 20)
+      .slice(0, 3)
+  };
+}
+
+function renderResult(r) {
+  let html = '';
+
+  // Overview
+  html += `<div class="result-section">
+    <h4>overview</h4>
+    <ul>
+      <li><span>sentence count</span><span>${r.stats.sentenceCount}</span></li>
+      <li><span>average sentence length</span><span>${r.stats.avgSentenceLen} words</span></li>
+      <li><span>short sentences (≤8 words)</span><span>${r.stats.shortSents} (${Math.round(r.stats.shortSents/r.stats.sentenceCount*100)}%)</span></li>
+      <li><span>long sentences (≥25 words)</span><span>${r.stats.longSents} (${Math.round(r.stats.longSents/r.stats.sentenceCount*100)}%)</span></li>
+      <li><span>vocabulary size</span><span>${r.stats.vocabSize} unique words</span></li>
+      <li><span>average word length</span><span>${r.stats.avgWordLen} characters</span></li>
+    </ul>
+  </div>`;
+
+  // Punctuation signature
+  html += `<div class="result-section">
+    <h4>punctuation signature</h4>
+    <ul>
+      <li><span>commas</span><span>${r.punctuation.commas} (${r.punctuation.commasPerSent} per sentence)</span></li>
+      <li><span>semicolons</span><span>${r.punctuation.semicolons}</span></li>
+      <li><span>colons</span><span>${r.punctuation.colons}</span></li>
+    </ul>
+  </div>`;
+
+  // Rhythm
+  html += `<div class="result-section">
+    <h4>sentence rhythm</h4>
+    <ul>
+      <li><span>most common sentence starters</span><span>${r.rhythm.topStarts.map(([w, c]) => '"' + w + '" x' + c).join(', ')}</span></li>
+      <li><span>"and" chains (lists)</span><span>${r.rhythm.andChains}</span></li>
+      <li><span>pronoun + verb openings</span><span>${r.rhythm.leadIns}</span></li>
+    </ul>
+  </div>`;
+
+  // Vocabulary palette
+  if (r.vocabulary.emotionWords.length > 0) {
+    html += `<div class="result-section">
+      <h4>emotional vocabulary</h4>
+      <p style="font-size:0.85rem;color:var(--text-dim);">${r.vocabulary.emotionWords.map(w => `<span style="display:inline-block;padding:0.1rem 0.4rem;margin:0.1rem;background:var(--bg);border:1px solid var(--border);border-radius:2px;">${w}</span>`).join(' ')}</p>
+    </div>`;
+  }
+
+  if (r.vocabulary.sensoryWords.length > 0) {
+    html += `<div class="result-section">
+      <h4>sensory palette</h4>
+      <p style="font-size:0.85rem;color:var(--text-dim);">${r.vocabulary.sensoryWords.map(w => `<span style="display:inline-block;padding:0.1rem 0.4rem;margin:0.1rem;background:var(--bg);border:1px solid var(--border);">${w}</span>`).join(' ')}</p>
+    </div>`;
+  }
+
+  // Signature moves
+  html += `<div class="result-section">
+    <h4>signature moves</h4>`;
+
+  if (r.stats.avgSentenceLen > 20) {
+    html += `<div class="highlight-block">Long, flowing sentences dominate (avg ${r.stats.avgSentenceLen} words). The writer builds momentum through accumulation — clauses stacked on clauses, each adding a new layer of detail before the period finally arrives.</div>`;
+  }
+  if (r.punctuation.commasPerSent > 2) {
+    html += `<div class="highlight-block">Heavy comma use (${r.punctuation.commasPerSent} per sentence). The writer favors enumeration as a structural device — listing details not as bullet points but as a wave that carries the reader forward.</div>`;
+  }
+  if (r.rhythm.leadIns > 3) {
+    html += `<div class="highlight-block">Frequent pronoun-verb openings ("She suffered...", "She imagined..."). The writer anchors each sentence in a character's experience, keeping the POV tight and interior.</div>`;
+  }
+  if (r.vocabulary.modifiers.length > 0) {
+    html += `<div class="highlight-block">Adjective-noun pairs do the work: the writer describes things by what they lack ("mean walls, worn chairs, ugly curtains") — negative space as description.</div>`;
+  }
+
+  html += `</div>`;
+
+  // Playbook (actionable)
+  html += `<div class="result-section">
+    <h4>playbook &mdash; how to apply this style</h4>
+    <ul>
+      <li><span>Use accumulation lists</span><span>stack 3+ descriptive elements before resolving the sentence</span></li>
+      <li><span>Anchor in character</span><span>start sentences with the subject's perception, not objective facts</span></li>
+      <li><span>Describe by absence</span><span>tell us what something is NOT to reveal what it IS</span></li>
+      <li><span>Let sentences stretch</span><span>don't break long ideas into short sentences; let them build</span></li>
+    </ul>
+  </div>`;
+
+  return html;
+}
+</script>
+</body>
+</html>
