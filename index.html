@@ -11,413 +11,317 @@
 <style>
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;height:100%}
+html{-webkit-text-size-adjust:100%;height:100%}
 body{min-height:100%;overflow-x:hidden}
 
 :root{
   --bg:#08080C;
   --surface:#101016;
-  --surface-hover:#181822;
-  --border:rgba(255,255,255,0.05);
-  --border-active:rgba(255,255,255,0.1);
+  --tile-bg:#14141E;
+  --border:rgba(255,255,255,0.06);
+  --border-hover:rgba(255,255,255,0.12);
   --text:#E8E8EE;
   --text-dim:#888898;
   --text-muted:#5B5B6B;
   --accent:#00E5FF;
-  --accent-dim:rgba(0,229,255,0.12);
-  --radius-sm:6px;
-  --radius-md:12px;
+  --accent-dim:rgba(0,229,255,0.1);
+  --radius-md:6px;
+  --radius-tile:14px;
   --radius-lg:18px;
   --space-xs:0.5rem;
-  --space-sm:1rem;
-  --space-md:2rem;
-  --space-lg:4rem;
-  --space-xl:8rem;
+  --space-sm:0.8rem;
+  --space-md:1.5rem;
+  --space-lg:3rem;
+  --space-xl:6rem;
   font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
-  font-size:clamp(14px,1.1vw,17px);
-  line-height:1.55;
+  font-size:clamp(13px,1.1vw,16px);
+  line-height:1.5;
   color:var(--text);
   background:var(--bg);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale
+  -webkit-font-smoothing:antialiased
 }
 
-/* ─── Noise overlay ─── */
+/* noise */
 body::after{
   content:"";position:fixed;inset:0;z-index:9999;
-  pointer-events:none;opacity:0.012;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat:repeat;
+  pointer-events:none;opacity:0.01;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:160px
 }
 
 ::selection{background:var(--accent);color:#08080C}
 
-/* ─── Typography ─── */
-h1,h2,h3,h4{font-family:"Space Grotesk","SF Pro Display",-apple-system,sans-serif;font-weight:600;letter-spacing:-0.025em;line-height:1.05}
-h1{font-size:clamp(2rem,5vw,3.5rem)}
-a{color:var(--text);text-decoration:none}
-a:hover{opacity:0.8}
-
-/* ─── Glow cursor ─── */
-@media(hover:hover){
-  .cursor-glow{
-    position:fixed;width:5px;height:5px;border-radius:50%;
-    background:var(--accent);pointer-events:none;z-index:10000;
-    transform:translate(-50%,-50%) scale(0);
-    transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s;
-    opacity:0;mix-blend-mode:screen;will-change:transform
-  }
-  .cursor-glow.is-visible{opacity:0.7;transform:translate(-50%,-50%) scale(1)}
-  .cursor-glow.is-click{transform:translate(-50%,-50%) scale(3);opacity:0}
-}
-
-/* ─── Header ─── */
+/* header */
 .site-header{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:var(--space-sm) var(--space-md);
+  padding:0.8rem var(--space-md);
   display:flex;justify-content:space-between;align-items:center;
   pointer-events:none
 }
 .site-header>*{pointer-events:auto}
-
 .site-title{
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.8rem;font-weight:600;letter-spacing:0.04em;
-  text-transform:uppercase;
-  color:var(--text-dim)
+  font-size:0.75rem;font-weight:600;letter-spacing:0.05em;
+  text-transform:uppercase;color:var(--text-dim)
 }
-
 .site-nav{display:flex;gap:var(--space-sm);align-items:center}
 .site-nav a{
-  font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;
-  color:var(--text-muted);padding:0.3rem 0.7rem;
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-muted);padding:0.25rem 0.6rem;
   border-radius:20px;transition:all 0.2s;font-weight:500
 }
 .site-nav a:hover{background:var(--surface);color:var(--text);opacity:1}
 
-/* ─── Hero ─── */
+/* hero */
 .hero{
-  padding:7rem var(--space-md) 2.5rem;
-  max-width:1300px;margin:0 auto
+  padding:5.5rem var(--space-md) 1.5rem;
+  max-width:1200px;margin:0 auto
 }
-.hero-block{
-  display:flex;flex-direction:column;gap:0.25rem
-}
+.hero-block{display:flex;flex-direction:column;gap:0.2rem}
 .hero-tagline{
-  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.15em;
+  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.15em;
   color:var(--text-muted);font-weight:500
 }
 .hero-title{
   font-family:"Space Grotesk",sans-serif;
-  font-size:clamp(2.5rem,9vw,7.5rem);
-  font-weight:800;letter-spacing:-0.045em;
+  font-size:clamp(2rem,7vw,5.5rem);
+  font-weight:800;letter-spacing:-0.04em;
   line-height:0.85;color:var(--text)
 }
 .hero-title .dot{color:var(--accent)}
 .hero-sub{
-  margin-top:0.75rem;
-  font-size:0.85rem;color:var(--text-dim);
-  max-width:480px;line-height:1.5;
+  margin-top:0.5rem;
+  font-size:0.8rem;color:var(--text-dim);
+  max-width:420px;line-height:1.5;
   font-weight:400
 }
 
-/* ─── App shelf ─── */
-.shelf{
-  max-width:1300px;margin:0 auto;
-  padding:0 var(--space-md) var(--space-xl)
-}
-.shelf-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:0
-}
-
-/* ─── Shelf item ─── */
-.shelf-item{
-  position:relative;
-  padding:0.65rem 0;
-  cursor:pointer;
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;
-  transition:border-color 0.3s;
-  -webkit-tap-highlight-color:transparent;
-  user-select:none
-}
-.shelf-item:last-child{border-bottom:1px solid var(--border)}
-
-.shelf-item:hover{border-color:var(--border-active)}
-.shelf-item:hover .shelf-name{color:var(--text)}
-.shelf-item:hover .shelf-arrow{opacity:0.5;transform:translateX(0)}
-.shelf-item:hover .shelf-category{opacity:0.5}
-
-/* ─── Variable weight typography per item ─── */
-.shelf-item[data-weight="700"] .shelf-name{font-weight:700}
-.shelf-item[data-weight="300"] .shelf-name{font-weight:300}
-.shelf-item[data-weight="500"] .shelf-name{font-weight:500}
-.shelf-item[data-weight="800"] .shelf-name{font-weight:800}
-.shelf-item[data-weight="400"] .shelf-name{font-weight:400}
-
-[data-size="lg"] .shelf-name{font-size:clamp(1.5rem,3.5vw,2.8rem)}
-[data-size="md"] .shelf-name{font-size:clamp(1.3rem,2.8vw,2.2rem)}
-[data-size="sm"] .shelf-name{font-size:clamp(1.1rem,2.3vw,1.8rem)}
-[data-size="xs"] .shelf-name{font-size:clamp(0.9rem,1.8vw,1.4rem)}
-
-.shelf-name{
-  font-family:"Space Grotesk",sans-serif;
-  letter-spacing:-0.035em;
-  color:var(--text-dim);
-  transition:color 0.3s;
-  line-height:1.1;
-  flex:1;min-width:0
-}
-
-.shelf-category{
-  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;
-  color:var(--text-muted);font-weight:500;
-  opacity:0;transition:opacity 0.3s;
-  display:none;margin-right:1rem
-}
-@media(min-width:768px){.shelf-category{display:block}}
-
-.shelf-arrow{
-  font-size:0.8rem;color:var(--text-muted);
-  opacity:0;transform:translateX(-8px);
-  transition:opacity 0.3s,transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  flex-shrink:0;
-  font-family:"Space Grotesk",sans-serif;font-weight:400
-}
-
-/* ─── Batch label ─── */
+/* batch label */
 .batch-label{
-  grid-column:1/-1;
+  max-width:1200px;margin:2rem auto 0.5rem;
+  padding:0 var(--space-md);
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;
-  color:var(--text-muted);font-weight:500;
-  padding:2.5rem 0 0.25rem;
-  pointer-events:none
+  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.18em;
+  color:var(--text-muted);font-weight:500
 }
 
-/* ─── Detail overlay ─── */
+/* ─── APP GRID ─── */
+.app-grid{
+  max-width:1200px;margin:0 auto;
+  padding:0.5rem var(--space-md) var(--space-xl);
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:0.75rem
+}
+
+/* ─── APP TILE ─── */
+.app-tile{
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:0.5rem;
+  padding:1.25rem 0.5rem 0.85rem;
+  background:var(--tile-bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius-tile);
+  cursor:pointer;
+  transition:all 0.3s cubic-bezier(0.22,1,0.36,1);
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  position:relative;overflow:hidden
+}
+.app-tile::before{
+  content:"";position:absolute;inset:0;
+  border-radius:var(--radius-tile);padding:1px;
+  background:linear-gradient(135deg,transparent,transparent);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;transition:all 0.4s
+}
+.app-tile:hover{transform:translateY(-3px);border-color:var(--border-hover)}
+.app-tile:hover::before{
+  background:linear-gradient(135deg,var(--accent),var(--accent));
+  opacity:0.5
+}
+.app-tile:active{transform:translateY(-1px) scale(0.97)}
+
+.tile-icon{
+  width:48px;height:48px;
+  border-radius:var(--radius-md);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;flex-shrink:0;
+  transition:transform 0.3s
+}
+.app-tile:hover .tile-icon{transform:scale(1.08)}
+
+.tile-name{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:0.7rem;font-weight:600;
+  letter-spacing:-0.01em;
+  color:var(--text-dim);
+  text-align:center;line-height:1.2;
+  transition:color 0.25s
+}
+.app-tile:hover .tile-name{color:var(--text)}
+
+.tile-category{
+  font-size:0.5rem;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-muted);font-weight:500;
+  margin-top:auto
+}
+
+/* ─── DETAIL OVERLAY ─── */
 .detail-overlay{
   position:fixed;inset:0;z-index:500;
-  display:flex;align-items:flex-end;
+  display:flex;align-items:center;justify-content:center;
   pointer-events:none;visibility:hidden
 }
-.detail-overlay.is-open{
-  pointer-events:auto;visibility:visible
-}
+.detail-overlay.is-open{pointer-events:auto;visibility:visible}
 
 .detail-backdrop{
   position:absolute;inset:0;
-  background:rgba(0,0,0,0.65);
-  backdrop-filter:blur(20px) saturate(1.2);
-  -webkit-backdrop-filter:blur(20px) saturate(1.2);
-  opacity:0;transition:opacity 0.45s ease
+  background:rgba(0,0,0,0.7);
+  backdrop-filter:blur(24px) saturate(1.3);
+  -webkit-backdrop-filter:blur(24px) saturate(1.3);
+  opacity:0;transition:opacity 0.4s ease
 }
 .detail-overlay.is-open .detail-backdrop{opacity:1}
 
 .detail-panel{
   position:relative;
-  width:100%;max-width:680px;
-  margin:0 auto;
+  width:100%;max-width:520px;
+  margin:var(--space-md);
   background:var(--surface);
-  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
   border:1px solid var(--border);
-  border-bottom:0;
-  padding:2.5rem var(--space-lg) var(--space-lg);
-  transform:translateY(100%);
-  transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);
-  max-height:85vh;overflow-y:auto
+  border-radius:var(--radius-lg);
+  padding:2rem var(--space-md) var(--space-md);
+  transform:translateY(20px) scale(0.97);
+  opacity:0;
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),opacity 0.35s;
+  max-height:90vh;overflow-y:auto
 }
-.detail-overlay.is-open .detail-panel{transform:translateY(0)}
+.detail-overlay.is-open .detail-panel{
+  transform:translateY(0) scale(1);
+  opacity:1
+}
 .detail-panel::-webkit-scrollbar{width:3px}
 .detail-panel::-webkit-scrollbar-track{background:transparent}
-.detail-panel::-webkit-scrollbar-thumb{background:var(--border-active);border-radius:4px}
+.detail-panel::-webkit-scrollbar-thumb{background:var(--border-hover);border-radius:4px}
 
-.detail-accent-bar{
-  position:absolute;top:0;left:0;right:0;height:3px;
-  transform:scaleX(0);transform-origin:left;
-  transition:transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s
-}
-.detail-overlay.is-open .detail-accent-bar{transform:scaleX(1)}
+.detail-accent{position:absolute;top:0;left:0;right:0;height:3px}
 
 .detail-close{
-  position:absolute;top:1.25rem;right:1.5rem;
-  width:32px;height:32px;
-  border-radius:50%;
+  position:absolute;top:1rem;right:1.25rem;
+  width:30px;height:30px;border-radius:50%;
   border:1px solid var(--border);
-  background:transparent;
-  color:var(--text-dim);
-  font-size:1.1rem;
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all 0.25s;font-family:inherit;line-height:1
+  background:transparent;color:var(--text-dim);
+  font-size:1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all 0.2s;font-family:inherit;line-height:1
 }
-.detail-close:hover{
-  border-color:var(--accent);
-  color:var(--accent);
-  background:var(--accent-dim)
-}
+.detail-close:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
 
-.detail-name{
+.detail-header{
+  display:flex;align-items:center;gap:0.75rem;
+  margin-bottom:0.5rem;padding-right:2.5rem
+}
+.detail-header-icon{
+  width:44px;height:44px;border-radius:var(--radius-md);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0
+}
+.detail-header-name{
   font-family:"Space Grotesk",sans-serif;
-  font-size:clamp(2rem,5vw,3.2rem);
-  font-weight:700;letter-spacing:-0.04em;
-  line-height:1;margin-bottom:0.35rem;
-  padding-right:3rem
+  font-size:1.3rem;font-weight:700;letter-spacing:-0.03em;
+  line-height:1
 }
 
 .detail-use-btn{
-  display:inline-flex;align-items:center;gap:0.5rem;
-  padding:0.75rem 1.75rem;
-  border-radius:50px;
-  border:none;
+  display:flex;align-items:center;justify-content:center;gap:0.4rem;
+  width:100%;
+  padding:0.7rem 1.5rem;
+  border-radius:50px;border:none;
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.95rem;font-weight:600;
+  font-size:0.85rem;font-weight:600;
   letter-spacing:-0.01em;
-  cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
   color:#08080C;
-  margin:0.75rem 0 2rem
+  cursor:pointer;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  margin:1rem 0 1.5rem
 }
-.detail-use-btn:hover{
-  transform:scale(1.04);
-  box-shadow:0 0 40px -6px var(--accent)
-}
+.detail-use-btn:hover{transform:scale(1.02)}
 .detail-use-btn:active{transform:scale(0.97)}
 
-.detail-use-btn .arrow-icon{
-  font-size:1.15rem;line-height:1;
-  transition:transform 0.3s
-}
-.detail-use-btn:hover .arrow-icon{transform:translate(3px,-2px)}
+.detail-line{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
 
-.detail-line{
-  border:none;border-top:1px solid var(--border);
-  margin:var(--space-md) 0
-}
-
-.detail-section{
-  margin-bottom:var(--space-md);
-  opacity:0;transform:translateY(8px);
-  transition:opacity 0.4s ease,transform 0.4s ease
-}
-.detail-overlay.is-open .detail-section:nth-child(1 of .detail-section){transition-delay:0.15s}
-.detail-overlay.is-open .detail-section:nth-child(2 of .detail-section){transition-delay:0.2s}
-.detail-overlay.is-open .detail-section:nth-child(3 of .detail-section){transition-delay:0.25s}
-.detail-overlay.is-open .detail-section{opacity:1;transform:translateY(0)}
-
+.detail-section{margin-bottom:1.25rem}
+.detail-section:last-child{margin-bottom:0}
 .detail-section-label{
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;
+  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;
   color:var(--text-muted);font-weight:600;
-  margin-bottom:0.35rem
+  margin-bottom:0.3rem
 }
-
-.detail-what{font-size:1rem;line-height:1.55;color:var(--text)}
-
+.detail-what{font-size:0.9rem;line-height:1.55;color:var(--text)}
 .detail-why{
-  font-size:1.2rem;line-height:1.45;
-  font-weight:600;
-  font-family:"Space Grotesk",sans-serif;
-  letter-spacing:-0.02em;
-  color:var(--text)
+  font-size:1.05rem;line-height:1.45;font-weight:600;
+  font-family:"Space Grotesk",sans-serif;letter-spacing:-0.02em
 }
-
 .detail-podcast{
-  font-size:0.9rem;line-height:1.6;
-  color:var(--text-dim);
-  font-style:italic;
-  padding:var(--space-sm) 0 var(--space-sm) var(--space-md);
-  border-left:2px solid var(--border);
-  position:relative
+  font-size:0.85rem;line-height:1.6;color:var(--text-dim);
+  font-style:italic;padding:0.5rem 0 0.5rem 1rem;
+  border-left:2px solid var(--border)
 }
-.detail-podcast::before{
-  content:"";position:absolute;left:-2px;top:0;bottom:0;
-  width:2px;
-  border-radius:2px;
-  transition:opacity 0.4s 0.3s
-}
-.detail-overlay.is-open .detail-podcast::before{opacity:1}
-
 .detail-source{
-  font-size:0.7rem;color:var(--text-muted);
-  margin-top:0.4rem;font-style:normal;font-weight:500
+  font-size:0.65rem;color:var(--text-muted);
+  margin-top:0.3rem;font-style:normal;font-weight:500
 }
 
-/* ─── Footer ─── */
+/* footer */
 .site-footer{
-  padding:var(--space-md);
-  color:var(--text-muted);
-  font-size:0.7rem;text-align:center;
-  border-top:1px solid var(--border);
-  max-width:1300px;margin:0 auto
+  padding:var(--space-md);max-width:1200px;margin:0 auto;
+  font-size:0.65rem;text-align:center;
+  color:var(--text-muted);border-top:1px solid var(--border)
 }
 
-/* ─── Responsive ─── */
+/* responsive */
 @media(max-width:768px){
-  .shelf-grid{grid-template-columns:1fr}
-  [data-size] .shelf-name,
-  .shelf-name{font-size:clamp(1rem,5vw,1.4rem)!important}
-  [data-weight] .shelf-name{font-weight:400!important}
-  .detail-panel{padding:2rem var(--space-md) var(--space-md)}
-  .hero-title{font-size:clamp(2rem,12vw,3.5rem)}
-  .detail-name{font-size:clamp(1.5rem,7vw,2.5rem)}
-  .detail-why{font-size:1rem}
-  .hero{padding:5rem var(--space-sm) 1.5rem}
-  .shelf{padding:0 var(--space-sm) var(--space-lg)}
-  .cursor-glow{display:none}
+  .app-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:0.5rem}
+  .tile-icon{width:40px;height:40px;font-size:1.1rem}
+  .tile-name{font-size:0.6rem}
+  .hero-title{font-size:clamp(1.8rem,10vw,3rem)}
+  .hero{padding:4.5rem var(--space-sm) 1rem}
+  .detail-panel{max-width:100%;margin:0.5rem;border-radius:16px;padding:1.5rem}
+  .detail-header-name{font-size:1.1rem}
+  .app-tile{padding:1rem 0.4rem 0.6rem}
+}
+
+@media(max-width:480px){
+  .app-grid{grid-template-columns:repeat(3,1fr);gap:0.4rem}
+  .tile-icon{width:36px;height:36px;font-size:1rem}
+  .site-header{padding:0.6rem var(--space-sm)}
 }
 
 @media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
-  .detail-panel{opacity:0;transition:opacity 0.2s}
+  *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+  .detail-panel{transform:none!important;opacity:0;transition:opacity 0.2s}
   .detail-overlay.is-open .detail-panel{opacity:1}
   .detail-backdrop{opacity:0;transition:opacity 0.2s}
   .detail-overlay.is-open .detail-backdrop{opacity:1}
+  .app-tile:hover{transform:none}
 }
 
-/* ─── Entrance animation ─── */
-@keyframes slideUp{
-  from{opacity:0;transform:translateY(16px)}
-  to{opacity:1;transform:translateY(0)}
+/* entrance */
+@keyframes tileIn{
+  from{opacity:0;transform:translateY(12px) scale(0.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
 }
-.shelf-item{animation:slideUp 0.45s ease both}
-.shelf-item:nth-child(1){animation-delay:0.02s}
-.shelf-item:nth-child(2){animation-delay:0.04s}
-.shelf-item:nth-child(3){animation-delay:0.06s}
-.shelf-item:nth-child(4){animation-delay:0.08s}
-.shelf-item:nth-child(5){animation-delay:0.10s}
-.shelf-item:nth-child(6){animation-delay:0.12s}
-.shelf-item:nth-child(7){animation-delay:0.14s}
-.shelf-item:nth-child(8){animation-delay:0.16s}
-.shelf-item:nth-child(9){animation-delay:0.18s}
-.shelf-item:nth-child(10){animation-delay:0.20s}
-.shelf-item:nth-child(11){animation-delay:0.22s}
-.shelf-item:nth-child(12){animation-delay:0.24s}
-.shelf-item:nth-child(13){animation-delay:0.26s}
-.shelf-item:nth-child(14){animation-delay:0.28s}
-.shelf-item:nth-child(15){animation-delay:0.30s}
-.shelf-item:nth-child(16){animation-delay:0.32s}
-.shelf-item:nth-child(17){animation-delay:0.34s}
-.shelf-item:nth-child(18){animation-delay:0.36s}
-.shelf-item:nth-child(19){animation-delay:0.38s}
-.shelf-item:nth-child(20){animation-delay:0.40s}
-.shelf-item:nth-child(21){animation-delay:0.42s}
-.shelf-item:nth-child(22){animation-delay:0.44s}
-
-/* ─── Use now pulse ─── */
-@keyframes softPulse{
-  0%,100%{box-shadow:0 0 0 0 var(--accent-dim)}
-  50%{box-shadow:0 0 0 6px transparent}
-}
-.detail-use-btn{animation:softPulse 3s ease-in-out infinite}
+.app-tile{animation:tileIn 0.4s ease both}
+.app-tile:nth-child(1){animation-delay:0.015s}
+.app-tile:nth-child(2){animation-delay:0.03s}
+/* continue via js */
 
 </style>
 </head>
 <body>
-
-<div class="cursor-glow" id="cursor"></div>
 
 <header class="site-header">
   <span class="site-title">mini tools</span>
@@ -430,28 +334,31 @@ a:hover{opacity:0.8}
   <div class="hero-block">
     <span class="hero-tagline">21 tools | 2 conversations</span>
     <h1 class="hero-title">mini tools<span class="dot">.</span></h1>
-    <p class="hero-sub">Twenty-one single-purpose tools extracted from two conversations with Dan Shipper. Each does one thing, ships in minutes, and exists for a reason you&rsquo;ll recognize.</p>
+    <p class="hero-sub">Twenty-one single-purpose tools extracted from two conversations with Dan Shipper. Each does one thing and ships in minutes.</p>
   </div>
 </section>
 
-<main class="shelf">
-  <div class="shelf-grid" id="shelf"></div>
-</main>
+<div class="batch-label">batch 1 | first conversation</div>
+<div class="app-grid" id="grid1"></div>
+
+<div class="batch-label">batch 1.5 | returns episode</div>
+<div class="app-grid" id="grid2"></div>
 
 <footer class="site-footer">
   mini tools | extracted by hand | no generated tools | zero fluff
 </footer>
 
+<!-- Detail overlay -->
 <div class="detail-overlay" id="detail">
   <div class="detail-backdrop" id="detailBackdrop"></div>
   <div class="detail-panel" id="detailPanel">
-    <div class="detail-accent-bar" id="detailAccent"></div>
+    <div class="detail-accent" id="detailAccent"></div>
     <button class="detail-close" id="detailClose" aria-label="Close">&times;</button>
-    <div class="detail-name" id="detailName"></div>
-    <button class="detail-use-btn" id="detailUseBtn">
-      use now
-      <span class="arrow-icon">&nearr;</span>
-    </button>
+    <div class="detail-header">
+      <div class="detail-header-icon" id="detailIcon"></div>
+      <div class="detail-header-name" id="detailName"></div>
+    </div>
+    <button class="detail-use-btn" id="detailUseBtn">use now</button>
     <hr class="detail-line">
     <div class="detail-section">
       <div class="detail-section-label">what</div>
@@ -470,258 +377,162 @@ a:hover{opacity:0.8}
 </div>
 
 <script>
+const ICONS = ["&#9998;","&#127897;","&#128203;","&#9858;","&#128269;","&#128200;","&#129504;","&#10022;","&#128101;","&#128200;","&#127942;","&#128647;","&#127793;","&#128250;","&#128260;","&#128209;","&#129514;","&#127873;","&#128465;","&#128100;","&#9881;"];
+
 const APPS = [
-  {
-    id:"stylepull",name:"StylePull",category:"writing",
-    accent:"#00E5FF",
-    what:"Extract an author&rsquo;s signature techniques from any text&mdash;sentence rhythm, vocabulary patterns, punctuation habits, structural preferences.",
+  {id:"stylepull",name:"StylePull",icon:0,cat:"writing",accent:"#00E5FF",
+    what:"Extract an author&rsquo;s signature techniques&mdash;sentence rhythm, vocabulary, punctuation habits&mdash;from any text.",
     why:"Borrow craft from writers who move you. Build your playbook. Stop writing blind.",
     podcast:"&ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&rsquo;s descriptions into a guide. Now I have a style reference I can use.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/stylepull/"
-  },
-  {
-    id:"manuscript",name:"Manuscript",category:"meetings",
-    accent:"#7C3AED",
-    what:"Drop a meeting transcript. Build a voice profile&mdash;hedging rate, question/statement ratio, filler habits, interruption frequency.",
+    source:"Dan Shipper, Ride The Model", link:"tools/stylepull/"},
+  {id:"manuscript",name:"Manuscript",icon:1,cat:"meetings",accent:"#7C3AED",
+    what:"Drop a meeting transcript. Build a voice profile&mdash;hedging rate, question ratio, filler habits, interruption frequency.",
     why:"Hear yourself as others do. Fix the patterns that undermine your point.",
     podcast:"&ldquo;I built a benchmark: can it predict what I&rsquo;m going to say in a meeting? It knew my habits better than I did.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/manuscript/"
-  },
-  {
-    id:"rambler-prd",name:"Rambler &rarr; PRD",category:"product",
-    accent:"#F59E0B",
+    source:"Dan Shipper, Ride The Model", link:"tools/manuscript/"},
+  {id:"rambler-prd",name:"Rambler &rarr; PRD",icon:2,cat:"product",accent:"#F59E0B",
     what:"Type raw ideas. Get a structured PRD&mdash;problem, users, stories, constraints, edge cases, success metrics.",
     why:"Ship structure from chaos. One prompt replaces the spec meeting.",
     podcast:"&ldquo;Instead of writing PRDs from scratch, I write a prompt that turns rambling into a perfect PRD. It&rsquo;s the highest-leverage writing I do.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/rambler-prd/"
-  },
-  {
-    id:"neverrepeat",name:"NeverRepeat",category:"management",
-    accent:"#FF2D78",
+    source:"Dan Shipper, Ride The Model", link:"tools/rambler-prd/"},
+  {id:"neverrepeat",name:"NeverRepeat",icon:3,cat:"management",accent:"#FF2D78",
     what:"Every piece of feedback you give becomes a reusable prompt. Build a library of your taste. Your team runs it.",
     why:"Write feedback once. Let the team encode it into every future deliverable.",
     podcast:"&ldquo;Alex recorded every edit, put it in a prompt, and never made the same mistake twice. He got coaching-level growth from a prompt.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/neverrepeat/"
-  },
-  {
-    id:"copyscout",name:"CopyScout",category:"engineering",
-    accent:"#0D9488",
+    source:"Dan Shipper, Ride The Model", link:"tools/neverrepeat/"},
+  {id:"copyscout",name:"CopyScout",icon:4,cat:"engineering",accent:"#0D9488",
     what:"Point it at your codebase. Checks UI copy against your style guide. Flags inconsistencies across every surface.",
-    why:"Catch voice drift before it ships. Brand consistency is a CI check, not a design review.",
+    why:"Catch voice drift before it ships. Brand consistency is a CI check.",
     podcast:"&ldquo;We have a Claude Code command that checks the entire codebase for copy edits and opens a PR. The design team never catches anything because the prompt already caught it.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/copyscout/"
-  },
-  {
-    id:"vibecheck",name:"VibeCheck",category:"ai tools",
-    accent:"#A855F7",
-    what:"Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and feeling. Comparison matrix included.",
+    source:"Dan Shipper, Ride The Model", link:"tools/copyscout/"},
+  {id:"vibecheck",name:"VibeCheck",icon:5,cat:"ai tools",accent:"#A855F7",
+    what:"Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and feeling.",
     why:"Benchmark models on what you actually ship, not academic trivia.",
     podcast:"&ldquo;Vibe checks capture how it feels to use a model, which standard benchmarks don&rsquo;t. They&rsquo;re subjective but they matter more for real work.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/vibecheck/"
-  },
-  {
-    id:"memorymine",name:"MemoryMine",category:"personal",
-    accent:"#06B6D4",
+    source:"Dan Shipper, Ride The Model", link:"tools/vibecheck/"},
+  {id:"memorymine",name:"MemoryMine",icon:6,cat:"personal",accent:"#06B6D4",
     what:"Weekly self-reflection from your journal entries. Surfaces patterns, blind spots, and recurring themes.",
     why:"Track your thinking week over week. See what you miss in the moment.",
     podcast:"&ldquo;I send it transcripts and ask how did I do? It says: you did that thing you normally do. It knows me better than I track myself.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/memorymine/"
-  },
-  {
-    id:"spiral-lite",name:"Spiral Lite",category:"content",
-    accent:"#059669",
-    what:"Say what you want to write about. It drafts 3 variants, scores them against quality criteria, improves the best one.",
-    why:"Kill blank page paralysis. Draft, score, improve, publish.",
-    podcast:"&ldquo;Spiral does content automation. You say what you want, it judges its own output, and improves. The self-critique loop is the magic.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/spiral-lite/"
-  },
-  {
-    id:"agentroster",name:"AgentRoster",category:"agents",
-    accent:"#6C3BED",
+    source:"Dan Shipper, Ride The Model", link:"tools/memorymine/"},
+  {id:"spiral-lite",name:"Spiral Lite",icon:7,cat:"content",accent:"#059669",
+    what:"Say what you want to write about. It drafts variants, scores them against quality criteria, improves the best one.",
+    why:"Kill blank page paralysis. Draft, score, improve, publish in one pass.",
+    podcast:"&ldquo;You say what you want, it judges its own output, and improves. The self-critique loop is the magic.&rdquo;",
+    source:"Dan Shipper, Ride The Model", link:"tools/spiral-lite/"},
+  {id:"agentroster",name:"AgentRoster",icon:8,cat:"agents",accent:"#6C3BED",
     what:"A roster of AI agents with taste profiles. Route tasks, run in parallel, track performance per task type.",
     why:"Match tasks to the right agent personality. Run them all, trust the best.",
     podcast:"&ldquo;Kieran uses Claude Code, Friday, and Charlie simultaneously. Each has a different personality. You route work to the one that&rsquo;s good at it.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/agentroster/"
-  },
-  {
-    id:"adoptionmap",name:"AdoptionMap",category:"org",
-    accent:"#D97706",
+    source:"Dan Shipper, Ride The Model", link:"tools/agentroster/"},
+  {id:"adoptionmap",name:"AdoptionMap",icon:9,cat:"org",accent:"#D97706",
     what:"Survey your team. See who&rsquo;s AI-ready, where blockers are, which teams unlock most leverage.",
     why:"Find organizational resistance before it blocks adoption. One signal predicts everything.",
-    podcast:"&ldquo;The number one predictor of company-wide AI adoption: does the CEO use ChatGPT? If yes, the whole company adopts. If no, nothing works.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/adoptionmap/"
-  },
-  {
-    id:"promotleague",name:"PromptLeague",category:"org",
-    accent:"#EA580C",
-    what:"Weekly stats: who&rsquo;s using what, top prompts, trending workflows. Leaderboard for the 10% who figure things out.",
+    podcast:"&ldquo;The number one predictor: does the CEO use ChatGPT? If yes, the whole company adopts. If no, nothing works.&rdquo;",
+    source:"Dan Shipper, Ride The Model", link:"tools/adoptionmap/"},
+  {id:"promotleague",name:"PromptLeague",icon:10,cat:"org",accent:"#EA580C",
+    what:"Weekly stats: who&rsquo;s using what, top prompts, trending workflows. Leaderboard for the 10% who share.",
     why:"Make AI usage visible. Reward sharers, not hoarders.",
-    podcast:"&ldquo;Share usage stats every week. Highlight the best prompts and who contributed them. The 10% who figure things out become your internal champions.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/promotleague/"
-  },
-  {
-    id:"jobreshore",name:"JobReshore",category:"support",
-    accent:"#BE185D",
-    what:"AI-augmented customer support. Handles tier-1 autonomously, surfaces trends, costs what a part-time hire would.",
+    podcast:"&ldquo;Share usage stats every week. Highlight the best prompts. The 10% who figure things out become your internal champions.&rdquo;",
+    source:"Dan Shipper, Ride The Model", link:"tools/promotleague/"},
+  {id:"jobreshore",name:"JobReshore",icon:11,cat:"support",accent:"#BE185D",
+    what:"AI-augmented customer support. Handles tier-1 autonomously, surfaces trends.",
     why:"Scale support with AI. Cost of one part-time hire, capacity of a full team.",
     podcast:"&ldquo;10 people in the Midwest with AI can serve what 100 people used to. The jobs came back&mdash;they just look different now.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/jobreshore/"
-  },
-  {
-    id:"agentgardener",name:"AgentGardener",category:"ops",
-    accent:"#2563EB",
-    what:"Dashboard for all company agents: health, error rates, manual intervention frequency. The ops console for the forward deployed engineer.",
+    source:"Dan Shipper, Ride The Model", link:"tools/jobreshore/"},
+  {id:"agentgardener",name:"AgentGardener",icon:12,cat:"ops",accent:"#2563EB",
+    what:"Dashboard for all company agents: health, error rates, manual intervention. The ops console.",
     why:"Monitor every company agent from one place. Fix problems before anyone notices.",
     podcast:"&ldquo;Nitesh spends his day talking to Claudie in Slack, debugging it, keeping it on track. Every agent needs a human gardener.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/agentgardener/"
-  },
-  {
-    id:"claudiecast",name:"ClaudieCast",category:"agents",
-    accent:"#7C3AED",
-    what:"Agent-to-agent handoff. Your personal agent talks to the company super-agent. Full context preserved. No forms.",
+    source:"Dan Shipper, Ride The Model", link:"tools/agentgardener/"},
+  {id:"claudiecast",name:"ClaudieCast",icon:13,cat:"agents",accent:"#7C3AED",
+    what:"Agent-to-agent handoff. Your personal agent talks to the company super-agent. Full context preserved.",
     why:"Your agent calls their agent. Zero manual handoff. Context survives intact.",
     podcast:"&ldquo;Two agents are better than one. Your personal agent can tell the company agent way more than you&rsquo;d ever type into a form.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/claudiecast/"
-  },
-  {
-    id:"supportloop",name:"SupportLoop",category:"engineering",
-    accent:"#0891B2",
-    what:"Agent bug reports: exact repro steps, code analysis, suggested fix. Company agent validates and opens the PR.",
-    why:"Bug reports with repro and fix suggestion. Bug to PR in minutes.",
-    podcast:"&ldquo;An agent bug report is way better than a human one. It has the exact repro steps and what it thinks is wrong. The fix is often a PR away.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/supportloop/"
-  },
-  {
-    id:"notionplan",name:"NotionPlan",category:"product",
-    accent:"#0D9488",
-    what:"Agent interviews your team, cross-references goals with strategy, produces structured quarterly plans. CEO reads all in minutes.",
+    source:"Dan Shipper, Ride The Model", link:"tools/claudiecast/"},
+  {id:"supportloop",name:"SupportLoop",icon:14,cat:"engineering",accent:"#0891B2",
+    what:"Agent bug reports: exact repro steps, code analysis, suggested fix. Company agent opens the PR.",
+    why:"Bug reports with repro and fix suggestion. Status: bug to PR in minutes.",
+    podcast:"&ldquo;An agent bug report is way better than a human one. It has the exact repro steps and what it thinks is wrong.&rdquo;",
+    source:"Dan Shipper, Ride The Model", link:"tools/supportloop/"},
+  {id:"notionplan",name:"NotionPlan",icon:15,cat:"product",accent:"#0D9488",
+    what:"Agent interviews your team, cross-references goals with strategy, produces structured quarterly plans.",
     why:"Interview 20 people at scale. Read their plans in 20 minutes.",
-    podcast:"&ldquo;A Notion agent asked 20 people about their goals, pushed back on weak answers, then produced plans. I read all 20 in the time it used to take for 2.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/notionplan/"
-  },
-  {
-    id:"benchtunnel",name:"BenchTunnel",category:"ai tools",
-    accent:"#F59E0B",
+    podcast:"&ldquo;A Notion agent asked 20 people about their goals, pushed back on weak answers, then produced plans. I read all 20 in the time for 2.&rdquo;",
+    source:"Dan Shipper, Ride The Model", link:"tools/notionplan/"},
+  {id:"benchtunnel",name:"BenchTunnel",icon:16,cat:"ai tools",accent:"#F59E0B",
     what:"Score any model against canonical rewrites by senior engineers. Tracks model improvement over time.",
-    why:"Score models against human quality standards. Track whether AI is actually getting better.",
+    why:"Score models against human quality. Track whether AI is actually getting better.",
     podcast:"&ldquo;Two senior engineers rewrote my vibe-coded app. Now I score every new model against their versions. GPT-5.5 scored 62 out of 100.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/benchtunnel/"
-  },
-  {
-    id:"ridethemodel",name:"RideTheModel",category:"ai tools",
-    accent:"#FF2D78",
-    what:"Your personal model test suite. Save 5&ndash;10 tasks you care about. Every new model drop: auto-run, compare, share.",
-    why:"Turn over the same rocks every time. Know instantly when models get better for your work.",
-    podcast:"&ldquo;Turn over the same rocks every time. It couldn&rsquo;t do this last time. Now it scores 62. Ride the model curve, don&rsquo;t fight it.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/ridethemodel/"
-  },
-  {
-    id:"slopfilter",name:"SlopFilter",category:"review",
-    accent:"#BC1C1E",
-    what:"Review triage for AI-generated work. Scores confidence, completeness, consistency. Low-confidence flagged, high-confidence auto-approved.",
-    why:"Stop reviewing bad AI output. Flag the noise, approve the signal, save senior hours.",
+    source:"Dan Shipper, Ride The Model", link:"tools/benchtunnel/"},
+  {id:"ridethemodel",name:"RideTheModel",icon:17,cat:"ai tools",accent:"#FF2D78",
+    what:"Your personal model test suite. Save 5&ndash;10 tasks. Every new model drop: auto-run, compare, share.",
+    why:"Turn over the same rocks every time. Know when models get better for your work.",
+    podcast:"&ldquo;Turn over the same rocks every time. It couldn&rsquo;t do this last time. Now it scores 62. Ride the curve, don&rsquo;t fight it.&rdquo;",
+    source:"Dan Shipper, Ride The Model", link:"tools/ridethemodel/"},
+  {id:"slopfilter",name:"SlopFilter",icon:18,cat:"review",accent:"#BC1C1E",
+    what:"Review triage for AI-generated work. Scores confidence, completeness, consistency. Auto-approves high-confidence output.",
+    why:"Stop reviewing bad AI output. Flag noise, approve signal, save senior hours.",
     podcast:"&ldquo;Data scientists spend most of their time reviewing bad AI analysis. You need systems to filter the slop so seniors focus on what matters.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/slopfilter/"
-  },
-  {
-    id:"claudiepair",name:"ClaudiePair",category:"writing",
-    accent:"#06B6D4",
+    source:"Dan Shipper, Ride The Model", link:"tools/slopfilter/"},
+  {id:"claudiepair",name:"ClaudiePair",icon:19,cat:"writing",accent:"#06B6D4",
     what:"Collaborative workspace. You write, agent watches: researches, suggests edits, formats. Both see what the other is doing.",
-    why:"Write alongside an agent. It watches, you lead. It handles formatting, you handle thinking.",
+    why:"Write alongside an agent. It watches, you lead. It formats, you think.",
     podcast:"&ldquo;The agent has visibility into what I&rsquo;m doing. I have visibility into what the agent is doing. The agent handles formatting&mdash;I focus on the ideas.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/claudiepair/"
-  },
-  {
-    id:"superagentsetup",name:"SuperAgent Setup",category:"agents",
-    accent:"#EA580C",
-    what:"Configure and scaffold a company super-agent. Slack integration, permissions, tool connections, feedback loop.",
+    source:"Dan Shipper, Ride The Model", link:"tools/claudiepair/"},
+  {id:"superagentsetup",name:"SuperAgent Setup",icon:20,cat:"agents",accent:"#EA580C",
+    what:"Configure and scaffold a company super-agent. Slack, permissions, tool connections, feedback loop.",
     why:"Scaffold your super agent in one session. Starts general, gets specialized.",
     podcast:"&ldquo;One super agent per company. Shopify has River. Ramp has one. A forward deployed engineer maintains it. This is the template.&rdquo;",
-    source:"Dan Shipper, Ride The Model",
-    link:"tools/superagentsetup/"
-  }
+    source:"Dan Shipper, Ride The Model", link:"tools/superagentsetup/"}
 ];
 
-// ─── Size/weight variety ───
-const WEIGHTS = ["700","300","500","800","400"];
-const SIZES   = ["lg","md","sm","xs","md","lg","sm","md","xs","md","lg","sm","md","xs","sm","md","lg","xs","md","sm","md"];
+// ─── Build tile grids ───
+function renderGrid(containerId, apps) {
+  const grid = document.getElementById(containerId);
+  grid.innerHTML = apps.map(a => `
+    <div class="app-tile" data-id="${a.id}" role="button" tabindex="0" aria-label="Open ${a.name}">
+      <div class="tile-icon" style="background:linear-gradient(135deg,${a.accent},${a.accent}cc);color:#fff">
+        ${ICONS[a.icon]}
+      </div>
+      <span class="tile-name">${a.name}</span>
+      <span class="tile-category">${a.cat}</span>
+    </div>
+  `).join("");
+}
 
-// ─── Build shelf ───
-const shelf = document.getElementById("shelf");
-let html = '<div class="batch-label">batch 1 | first conversation</div>';
-
-APPS.slice(0,12).forEach((app,i) => {
-  const w = WEIGHTS[i % WEIGHTS.length];
-  const s = SIZES[i % SIZES.length];
-  html += `<div class="shelf-item" data-index="${i}" data-weight="${w}" data-size="${s}" role="button" tabindex="0" aria-label="Open ${app.name}">
-    <span class="shelf-name">${app.name}</span>
-    <span class="shelf-category">${app.category}</span>
-    <span class="shelf-arrow">&rarr;</span>
-  </div>`;
-});
-
-html += '<div class="batch-label">batch 1.5 | returns episode</div>';
-
-APPS.slice(12).forEach((app,i) => {
-  const idx = i + 12;
-  const w = WEIGHTS[idx % WEIGHTS.length];
-  const s = SIZES[idx % SIZES.length];
-  html += `<div class="shelf-item" data-index="${idx}" data-weight="${w}" data-size="${s}" role="button" tabindex="0" aria-label="Open ${app.name}">
-    <span class="shelf-name">${app.name}</span>
-    <span class="shelf-category">${app.category}</span>
-    <span class="shelf-arrow">&rarr;</span>
-  </div>`;
-});
-
-shelf.innerHTML = html;
+renderGrid("grid1", APPS.slice(0,12));
+renderGrid("grid2", APPS.slice(12));
 
 // ─── Detail overlay ───
 const detail = document.getElementById("detail");
 const backdrop = document.getElementById("detailBackdrop");
 const panel = document.getElementById("detailPanel");
-const detailAccent = document.getElementById("detailAccent");
-const detailName = document.getElementById("detailName");
-const detailUseBtn = document.getElementById("detailUseBtn");
-const detailWhat = document.getElementById("detailWhat");
-const detailWhy = document.getElementById("detailWhy");
-const detailPodcast = document.getElementById("detailPodcast");
-const detailSource = document.getElementById("detailSource");
-const detailClose = document.getElementById("detailClose");
+const dAccent = document.getElementById("detailAccent");
+const dIcon = document.getElementById("detailIcon");
+const dName = document.getElementById("detailName");
+const dBtn = document.getElementById("detailUseBtn");
+const dWhat = document.getElementById("detailWhat");
+const dWhy = document.getElementById("detailWhy");
+const dPodcast = document.getElementById("detailPodcast");
+const dSource = document.getElementById("detailSource");
+const dClose = document.getElementById("detailClose");
 
 function openDetail(app) {
-  const a = app.accent;
-  detailAccent.style.background = a;
-  detailName.textContent = app.name;
-  detailWhat.innerHTML = app.what;
-  detailWhy.textContent = app.why;
-  detailPodcast.innerHTML = app.podcast;
-  detailSource.textContent = app.source;
-  detailUseBtn.style.background = a;
-  detailUseBtn.style.setProperty("--accent-dim", a + "22");
-  detailUseBtn.onclick = () => { window.location.href = app.link; };
+  dAccent.style.background = app.accent;
+  dIcon.innerHTML = ICONS[app.icon];
+  dIcon.style.background = `linear-gradient(135deg,${app.accent},${app.accent}cc)`;
+  dIcon.style.color = "#fff";
+  dName.textContent = app.name;
+  dWhat.innerHTML = app.what;
+  dWhy.textContent = app.why;
+  dPodcast.innerHTML = app.podcast;
+  dSource.textContent = app.source;
+  dBtn.style.background = app.accent;
+  dBtn.onclick = () => { window.location.href = app.link; };
   detail.classList.add("is-open");
   document.body.style.overflow = "hidden";
-  setTimeout(() => detailClose.focus(), 100);
+  setTimeout(() => dClose.focus(), 200);
 }
 
 function closeDetail() {
@@ -729,9 +540,9 @@ function closeDetail() {
   document.body.style.overflow = "";
 }
 
-document.querySelectorAll(".shelf-item").forEach(el => {
-  const idx = parseInt(el.dataset.index);
-  const app = APPS[idx];
+document.querySelectorAll(".app-tile").forEach(el => {
+  const app = APPS.find(a => a.id === el.dataset.id);
+  if (!app) return;
   el.addEventListener("click", () => openDetail(app));
   el.addEventListener("keydown", e => {
     if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDetail(app); }
@@ -739,34 +550,22 @@ document.querySelectorAll(".shelf-item").forEach(el => {
 });
 
 backdrop.addEventListener("click", closeDetail);
-detailClose.addEventListener("click", closeDetail);
+dClose.addEventListener("click", closeDetail);
 document.addEventListener("keydown", e => {
   if (e.key === "Escape" && detail.classList.contains("is-open")) closeDetail();
 });
 
-// ─── Cursor ───
-const cursor = document.getElementById("cursor");
-let cursorTimer;
-document.addEventListener("mousemove", e => {
-  cursor.style.left = e.clientX + "px";
-  cursor.style.top = e.clientY + "px";
-  cursor.classList.add("is-visible");
-  clearTimeout(cursorTimer);
-  cursorTimer = setTimeout(() => cursor.classList.remove("is-visible"), 2500);
-});
-document.addEventListener("mouseleave", () => cursor.classList.remove("is-visible"));
-document.addEventListener("click", e => {
-  cursor.classList.remove("is-click"); void cursor.offsetWidth;
-  cursor.classList.add("is-click");
-  setTimeout(() => cursor.classList.remove("is-click"), 300);
+// ─── Dynamic animation delays ───
+document.querySelectorAll(".app-tile").forEach((el,i) => {
+  const delay = 0.02 + (i * 0.025);
+  el.style.animationDelay = delay + "s";
 });
 
-// ─── Trap focus inside detail ───
+// ─── Focus trap ───
 detail.addEventListener("keydown", e => {
   if (e.key !== "Tab" || !detail.classList.contains("is-open")) return;
-  const focusable = detail.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
+  const f = detail.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  const first = f[0], last = f[f.length-1];
   if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 });
