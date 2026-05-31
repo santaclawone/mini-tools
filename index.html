@@ -12,38 +12,65 @@
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;height:100%}
-body{min-height:100%;overflow-x:hidden;background:#06060A}
+body{min-height:100%;overflow-x:hidden}
 
+/* ═══════════════════════════════════════
+   METALLIC WHITE — pearl shimmer surface
+   ═══════════════════════════════════════ */
 :root{
-  --text:#EAEAEE;
-  --text-dim:#808090;
-  --text-muted:#555565;
-  --border:rgba(255,255,255,0.04);
-  --tile-bg:#0C0C14;
+  --metal-base:#F6F4F0;
+  --metal-warm:#F0EDE8;
+  --metal-cool:#FAF8F5;
+  --pearl:#FAF8F6;
+  --glass:rgba(255,255,255,0.78);
+  --glass-border:rgba(0,0,0,0.05);
+  --glass-shadow:0 4px 24px rgba(0,0,0,0.03);
+  --tile-bg:rgba(255,255,255,0.95);
+  --tile-border:rgba(0,0,0,0.04);
+  --text:#16161A;
+  --text-dim:#6A6A78;
+  --text-muted:#9A9AA8;
+  --canvas:#0A0A12;
   --radius-tile:14px;
   --radius-sm:6px;
+  --accent:#00E5FF;
   font-family:"Inter",-apple-system,sans-serif;
-  font-size:clamp(13px,1.1vw,16px);
+  font-size:clamp(13px,1.05vw,16px);
   line-height:1.5;
   color:var(--text);
-  -webkit-font-smoothing:antialiased
+  -webkit-font-smoothing:antialiased;
+  background:var(--metal-base)
 }
 
-::selection{background:#00E5FF;color:#06060A}
-
-body::after{
-  content:"";position:fixed;inset:0;z-index:9999;
-  pointer-events:none;opacity:0.008;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:160px
+/* ─── Metallic shimmer animation ─── */
+body{
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(255,255,255,0.95) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(245,240,235,0.8) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(250,248,245,0.9) 0%, transparent 50%),
+    linear-gradient(135deg,var(--metal-base) 0%,var(--metal-warm) 30%,var(--metal-cool) 70%,var(--metal-base) 100%);
+  background-size:200% 200%;
+  animation:metalShift 40s ease-in-out infinite
+}
+@keyframes metalShift{
+  0%,100%{background-position:0% 0%}
+  25%{background-position:100% 0%}
+  50%{background-position:100% 100%}
+  75%{background-position:0% 100%}
 }
 
-/* header */
+::selection{background:#00E5FF;color:#fff}
+
+/* ─── Header — glass ─── */
 .site-header{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0.7rem var(--space-md);display:flex;
+  padding:0.7rem 1.5rem;display:flex;
   justify-content:space-between;align-items:center;
-  pointer-events:none;--space-md:1.5rem
+  pointer-events:none;
+  background:rgba(246,244,240,0.6);
+  backdrop-filter:blur(20px) saturate(1.5);
+  -webkit-backdrop-filter:blur(20px) saturate(1.5);
+  border-bottom:1px solid var(--glass-border)
 }
 .site-header>*{pointer-events:auto}
 .site-title{
@@ -57,11 +84,11 @@ body::after{
   color:var(--text-muted);padding:0.2rem 0.5rem;
   border-radius:20px;transition:all 0.2s;font-weight:600
 }
-.site-nav a:hover{background:var(--tile-bg);color:var(--text);opacity:1}
+.site-nav a:hover{background:rgba(0,0,0,0.04);color:var(--text);opacity:1}
 
-/* hero */
+/* ─── Hero ─── */
 .hero{
-  padding:5rem 1.5rem 1.25rem;
+  padding:5rem 1.5rem 1rem;
   max-width:1100px;margin:0 auto
 }
 .hero-block{display:flex;flex-direction:column;gap:0.15rem}
@@ -82,9 +109,9 @@ body::after{
   line-height:1.5;font-weight:400
 }
 
-/* batch label */
+/* ─── Batch label ─── */
 .batch-label{
-  max-width:1100px;margin:1.5rem auto 0.35rem;
+  max-width:1100px;margin:1.5rem auto 0.3rem;
   padding:0 1.5rem;
   font-family:"Space Grotesk",sans-serif;
   font-size:0.5rem;text-transform:uppercase;letter-spacing:0.2em;
@@ -94,23 +121,23 @@ body::after{
 /* ─── APP GRID ─── */
 .app-grid{
   max-width:1100px;margin:0 auto;
-  padding:0.35rem 1.5rem 5rem;
+  padding:0.3rem 1.5rem 4rem;
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
-  gap:0.6rem
+  gap:0.65rem
 }
 
-/* ─── APP TILE ─── */
+/* ─── APP TILE — white glass ─── */
 .app-tile{
   display:flex;flex-direction:column;align-items:center;gap:0.35rem;
   padding:1.5rem 0.4rem 0.65rem;
   background:var(--tile-bg);
-  border:1px solid var(--border);
+  border:1px solid var(--tile-border);
   border-radius:var(--radius-tile);
+  box-shadow:0 2px 8px rgba(0,0,0,0.02);
   cursor:pointer;
-  transition:all 0.35s cubic-bezier(0.22,1,0.36,1);
-  user-select:none;
-  -webkit-tap-highlight-color:transparent;
+  transition:all 0.3s cubic-bezier(0.22,1,0.36,1);
+  user-select:none;-webkit-tap-highlight-color:transparent;
   position:relative;overflow:hidden
 }
 .app-tile::before{
@@ -119,10 +146,14 @@ body::after{
   background:linear-gradient(135deg,transparent,transparent);
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude;
-  pointer-events:none;transition:all 0.5s
+  pointer-events:none;transition:all 0.4s
 }
-.app-tile:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.08)}
-.app-tile:hover::before{opacity:0.6}
+.app-tile:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.06);
+  border-color:rgba(0,0,0,0.08)
+}
+.app-tile:hover::before{opacity:0.5}
 .app-tile:active{transform:translateY(0) scale(0.97)}
 
 /* ─── ANIMATION CANVAS ─── */
@@ -130,7 +161,8 @@ body::after{
   width:56px;height:56px;
   border-radius:10px;
   position:relative;overflow:hidden;
-  flex-shrink:0
+  flex-shrink:0;
+  background:var(--canvas)
 }
 .tile-icon::before,.tile-icon::after{
   content:"";position:absolute;inset:0;
@@ -153,20 +185,17 @@ body::after{
   margin-top:auto
 }
 
-/* ─── 21 UNIQUE ANIMATIONS ─── */
-/* Each uses the accent color via --a */
-.app-tile{--a:#00E5FF;--a2:rgba(0,229,255,0.15)}
+/* ─── 21 UNIQUE MOTION SIGNATURES ─── */
+.app-tile{--a:#00E5FF}
 
-/* 1. StylePull — vertical scan lines */
-[data-id="stylepull"] .tile-icon{background:#080810}
+/* 1. StylePull — vertical scan */
 [data-id="stylepull"] .tile-icon::before{
   background:repeating-linear-gradient(0deg,transparent,transparent 4px,var(--a) 4px,var(--a) 5px);
-  opacity:0.6;animation:scanUp 2s linear infinite
+  opacity:0.7;animation:scanUp 2s linear infinite
 }
 @keyframes scanUp{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
 
 /* 2. Manuscript — ripple rings */
-[data-id="manuscript"] .tile-icon{background:#080810}
 [data-id="manuscript"] .tile-icon::before{
   border:1.5px solid var(--a);border-radius:50%;inset:25%;
   animation:rippleOut 2.5s ease-out infinite
@@ -180,12 +209,11 @@ body::after{
   100%{transform:scale(1.8);opacity:0}
 }
 
-/* 3. Rambler → PRD — particles converge to order */
-[data-id="rambler-prd"] .tile-icon{background:#080810}
+/* 3. Rambler → PRD — particles converge */
 [data-id="rambler-prd"] .tile-icon::before{
   width:4px;height:4px;border-radius:50%;background:var(--a);
-  inset:auto;top:55%;left:55%;box-shadow:
-    20px -20px 0 var(--a),-18px -15px 0 var(--a),22px 18px 0 var(--a),-20px 20px 0 var(--a),
+  inset:auto;top:55%;left:55%;
+  box-shadow:20px -20px 0 var(--a),-18px -15px 0 var(--a),22px 18px 0 var(--a),-20px 20px 0 var(--a),
     -5px 25px 0 var(--a),25px -5px 0 var(--a),-25px -8px 0 var(--a),8px -25px 0 var(--a);
   animation:converge 3s ease-in-out infinite
 }
@@ -197,8 +225,7 @@ body::after{
   100%{transform:translate(0,0);opacity:0.3}
 }
 
-/* 4. NeverRepeat — rotating ring with trail */
-[data-id="neverrepeat"] .tile-icon{background:#080810}
+/* 4. NeverRepeat — rotating ring */
 [data-id="neverrepeat"] .tile-icon::before{
   inset:6px;border-radius:50%;
   border:2px solid transparent;
@@ -208,14 +235,12 @@ body::after{
 [data-id="neverrepeat"] .tile-icon::after{
   inset:10px;border-radius:50%;
   border:1.5px solid transparent;
-  border-bottom-color:var(--a);
-  opacity:0.5;
+  border-bottom-color:var(--a);opacity:0.5;
   animation:spinRing 2.4s linear infinite reverse
 }
 @keyframes spinRing{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
-/* 5. CopyScout — horizontal sweep beam */
-[data-id="copyscout"] .tile-icon{background:#080810}
+/* 5. CopyScout — sweep beam */
 [data-id="copyscout"] .tile-icon::before{
   background:linear-gradient(90deg,transparent 0%,var(--a) 50%,transparent 100%);
   opacity:0.5;inset:auto;top:0;left:-30%;width:30%;height:100%;
@@ -230,7 +255,6 @@ body::after{
 }
 
 /* 6. VibeCheck — breathing pulse */
-[data-id="vibecheck"] .tile-icon{background:#080810}
 [data-id="vibecheck"] .tile-icon::before{
   border-radius:50%;inset:20%;
   background:radial-gradient(circle,var(--a) 0%,transparent 70%);
@@ -243,12 +267,10 @@ body::after{
 }
 
 /* 7. MemoryMine — rising particles */
-[data-id="memorymine"] .tile-icon{background:#080810}
 [data-id="memorymine"] .tile-icon::before{
   width:3px;height:3px;border-radius:50%;background:var(--a);inset:auto;
-  top:80%;left:50%;box-shadow:
-    15px 0 0 var(--a),-12px -10px 0 var(--a),8px -20px 0 var(--a),-20px -5px 0 var(--a),
-    12px -30px 0 rgba(6,182,212,0.3),-8px -40px 0 rgba(6,182,212,0.15);
+  top:80%;left:50%;
+  box-shadow:15px 0 0 var(--a),-12px -10px 0 var(--a),8px -20px 0 var(--a),-20px -5px 0 var(--a);
   animation:driftUp 3.5s linear infinite
 }
 @keyframes driftUp{
@@ -258,8 +280,7 @@ body::after{
   100%{transform:translateY(-50px);opacity:0}
 }
 
-/* 8. Spiral Lite — rotating gradient coil */
-[data-id="spiral-lite"] .tile-icon{background:#080810}
+/* 8. Spiral Lite — rotating gradient */
 [data-id="spiral-lite"] .tile-icon::before{
   background:conic-gradient(from 0deg,transparent 0%,var(--a) 15%,transparent 30%,var(--a) 50%,transparent 65%,var(--a) 80%,transparent 100%);
   opacity:0.5;animation:spinCoil 2.5s linear infinite
@@ -270,11 +291,10 @@ body::after{
 }
 @keyframes spinCoil{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
-/* 9. AgentRoster — sequential grid activation */
-[data-id="agentroster"] .tile-icon{background:#080810}
+/* 9. AgentRoster — grid blink */
 [data-id="agentroster"] .tile-icon::before{
   width:8px;height:8px;border-radius:2px;background:var(--a);inset:auto;
-  top:50%;left:50%;opacity:0.4;
+  top:50%;left:50%;opacity:0.15;
   box-shadow:
     -14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),
     -14px 0px 0 var(--a),14px 0px 0 var(--a),
@@ -284,7 +304,7 @@ body::after{
 @keyframes rosterBlink{
   0%,100%{opacity:0.15}
   5%{opacity:1;box-shadow:-14px -14px 0 var(--a),0px -14px 0 transparent,14px -14px 0 transparent,-14px 0px 0 transparent,14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
-  10%{opacity:1;box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 transparent,-14px 0px 0 transparent,14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
+  10%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 transparent,-14px 0px 0 transparent,14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
   15%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 transparent,14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
   20%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 var(--a),14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
   25%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 var(--a),14px 0px 0 var(--a),-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
@@ -295,8 +315,7 @@ body::after{
   100%{opacity:0.15}
 }
 
-/* 10. AdoptionMap — growing bar */
-[data-id="adoptionmap"] .tile-icon{background:#080810}
+/* 10. AdoptionMap — growing bars */
 [data-id="adoptionmap"] .tile-icon::before{
   width:6px;height:6px;border-radius:1px;background:var(--a);inset:auto;
   bottom:10px;left:6px;
@@ -307,21 +326,15 @@ body::after{
   0%{height:6px;bottom:10px}
   25%{height:18px;bottom:10px}
   50%{height:6px;bottom:10px;box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 var(--a)}
-  60%{height:6px;box-shadow:12px 0 0 var(--a),24px 0 0 transparent,36px 0 0 transparent}
-  75%{height:6px;box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 transparent}
-  90%{height:6px;box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 var(--a);bottom:10px}
+  60%{box-shadow:12px 0 0 var(--a),24px 0 0 transparent,36px 0 0 transparent}
+  75%{box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 transparent}
+  90%{box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 var(--a);height:6px;bottom:10px}
   100%{height:6px;bottom:10px}
 }
 
 /* 11. PromptLeague — shimmer sweep */
-[data-id="promotleague"] .tile-icon{background:#080810}
 [data-id="promotleague"] .tile-icon::before{
-  background:linear-gradient(
-    135deg,
-    transparent 30%,
-    var(--a) 50%,
-    transparent 70%
-  );
+  background:linear-gradient(135deg,transparent 30%,var(--a) 50%,transparent 70%);
   background-size:200% 200%;
   animation:shimmer 2.5s ease-in-out infinite
 }
@@ -331,10 +344,9 @@ body::after{
   100%{background-position:200% 200%}
 }
 
-/* 12. JobReshore — steady heartbeat */
-[data-id="jobreshore"] .tile-icon{background:#080810}
+/* 12. JobReshore — double heartbeat */
 [data-id="jobreshore"] .tile-icon::before{
-  inset:8px;border-radius:4px;background:var(--a);opacity:0.1;
+  inset:8px;border-radius:4px;background:var(--a);opacity:0.08;
   animation:heartBeat 2.2s ease-in-out infinite
 }
 [data-id="jobreshore"] .tile-icon::after{
@@ -344,11 +356,11 @@ body::after{
   animation:heartPulse 2.2s ease-in-out infinite
 }
 @keyframes heartBeat{
-  0%,100%{opacity:0.08;transform:scale(1)}
+  0%,100%{opacity:0.06;transform:scale(1)}
   8%{opacity:0.25;transform:scale(1.02)}
-  12%{opacity:0.08;transform:scale(1)}
+  12%{opacity:0.06;transform:scale(1)}
   18%{opacity:0.2;transform:scale(1.01)}
-  22%{opacity:0.08;transform:scale(1)}
+  22%{opacity:0.06;transform:scale(1)}
 }
 @keyframes heartPulse{
   0%,100%{opacity:0.15;transform:translate(-50%,-50%) scale(0.8)}
@@ -359,7 +371,6 @@ body::after{
 }
 
 /* 13. AgentGardener — slow breathe */
-[data-id="agentgardener"] .tile-icon{background:#080810}
 [data-id="agentgardener"] .tile-icon::before{
   inset:6px;border-radius:50%;
   background:radial-gradient(circle at 50% 50%,var(--a) 0%,transparent 60%);
@@ -378,8 +389,7 @@ body::after{
   50%{transform:scale(1.1);opacity:0.4}
 }
 
-/* 14. ClaudieCast — transmission bars */
-[data-id="claudiecast"] .tile-icon{background:#080810}
+/* 14. ClaudieCast — signal bars */
 [data-id="claudiecast"] .tile-icon::before{
   width:3px;height:3px;border-radius:1px;background:var(--a);inset:auto;
   bottom:12px;left:10px;
@@ -396,15 +406,14 @@ body::after{
   90%{height:14px;transform:translateY(-11px)}
 }
 
-/* 15. SupportLoop — traveling dot on ring */
-[data-id="supportloop"] .tile-icon{background:#080810}
+/* 15. SupportLoop — traveling dot */
 [data-id="supportloop"] .tile-icon::before{
   inset:8px;border-radius:50%;border:1.5px solid var(--a);opacity:0.35
 }
 [data-id="supportloop"] .tile-icon::after{
   width:5px;height:5px;border-radius:50%;background:var(--a);
-  inset:auto;top:9px;left:50%;margin-left:-2.5px;
-  animation:travelRing 2.5s linear infinite;opacity:0.9
+  inset:auto;top:9px;left:50%;margin-left:-2.5px;opacity:0.9;
+  animation:travelRing 2.5s linear infinite
 }
 @keyframes travelRing{
   0%{transform:rotate(0deg) translateY(-20px);opacity:1}
@@ -412,12 +421,10 @@ body::after{
   100%{transform:rotate(360deg) translateY(-20px);opacity:1}
 }
 
-/* 16. NotionPlan — branching lines */
-[data-id="notionplan"] .tile-icon{background:#080810}
+/* 16. NotionPlan — branching */
 [data-id="notionplan"] .tile-icon::before{
   width:2px;height:16px;border-radius:1px;background:var(--a);
   inset:auto;top:10px;left:28px;opacity:0.5;
-  box-shadow:0 0 0 var(--a),0 0 0 var(--a);
   animation:branchGrow 2.5s ease-in-out infinite
 }
 @keyframes branchGrow{
@@ -425,12 +432,11 @@ body::after{
   30%{height:22px;top:4px;box-shadow:8px 6px 0 var(--a),-8px 6px 0 var(--a)}
   50%{height:22px;top:4px;box-shadow:8px 6px 0 transparent,-8px 6px 0 transparent;opacity:0.5}
   55%{box-shadow:10px 12px 0 var(--a),-10px 12px 0 var(--a),8px 6px 0 var(--a),-8px 6px 0 transparent}
-  70%{box-shadow:10px 12px 0 transparent,-10px 12px 0 transparent,8px 6px 0 transparent,-8px 6px 0 transparent}
+  70%{box-shadow:transparent}
   80%{height:16px;top:10px}
 }
 
 /* 17. BenchTunnel — depth zoom */
-[data-id="benchtunnel"] .tile-icon{background:#080810}
 [data-id="benchtunnel"] .tile-icon::before{
   inset:8px;border-radius:50%;border:1px solid var(--a);opacity:0.4;
   animation:tunnelZoom 2.8s ease-in-out infinite
@@ -447,15 +453,14 @@ body::after{
   100%{transform:scale(1);opacity:0.4}
 }
 
-/* 18. RideTheModel — moving wave */
-[data-id="ridethemodel"] .tile-icon{background:#080810}
+/* 18. RideTheModel — wave */
 [data-id="ridethemodel"] .tile-icon::before{
-  inset:auto;top:28px;left:4px;right:4px;height:4px;
+  inset:auto;top:28px;left:5px;right:5px;height:4px;
   background:var(--a);opacity:0.5;border-radius:2px;
   animation:rideWave 2s ease-in-out infinite
 }
 [data-id="ridethemodel"] .tile-icon::after{
-  inset:auto;top:28px;left:4px;right:4px;height:4px;
+  inset:auto;top:28px;left:5px;right:5px;height:4px;
   background:var(--a);opacity:0.15;border-radius:2px;
   animation:rideWave 2s ease-in-out 0.3s infinite
 }
@@ -469,8 +474,7 @@ body::after{
   90%{transform:translateY(2px) scaleX(0.95);opacity:0.4}
 }
 
-/* 19. SlopFilter — particles filtering through */
-[data-id="slopfilter"] .tile-icon{background:#080810}
+/* 19. SlopFilter — particles filter */
 [data-id="slopfilter"] .tile-icon::before{
   width:4px;height:4px;border-radius:50%;background:var(--a);
   inset:auto;top:10px;left:14px;opacity:0;
@@ -478,20 +482,18 @@ body::after{
   animation:filterDown 2.2s linear infinite
 }
 [data-id="slopfilter"] .tile-icon::after{
-  width:100%;height:1px;background:var(--a);opacity:0.2;
-  inset:auto;top:28px;left:0
+  width:100%;height:1px;background:var(--a);opacity:0.15;inset:auto;top:28px;left:0
 }
 @keyframes filterDown{
   0%{transform:translateY(0);opacity:0}
-  10%{opacity:0.8;box-shadow:20px 0 0 var(--a),-10px 20px 0 var(--a),30px 20px 0 var(--a),15px 35px 0 var(--a)}
+  10%{opacity:0.8}
   20%{transform:translateY(5px);opacity:0.6;box-shadow:20px 5px 0 var(--a),-10px 20px 0 transparent,30px 20px 0 var(--a),15px 35px 0 var(--a)}
   40%{transform:translateY(18px);opacity:0;box-shadow:20px 18px 0 transparent,-10px 20px 0 transparent,30px 20px 0 transparent,15px 35px 0 var(--a)}
   50%{transform:translateY(18px);opacity:0}
   100%{transform:translateY(0);opacity:0}
 }
 
-/* 20. ClaudiePair — two orbiting dots */
-[data-id="claudiepair"] .tile-icon{background:#080810}
+/* 20. ClaudiePair — orbiting dots */
 [data-id="claudiepair"] .tile-icon::before{
   width:5px;height:5px;border-radius:50%;background:var(--a);
   inset:auto;top:28px;left:28px;opacity:0.8;
@@ -514,11 +516,10 @@ body::after{
 }
 
 /* 21. SuperAgent Setup — geometric assembly */
-[data-id="superagentsetup"] .tile-icon{background:#080810}
 [data-id="superagentsetup"] .tile-icon::before{
   width:8px;height:8px;border:1.5px solid var(--a);border-radius:2px;
   inset:auto;top:20px;left:20px;opacity:0;
-  animation:assemble 3s ease-in-out infinite;transform:rotate(0deg)
+  animation:assemble 3s ease-in-out infinite
 }
 [data-id="superagentsetup"] .tile-icon::after{
   width:6px;height:6px;background:var(--a);border-radius:50%;
@@ -551,46 +552,51 @@ body::after{
 
 .detail-backdrop{
   position:absolute;inset:0;
-  background:rgba(0,0,0,0.75);
-  backdrop-filter:blur(28px) saturate(1.3);
-  -webkit-backdrop-filter:blur(28px) saturate(1.3);
-  opacity:0;transition:opacity 0.4s ease
+  background:rgba(0,0,0,0.25);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  opacity:0;transition:opacity 0.35s ease
 }
 .detail-overlay.is-open .detail-backdrop{opacity:1}
 
 .detail-panel{
   position:relative;width:100%;max-width:480px;
-  margin:1rem;background:#101018;
-  border:1px solid rgba(255,255,255,0.06);
-  border-radius:16px;padding:1.75rem 1.5rem 1.5rem;
+  margin:1rem;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(0,0,0,0.04);
+  border-radius:16px;
+  padding:1.75rem 1.5rem 1.5rem;
   transform:translateY(16px) scale(0.97);opacity:0;
   transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),opacity 0.35s;
-  max-height:90vh;overflow-y:auto
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 16px 48px rgba(0,0,0,0.06)
 }
 .detail-overlay.is-open .detail-panel{transform:translateY(0) scale(1);opacity:1}
 .detail-panel::-webkit-scrollbar{width:2px}
 .detail-panel::-webkit-scrollbar-track{background:transparent}
-.detail-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:4px}
+.detail-panel::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.08);border-radius:4px}
 
 .detail-accent{position:absolute;top:0;left:0;right:0;height:3px}
 
 .detail-close{
   position:absolute;top:0.9rem;right:1rem;
   width:28px;height:28px;border-radius:50%;
-  border:1px solid rgba(255,255,255,0.08);
+  border:1px solid rgba(0,0,0,0.06);
   background:transparent;color:var(--text-dim);
   font-size:0.9rem;cursor:pointer;display:flex;
   align-items:center;justify-content:center;
   transition:all 0.2s;font-family:inherit;line-height:1
 }
-.detail-close:hover{border-color:#00E5FF;color:#00E5FF;background:rgba(0,229,255,0.08)}
+.detail-close:hover{border-color:#00E5FF;color:#00E5FF;background:rgba(0,229,255,0.06)}
 
 .detail-header{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.35rem;padding-right:2.5rem}
-.detail-header-icon{width:40px;height:40px;border-radius:8px;flex-shrink:0;position:relative;overflow:hidden}
+.detail-header-icon{width:40px;height:40px;border-radius:8px;flex-shrink:0;background:var(--canvas);position:relative;overflow:hidden}
 .detail-header-icon::before,.detail-header-icon::after{content:"";position:absolute;inset:0;border-radius:8px;pointer-events:none}
 .detail-header-name{
   font-family:"Space Grotesk",sans-serif;
-  font-size:1.15rem;font-weight:700;letter-spacing:-0.03em;line-height:1
+  font-size:1.15rem;font-weight:700;letter-spacing:-0.03em;line-height:1;color:var(--text)
 }
 
 .detail-use-btn{
@@ -599,14 +605,14 @@ body::after{
   border-radius:50px;border:none;
   font-family:"Space Grotesk",sans-serif;
   font-size:0.8rem;font-weight:700;letter-spacing:-0.01em;
-  color:#06060A;cursor:pointer;
+  color:#fff;cursor:pointer;
   transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
   margin:0.85rem 0 1.25rem
 }
-.detail-use-btn:hover{transform:scale(1.02)}
+.detail-use-btn:hover{transform:scale(1.02);box-shadow:0 4px 20px rgba(0,0,0,0.1)}
 .detail-use-btn:active{transform:scale(0.97)}
 
-.detail-line{border:none;border-top:1px solid rgba(255,255,255,0.06);margin:1rem 0}
+.detail-line{border:none;border-top:1px solid rgba(0,0,0,0.04);margin:1rem 0}
 .detail-section{margin-bottom:1rem}
 .detail-section:last-child{margin-bottom:0}
 .detail-section-label{
@@ -617,12 +623,13 @@ body::after{
 .detail-what{font-size:0.85rem;line-height:1.55;color:var(--text)}
 .detail-why{
   font-size:1rem;line-height:1.45;font-weight:700;
-  font-family:"Space Grotesk",sans-serif;letter-spacing:-0.02em
+  font-family:"Space Grotesk",sans-serif;letter-spacing:-0.02em;
+  color:var(--text)
 }
 .detail-podcast{
   font-size:0.8rem;line-height:1.6;color:var(--text-dim);
   font-style:italic;padding:0.4rem 0 0.4rem 0.85rem;
-  border-left:2px solid rgba(255,255,255,0.08)
+  border-left:2px solid rgba(0,0,0,0.06)
 }
 .detail-source{
   font-size:0.6rem;color:var(--text-muted);
@@ -633,7 +640,8 @@ body::after{
 .site-footer{
   padding:1.25rem;max-width:1100px;margin:0 auto;
   font-size:0.6rem;text-align:center;
-  color:var(--text-muted);border-top:1px solid var(--border);font-weight:500
+  color:var(--text-muted);border-top:1px solid rgba(0,0,0,0.04);
+  font-weight:500
 }
 
 /* responsive */
@@ -651,7 +659,6 @@ body::after{
   .app-grid{grid-template-columns:repeat(3,1fr);gap:0.35rem}
   .tile-icon{width:42px;height:42px}
 }
-
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
   .detail-panel{transform:none!important;opacity:0;transition:opacity 0.2s}
@@ -829,10 +836,9 @@ const APPS = [
     source:"Dan Shipper, Ride The Model", link:"tools/superagentsetup/"}
 ];
 
-// ─── Build grids ───
 function buildGrid(id, apps) {
   document.getElementById(id).innerHTML = apps.map(a =>
-    `<div class="app-tile" data-id="${a.id}" role="button" tabindex="0" style="--a:${a.accent};--a2:${a.accent}22" aria-label="Open ${a.name}">
+    `<div class="app-tile" data-id="${a.id}" role="button" tabindex="0" style="--a:${a.accent}" aria-label="Open ${a.name}">
       <div class="tile-icon"></div>
       <span class="tile-name">${a.name}</span>
       <span class="tile-category">${a.cat}</span>
@@ -842,11 +848,9 @@ function buildGrid(id, apps) {
 buildGrid("grid1", APPS.slice(0,12));
 buildGrid("grid2", APPS.slice(12));
 
-// ─── Dynamic animation delays ───
 document.querySelectorAll(".app-tile").forEach((e,i)=>e.style.animationDelay=(0.02+i*0.02)+"s");
 
-// ─── Detail overlay ───
-const D = { 
+const D = {
   overlay:document.getElementById("detail"), backdrop:document.getElementById("detailBackdrop"),
   panel:document.getElementById("detailPanel"), accent:document.getElementById("detailAccent"),
   icon:document.getElementById("detailIcon"), name:document.getElementById("detailName"),
@@ -890,7 +894,6 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape" && D.overlay.classList.contains("is-open")) closeDetail();
 });
 
-// Focus trap
 D.overlay.addEventListener("keydown", e => {
   if (e.key !== "Tab" || !D.overlay.classList.contains("is-open")) return;
   const f = D.overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
