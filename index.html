@@ -3,415 +3,773 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mini Tools | app store for quick ideas</title>
-<meta name="description" content="Twenty-one mini tools extracted from conversations. Single-purpose, zero fluff.">
+<title>mini tools</title>
+<meta name="description" content="Twenty-one single-purpose tools. Extracted from two conversations with Dan Shipper.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  .hero-badge .dot.neon-amber { background: var(--neon-amber); }
-  .hero-badge .dot.neon-pink { background: var(--neon-pink); }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;height:100%}
+body{min-height:100%;overflow-x:hidden}
+
+:root{
+  --bg:#08080C;
+  --surface:#101016;
+  --surface-hover:#181822;
+  --border:rgba(255,255,255,0.05);
+  --border-active:rgba(255,255,255,0.1);
+  --text:#E8E8EE;
+  --text-dim:#888898;
+  --text-muted:#5B5B6B;
+  --accent:#00E5FF;
+  --accent-dim:rgba(0,229,255,0.12);
+  --radius-sm:6px;
+  --radius-md:12px;
+  --radius-lg:18px;
+  --space-xs:0.5rem;
+  --space-sm:1rem;
+  --space-md:2rem;
+  --space-lg:4rem;
+  --space-xl:8rem;
+  font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  font-size:clamp(14px,1.1vw,17px);
+  line-height:1.55;
+  color:var(--text);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale
+}
+
+/* ─── Noise overlay ─── */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9999;
+  pointer-events:none;opacity:0.012;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat:repeat;
+  background-size:160px
+}
+
+::selection{background:var(--accent);color:#08080C}
+
+/* ─── Typography ─── */
+h1,h2,h3,h4{font-family:"Space Grotesk","SF Pro Display",-apple-system,sans-serif;font-weight:600;letter-spacing:-0.025em;line-height:1.05}
+h1{font-size:clamp(2rem,5vw,3.5rem)}
+a{color:var(--text);text-decoration:none}
+a:hover{opacity:0.8}
+
+/* ─── Glow cursor ─── */
+@media(hover:hover){
+  .cursor-glow{
+    position:fixed;width:5px;height:5px;border-radius:50%;
+    background:var(--accent);pointer-events:none;z-index:10000;
+    transform:translate(-50%,-50%) scale(0);
+    transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s;
+    opacity:0;mix-blend-mode:screen;will-change:transform
+  }
+  .cursor-glow.is-visible{opacity:0.7;transform:translate(-50%,-50%) scale(1)}
+  .cursor-glow.is-click{transform:translate(-50%,-50%) scale(3);opacity:0}
+}
+
+/* ─── Header ─── */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:var(--space-sm) var(--space-md);
+  display:flex;justify-content:space-between;align-items:center;
+  pointer-events:none
+}
+.site-header>*{pointer-events:auto}
+
+.site-title{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:0.8rem;font-weight:600;letter-spacing:0.04em;
+  text-transform:uppercase;
+  color:var(--text-dim)
+}
+
+.site-nav{display:flex;gap:var(--space-sm);align-items:center}
+.site-nav a{
+  font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;
+  color:var(--text-muted);padding:0.3rem 0.7rem;
+  border-radius:20px;transition:all 0.2s;font-weight:500
+}
+.site-nav a:hover{background:var(--surface);color:var(--text);opacity:1}
+
+/* ─── Hero ─── */
+.hero{
+  padding:7rem var(--space-md) 2.5rem;
+  max-width:1300px;margin:0 auto
+}
+.hero-block{
+  display:flex;flex-direction:column;gap:0.25rem
+}
+.hero-tagline{
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.15em;
+  color:var(--text-muted);font-weight:500
+}
+.hero-title{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:clamp(2.5rem,9vw,7.5rem);
+  font-weight:800;letter-spacing:-0.045em;
+  line-height:0.85;color:var(--text)
+}
+.hero-title .dot{color:var(--accent)}
+.hero-sub{
+  margin-top:0.75rem;
+  font-size:0.85rem;color:var(--text-dim);
+  max-width:480px;line-height:1.5;
+  font-weight:400
+}
+
+/* ─── App shelf ─── */
+.shelf{
+  max-width:1300px;margin:0 auto;
+  padding:0 var(--space-md) var(--space-xl)
+}
+.shelf-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:0
+}
+
+/* ─── Shelf item ─── */
+.shelf-item{
+  position:relative;
+  padding:0.65rem 0;
+  cursor:pointer;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;
+  transition:border-color 0.3s;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none
+}
+.shelf-item:last-child{border-bottom:1px solid var(--border)}
+
+.shelf-item:hover{border-color:var(--border-active)}
+.shelf-item:hover .shelf-name{color:var(--text)}
+.shelf-item:hover .shelf-arrow{opacity:0.5;transform:translateX(0)}
+.shelf-item:hover .shelf-category{opacity:0.5}
+
+/* ─── Variable weight typography per item ─── */
+.shelf-item[data-weight="700"] .shelf-name{font-weight:700}
+.shelf-item[data-weight="300"] .shelf-name{font-weight:300}
+.shelf-item[data-weight="500"] .shelf-name{font-weight:500}
+.shelf-item[data-weight="800"] .shelf-name{font-weight:800}
+.shelf-item[data-weight="400"] .shelf-name{font-weight:400}
+
+[data-size="lg"] .shelf-name{font-size:clamp(1.5rem,3.5vw,2.8rem)}
+[data-size="md"] .shelf-name{font-size:clamp(1.3rem,2.8vw,2.2rem)}
+[data-size="sm"] .shelf-name{font-size:clamp(1.1rem,2.3vw,1.8rem)}
+[data-size="xs"] .shelf-name{font-size:clamp(0.9rem,1.8vw,1.4rem)}
+
+.shelf-name{
+  font-family:"Space Grotesk",sans-serif;
+  letter-spacing:-0.035em;
+  color:var(--text-dim);
+  transition:color 0.3s;
+  line-height:1.1;
+  flex:1;min-width:0
+}
+
+.shelf-category{
+  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--text-muted);font-weight:500;
+  opacity:0;transition:opacity 0.3s;
+  display:none;margin-right:1rem
+}
+@media(min-width:768px){.shelf-category{display:block}}
+
+.shelf-arrow{
+  font-size:0.8rem;color:var(--text-muted);
+  opacity:0;transform:translateX(-8px);
+  transition:opacity 0.3s,transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  flex-shrink:0;
+  font-family:"Space Grotesk",sans-serif;font-weight:400
+}
+
+/* ─── Batch label ─── */
+.batch-label{
+  grid-column:1/-1;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.18em;
+  color:var(--text-muted);font-weight:500;
+  padding:2.5rem 0 0.25rem;
+  pointer-events:none
+}
+
+/* ─── Detail overlay ─── */
+.detail-overlay{
+  position:fixed;inset:0;z-index:500;
+  display:flex;align-items:flex-end;
+  pointer-events:none;visibility:hidden
+}
+.detail-overlay.is-open{
+  pointer-events:auto;visibility:visible
+}
+
+.detail-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(20px) saturate(1.2);
+  -webkit-backdrop-filter:blur(20px) saturate(1.2);
+  opacity:0;transition:opacity 0.45s ease
+}
+.detail-overlay.is-open .detail-backdrop{opacity:1}
+
+.detail-panel{
+  position:relative;
+  width:100%;max-width:680px;
+  margin:0 auto;
+  background:var(--surface);
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+  border:1px solid var(--border);
+  border-bottom:0;
+  padding:2.5rem var(--space-lg) var(--space-lg);
+  transform:translateY(100%);
+  transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);
+  max-height:85vh;overflow-y:auto
+}
+.detail-overlay.is-open .detail-panel{transform:translateY(0)}
+.detail-panel::-webkit-scrollbar{width:3px}
+.detail-panel::-webkit-scrollbar-track{background:transparent}
+.detail-panel::-webkit-scrollbar-thumb{background:var(--border-active);border-radius:4px}
+
+.detail-accent-bar{
+  position:absolute;top:0;left:0;right:0;height:3px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.6s cubic-bezier(0.16,1,0.3,1) 0.15s
+}
+.detail-overlay.is-open .detail-accent-bar{transform:scaleX(1)}
+
+.detail-close{
+  position:absolute;top:1.25rem;right:1.5rem;
+  width:32px;height:32px;
+  border-radius:50%;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--text-dim);
+  font-size:1.1rem;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.25s;font-family:inherit;line-height:1
+}
+.detail-close:hover{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:var(--accent-dim)
+}
+
+.detail-name{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:clamp(2rem,5vw,3.2rem);
+  font-weight:700;letter-spacing:-0.04em;
+  line-height:1;margin-bottom:0.35rem;
+  padding-right:3rem
+}
+
+.detail-use-btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.75rem 1.75rem;
+  border-radius:50px;
+  border:none;
+  font-family:"Space Grotesk",sans-serif;
+  font-size:0.95rem;font-weight:600;
+  letter-spacing:-0.01em;
+  cursor:pointer;transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  color:#08080C;
+  margin:0.75rem 0 2rem
+}
+.detail-use-btn:hover{
+  transform:scale(1.04);
+  box-shadow:0 0 40px -6px var(--accent)
+}
+.detail-use-btn:active{transform:scale(0.97)}
+
+.detail-use-btn .arrow-icon{
+  font-size:1.15rem;line-height:1;
+  transition:transform 0.3s
+}
+.detail-use-btn:hover .arrow-icon{transform:translate(3px,-2px)}
+
+.detail-line{
+  border:none;border-top:1px solid var(--border);
+  margin:var(--space-md) 0
+}
+
+.detail-section{
+  margin-bottom:var(--space-md);
+  opacity:0;transform:translateY(8px);
+  transition:opacity 0.4s ease,transform 0.4s ease
+}
+.detail-overlay.is-open .detail-section:nth-child(1 of .detail-section){transition-delay:0.15s}
+.detail-overlay.is-open .detail-section:nth-child(2 of .detail-section){transition-delay:0.2s}
+.detail-overlay.is-open .detail-section:nth-child(3 of .detail-section){transition-delay:0.25s}
+.detail-overlay.is-open .detail-section{opacity:1;transform:translateY(0)}
+
+.detail-section-label{
+  font-family:"Space Grotesk",sans-serif;
+  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-muted);font-weight:600;
+  margin-bottom:0.35rem
+}
+
+.detail-what{font-size:1rem;line-height:1.55;color:var(--text)}
+
+.detail-why{
+  font-size:1.2rem;line-height:1.45;
+  font-weight:600;
+  font-family:"Space Grotesk",sans-serif;
+  letter-spacing:-0.02em;
+  color:var(--text)
+}
+
+.detail-podcast{
+  font-size:0.9rem;line-height:1.6;
+  color:var(--text-dim);
+  font-style:italic;
+  padding:var(--space-sm) 0 var(--space-sm) var(--space-md);
+  border-left:2px solid var(--border);
+  position:relative
+}
+.detail-podcast::before{
+  content:"";position:absolute;left:-2px;top:0;bottom:0;
+  width:2px;
+  border-radius:2px;
+  transition:opacity 0.4s 0.3s
+}
+.detail-overlay.is-open .detail-podcast::before{opacity:1}
+
+.detail-source{
+  font-size:0.7rem;color:var(--text-muted);
+  margin-top:0.4rem;font-style:normal;font-weight:500
+}
+
+/* ─── Footer ─── */
+.site-footer{
+  padding:var(--space-md);
+  color:var(--text-muted);
+  font-size:0.7rem;text-align:center;
+  border-top:1px solid var(--border);
+  max-width:1300px;margin:0 auto
+}
+
+/* ─── Responsive ─── */
+@media(max-width:768px){
+  .shelf-grid{grid-template-columns:1fr}
+  [data-size] .shelf-name,
+  .shelf-name{font-size:clamp(1rem,5vw,1.4rem)!important}
+  [data-weight] .shelf-name{font-weight:400!important}
+  .detail-panel{padding:2rem var(--space-md) var(--space-md)}
+  .hero-title{font-size:clamp(2rem,12vw,3.5rem)}
+  .detail-name{font-size:clamp(1.5rem,7vw,2.5rem)}
+  .detail-why{font-size:1rem}
+  .hero{padding:5rem var(--space-sm) 1.5rem}
+  .shelf{padding:0 var(--space-sm) var(--space-lg)}
+  .cursor-glow{display:none}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0.01ms!important}
+  .detail-panel{opacity:0;transition:opacity 0.2s}
+  .detail-overlay.is-open .detail-panel{opacity:1}
+  .detail-backdrop{opacity:0;transition:opacity 0.2s}
+  .detail-overlay.is-open .detail-backdrop{opacity:1}
+}
+
+/* ─── Entrance animation ─── */
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.shelf-item{animation:slideUp 0.45s ease both}
+.shelf-item:nth-child(1){animation-delay:0.02s}
+.shelf-item:nth-child(2){animation-delay:0.04s}
+.shelf-item:nth-child(3){animation-delay:0.06s}
+.shelf-item:nth-child(4){animation-delay:0.08s}
+.shelf-item:nth-child(5){animation-delay:0.10s}
+.shelf-item:nth-child(6){animation-delay:0.12s}
+.shelf-item:nth-child(7){animation-delay:0.14s}
+.shelf-item:nth-child(8){animation-delay:0.16s}
+.shelf-item:nth-child(9){animation-delay:0.18s}
+.shelf-item:nth-child(10){animation-delay:0.20s}
+.shelf-item:nth-child(11){animation-delay:0.22s}
+.shelf-item:nth-child(12){animation-delay:0.24s}
+.shelf-item:nth-child(13){animation-delay:0.26s}
+.shelf-item:nth-child(14){animation-delay:0.28s}
+.shelf-item:nth-child(15){animation-delay:0.30s}
+.shelf-item:nth-child(16){animation-delay:0.32s}
+.shelf-item:nth-child(17){animation-delay:0.34s}
+.shelf-item:nth-child(18){animation-delay:0.36s}
+.shelf-item:nth-child(19){animation-delay:0.38s}
+.shelf-item:nth-child(20){animation-delay:0.40s}
+.shelf-item:nth-child(21){animation-delay:0.42s}
+.shelf-item:nth-child(22){animation-delay:0.44s}
+
+/* ─── Use now pulse ─── */
+@keyframes softPulse{
+  0%,100%{box-shadow:0 0 0 0 var(--accent-dim)}
+  50%{box-shadow:0 0 0 6px transparent}
+}
+.detail-use-btn{animation:softPulse 3s ease-in-out infinite}
+
 </style>
 </head>
 <body>
 
+<div class="cursor-glow" id="cursor"></div>
+
 <header class="site-header">
-  <div class="container">
-    <div class="site-title">
-      <span class="title-icon">&#9670;</span>
-      mini tools
-    </div>
-    <nav class="site-nav">
-      <a href="#apps">apps</a>
-      <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
-    </nav>
-  </div>
+  <span class="site-title">mini tools</span>
+  <nav class="site-nav">
+    <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
+  </nav>
 </header>
 
-<main>
-  <div class="hero">
-    <div class="container">
-      <p style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--neon-cyan);font-weight:600;margin-bottom:0.5rem;">Batch 1 + 1.5 &mdash; Dan Shipper / Every</p>
-      <h1>small ideas,<br><span class="neon">sharp tools</span></h1>
-      <p>Twenty-one single-purpose apps extracted from two conversations with Dan Shipper. Each tool does one thing, does it fast, and lives on its own card.</p>
-      <div class="hero-badges">
-        <span class="hero-badge"><span class="dot"></span> 12 tools &mdash; batch 1</span>
-        <span class="hero-badge"><span class="dot neon-amber"></span> 9 tools &mdash; batch 1.5</span>
-        <span class="hero-badge"><span class="dot neon-pink"></span> 0 frameworks</span>
-      </div>
-    </div>
+<section class="hero">
+  <div class="hero-block">
+    <span class="hero-tagline">21 tools | 2 conversations</span>
+    <h1 class="hero-title">mini tools<span class="dot">.</span></h1>
+    <p class="hero-sub">Twenty-one single-purpose tools extracted from two conversations with Dan Shipper. Each does one thing, ships in minutes, and exists for a reason you&rsquo;ll recognize.</p>
   </div>
+</section>
 
-  <div class="container" id="apps">
-
-    <div class="featured-app">
-      <div class="featured-app-content">
-        <div class="featured-app-icon">&#9998;</div>
-        <div class="featured-app-text">
-          <h3>StylePull</h3>
-          <p>Feed it any text. Extracts the author&rsquo;s signature techniques into a playbook.</p>
-        </div>
-        <a href="tools/stylepull/" class="featured-app-btn">open</a>
-      </div>
-    </div>
-
-    <div class="batch-divider">
-      <hr><span>batch 1 &mdash; first conversation</span><hr>
-    </div>
-
-    <div class="app-grid">
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#00E5FF,#06B6D4);color:#fff;">&#9998;</div>
-          <div class="app-info">
-            <h3>StylePull</h3>
-            <span class="app-category">writing</span>
-          </div>
-        </div>
-        <p class="app-desc">Extract an author&rsquo;s signature techniques&mdash;sentence rhythm, vocabulary, punctuation habits&mdash;from any text sample. Produces a playbook you can use.</p>
-        <p class="app-source">Dan: &ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&rsquo;s descriptions into a guide.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/stylepull/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#7C3AED,#6D28D9);color:#fff;">&#128172;</div>
-          <div class="app-info">
-            <h3>Manuscript</h3>
-            <span class="app-category">meetings</span>
-          </div>
-        </div>
-        <p class="app-desc">Drop a meeting transcript. Builds a voice profile: hedging rate, question/statement ratio, filler habits, interruption moments. One shift for your next meeting.</p>
-        <p class="app-source">Dan: &ldquo;I built a benchmark: can it predict what I&rsquo;m going to say in a meeting?&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/manuscript/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;">&#128221;</div>
-          <div class="app-info">
-            <h3>Rambler &rarr; PRD</h3>
-            <span class="app-category">product</span>
-          </div>
-        </div>
-        <p class="app-desc">Type raw ideas. Get a structured product requirements doc back&mdash;problem, users, stories, constraints, edge cases, success metrics.</p>
-        <p class="app-source">Dan: &ldquo;Instead of writing PRDs from scratch, write a prompt that turns rambling into a perfect PRD.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/rambler-prd/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#FF2D78,#BE185D);color:#fff;">&#128221;</div>
-          <div class="app-info">
-            <h3>NeverRepeat</h3>
-            <span class="app-category">management</span>
-          </div>
-        </div>
-        <p class="app-desc">Every piece of feedback you give becomes a reusable prompt. Build a library of your taste. Your team runs it. You never repeat yourself.</p>
-        <p class="app-source">Dan: &ldquo;Alex recorded every edit, put it in a prompt, and never made the same mistake twice.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/neverrepeat/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#00E5FF,#0D9488);color:#fff;">&lt;/&gt;</div>
-          <div class="app-info">
-            <h3>CopyScout</h3>
-            <span class="app-category">engineering</span>
-          </div>
-        </div>
-        <p class="app-desc">Point it at code or paste a snippet. It checks UI copy against a style guide, flags inconsistencies, helps you maintain a clean voice across your product.</p>
-        <p class="app-source">Dan: &ldquo;A Claude Code command checks the entire codebase for copy edits and creates a pull request.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/copyscout/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#7C3AED,#A855F7);color:#fff;">&#9889;</div>
-          <div class="app-info">
-            <h3>VibeCheck</h3>
-            <span class="app-category">ai tools</span>
-          </div>
-        </div>
-        <p class="app-desc">Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and feeling. Get a comparison matrix that captures what benchmarks miss.</p>
-        <p class="app-source">Dan: &ldquo;Vibe checks capture how it feels to use, which standard benchmarks don&rsquo;t.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/vibecheck/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#FF2D78,#F59E0B);color:#fff;">&#128200;</div>
-          <div class="app-info">
-            <h3>MemoryMine</h3>
-            <span class="app-category">personal</span>
-          </div>
-        </div>
-        <p class="app-desc">Weekly self-reflection from your journal entries. It knows your patterns. Shows you growth, blind spots, and recurring themes you might miss.</p>
-        <p class="app-source">Dan: &ldquo;I send it transcripts and ask how did I do? It says: you did that thing you normally do.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/memorymine/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#00E5FF,#7C3AED);color:#fff;">&#128240;</div>
-          <div class="app-info">
-            <h3>Spiral Lite</h3>
-            <span class="app-category">content</span>
-          </div>
-        </div>
-        <p class="app-desc">Say what you want to write about. It drafts 3 variants, scores them against quality criteria, improves the best one. You just review and publish.</p>
-        <p class="app-source">Dan: &ldquo;Spiral does content automation. You say what you want, it judges its own output and improves.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/spiral-lite/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#06B6D4,#059669);color:#fff;">&#129302;</div>
-          <div class="app-info">
-            <h3>AgentRoster</h3>
-            <span class="app-category">agents</span>
-          </div>
-        </div>
-        <p class="app-desc">A roster of AI agents with taste profiles. Route tasks to the right agent. Run them in parallel. Track which performs best for each task type.</p>
-        <p class="app-source">Dan: &ldquo;Kieran uses Claude Code, Friday, and Charlie simultaneously. Each has a different personality.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/agentroster/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#F59E0B,#FF2D78);color:#fff;">&#128202;</div>
-          <div class="app-info">
-            <h3>AdoptionMap</h3>
-            <span class="app-category">org</span>
-          </div>
-        </div>
-        <p class="app-desc">Survey your team. See who&rsquo;s AI-ready, where the blockers are, and which teams unlock the most leverage. The CEO predictor tells you everything.</p>
-        <p class="app-source">Dan: &ldquo;The number one predictor: does the CEO use ChatGPT? If yes, the whole company adopts.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/adoptionmap/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#059669,#00E5FF);color:#fff;">&#128202;</div>
-          <div class="app-info">
-            <h3>PromptLeague</h3>
-            <span class="app-category">org</span>
-          </div>
-        </div>
-        <p class="app-desc">Weekly stats: who&rsquo;s using what, top prompts, trending workflows. Leaderboard for the 10% who figure things out and share them.</p>
-        <p class="app-source">Dan: &ldquo;Share usage stats every week. Highlight the best prompts and who contributed them.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/promotleague/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#A855F7,#7C3AED);color:#fff;">&#128172;</div>
-          <div class="app-info">
-            <h3>JobReshore</h3>
-            <span class="app-category">support</span>
-          </div>
-        </div>
-        <p class="app-desc">AI-augmented customer support simulator. Handles tier-1 autonomously, surfaces trends, costs what a part-time hire would.</p>
-        <p class="app-source">Dan: &ldquo;10 people in the Midwest with AI can serve what 100 people would. It reshored the jobs.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/jobreshore/" class="app-open-btn">open</a>
-        </div>
-      </article>
-    </div>
-
-    <div class="batch-divider">
-      <hr><span>batch 1.5 &mdash; returns episode</span><hr>
-    </div>
-
-    <div class="app-grid">
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#00E5FF,#7C3AED);color:#fff;">&#128200;</div>
-          <div class="app-info">
-            <h3>AgentGardener</h3>
-            <span class="app-category">ops</span>
-          </div>
-        </div>
-        <p class="app-desc">Dashboard for all company agents: health, error rates, manual intervention. The ops console for the forward deployed engineer.</p>
-        <p class="app-source">Dan: &ldquo;Nitesh spends his day talking to Claudie in Slack, debugging it, keeping it on track. Every agent needs a human.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/agentgardener/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#7C3AED,#FF2D78);color:#fff;">&#128172;</div>
-          <div class="app-info">
-            <h3>ClaudieCast</h3>
-            <span class="app-category">agents</span>
-          </div>
-        </div>
-        <p class="app-desc">Agent-to-agent handoff. Your personal agent talks to the company super-agent. Full context preserved. No forms&mdash;your agent already knows.</p>
-        <p class="app-source">Dan: &ldquo;Two agents are better than one. Your agent can tell another agent way more than you&rsquo;d type.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/claudiecast/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#059669,#00E5FF);color:#fff;">&#128295;</div>
-          <div class="app-info">
-            <h3>SupportLoop</h3>
-            <span class="app-category">engineering</span>
-          </div>
-        </div>
-        <p class="app-desc">Agent bug reports: exact repro steps, code analysis, suggested fix. Company agent picks it up, validates, opens PR. Bug to fix in minutes.</p>
-        <p class="app-source">Dan: &ldquo;An agent bug report is way better than a human one. It has the exact repro steps and what it thinks is wrong.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/supportloop/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;">&#128196;</div>
-          <div class="app-info">
-            <h3>NotionPlan</h3>
-            <span class="app-category">product</span>
-          </div>
-        </div>
-        <p class="app-desc">Agent interviews your team, cross-references goals with strategy, produces structured quarterly plans. CEO reads 20 plans in minutes.</p>
-        <p class="app-source">Dan: &ldquo;A Notion agent asked 20 people about their goals, pushed back, then produced plans. I read all 20 in the time it used to take for 2.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/notionplan/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#00E5FF,#0D9488);color:#fff;">&#128202;</div>
-          <div class="app-info">
-            <h3>BenchTunnel</h3>
-            <span class="app-category">ai tools</span>
-          </div>
-        </div>
-        <p class="app-desc">Score any model against canonical rewrites. The &ldquo;senior engineer benchmark.&rdquo; Track which models are actually getting better over time.</p>
-        <p class="app-source">Dan: &ldquo;Two senior engineers rewrote my vibe-coded app. Now I score every new model. GPT-5.5 scored 62/100.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/benchtunnel/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#FF2D78,#BE185D);color:#fff;">&#9889;</div>
-          <div class="app-info">
-            <h3>RideTheModel</h3>
-            <span class="app-category">ai tools</span>
-          </div>
-        </div>
-        <p class="app-desc">Your personal model test suite. Save 5&ndash;10 tasks you care about. Every new model drop: auto-run, compare, share. Turn over the same rocks.</p>
-        <p class="app-source">Dan: &ldquo;Turn over the same rocks every time. It couldn&rsquo;t do this last time. Now it scores 62. Ride the model.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/ridethemodel/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#7C3AED,#A855F7);color:#fff;">&#128270;</div>
-          <div class="app-info">
-            <h3>SlopFilter</h3>
-            <span class="app-category">review</span>
-          </div>
-        </div>
-        <p class="app-desc">Review triage for AI-generated work. Scores confidence, completeness, consistency. Low-confidence items flagged for seniors. High-confidence auto-approved.</p>
-        <p class="app-source">Dan: &ldquo;Data scientists spend most of their time reviewing bad AI analysis. You need systems to filter it.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/slopfilter/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#06B6D4,#059669);color:#fff;">&#128221;</div>
-          <div class="app-info">
-            <h3>ClaudiePair</h3>
-            <span class="app-category">writing</span>
-          </div>
-        </div>
-        <p class="app-desc">Collaborative document workspace. You write, agent watches and assists&mdash;researches, suggests edits, formats. Both see what the other is doing.</p>
-        <p class="app-source">Dan: &ldquo;The agent has visibility into what I&rsquo;m doing. I have visibility into what the agent is doing. The agent handles formatting.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/claudiepair/" class="app-open-btn">open</a>
-        </div>
-      </article>
-
-      <article class="app-card">
-        <div class="app-card-top">
-          <div class="app-icon" style="background:linear-gradient(135deg,#F59E0B,#FF2D78);color:#fff;">&#128736;</div>
-          <div class="app-info">
-            <h3>SuperAgent Setup</h3>
-            <span class="app-category">agents</span>
-          </div>
-        </div>
-        <p class="app-desc">Configure and scaffold a company super-agent. Slack integration, permissions, tool connections, feedback loop. Starts general, gets specialized.</p>
-        <p class="app-source">Dan: &ldquo;One super agent per company. Shopify has River. Ramp has one. A forward deployed engineer maintains it.&rdquo;</p>
-        <div class="app-card-footer">
-          <span class="app-status-pill">ready</span>
-          <a href="tools/superagentsetup/" class="app-open-btn">open</a>
-        </div>
-      </article>
-    </div>
-
-  </div>
+<main class="shelf">
+  <div class="shelf-grid" id="shelf"></div>
 </main>
 
 <footer class="site-footer">
-  <div class="container">
-    Mini Tools &mdash; extracted by hand from conversations. No AI-generated tools. No fluff.
-  </div>
+  mini tools | extracted by hand | no generated tools | zero fluff
 </footer>
 
+<div class="detail-overlay" id="detail">
+  <div class="detail-backdrop" id="detailBackdrop"></div>
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-accent-bar" id="detailAccent"></div>
+    <button class="detail-close" id="detailClose" aria-label="Close">&times;</button>
+    <div class="detail-name" id="detailName"></div>
+    <button class="detail-use-btn" id="detailUseBtn">
+      use now
+      <span class="arrow-icon">&nearr;</span>
+    </button>
+    <hr class="detail-line">
+    <div class="detail-section">
+      <div class="detail-section-label">what</div>
+      <div class="detail-what" id="detailWhat"></div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-label">why</div>
+      <div class="detail-why" id="detailWhy"></div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-label">from the podcast</div>
+      <div class="detail-podcast" id="detailPodcast"></div>
+      <div class="detail-source" id="detailSource"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const APPS = [
+  {
+    id:"stylepull",name:"StylePull",category:"writing",
+    accent:"#00E5FF",
+    what:"Extract an author&rsquo;s signature techniques from any text&mdash;sentence rhythm, vocabulary patterns, punctuation habits, structural preferences.",
+    why:"Borrow craft from writers who move you. Build your playbook. Stop writing blind.",
+    podcast:"&ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&rsquo;s descriptions into a guide. Now I have a style reference I can use.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/stylepull/"
+  },
+  {
+    id:"manuscript",name:"Manuscript",category:"meetings",
+    accent:"#7C3AED",
+    what:"Drop a meeting transcript. Build a voice profile&mdash;hedging rate, question/statement ratio, filler habits, interruption frequency.",
+    why:"Hear yourself as others do. Fix the patterns that undermine your point.",
+    podcast:"&ldquo;I built a benchmark: can it predict what I&rsquo;m going to say in a meeting? It knew my habits better than I did.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/manuscript/"
+  },
+  {
+    id:"rambler-prd",name:"Rambler &rarr; PRD",category:"product",
+    accent:"#F59E0B",
+    what:"Type raw ideas. Get a structured PRD&mdash;problem, users, stories, constraints, edge cases, success metrics.",
+    why:"Ship structure from chaos. One prompt replaces the spec meeting.",
+    podcast:"&ldquo;Instead of writing PRDs from scratch, I write a prompt that turns rambling into a perfect PRD. It&rsquo;s the highest-leverage writing I do.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/rambler-prd/"
+  },
+  {
+    id:"neverrepeat",name:"NeverRepeat",category:"management",
+    accent:"#FF2D78",
+    what:"Every piece of feedback you give becomes a reusable prompt. Build a library of your taste. Your team runs it.",
+    why:"Write feedback once. Let the team encode it into every future deliverable.",
+    podcast:"&ldquo;Alex recorded every edit, put it in a prompt, and never made the same mistake twice. He got coaching-level growth from a prompt.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/neverrepeat/"
+  },
+  {
+    id:"copyscout",name:"CopyScout",category:"engineering",
+    accent:"#0D9488",
+    what:"Point it at your codebase. Checks UI copy against your style guide. Flags inconsistencies across every surface.",
+    why:"Catch voice drift before it ships. Brand consistency is a CI check, not a design review.",
+    podcast:"&ldquo;We have a Claude Code command that checks the entire codebase for copy edits and opens a PR. The design team never catches anything because the prompt already caught it.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/copyscout/"
+  },
+  {
+    id:"vibecheck",name:"VibeCheck",category:"ai tools",
+    accent:"#A855F7",
+    what:"Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and feeling. Comparison matrix included.",
+    why:"Benchmark models on what you actually ship, not academic trivia.",
+    podcast:"&ldquo;Vibe checks capture how it feels to use a model, which standard benchmarks don&rsquo;t. They&rsquo;re subjective but they matter more for real work.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/vibecheck/"
+  },
+  {
+    id:"memorymine",name:"MemoryMine",category:"personal",
+    accent:"#06B6D4",
+    what:"Weekly self-reflection from your journal entries. Surfaces patterns, blind spots, and recurring themes.",
+    why:"Track your thinking week over week. See what you miss in the moment.",
+    podcast:"&ldquo;I send it transcripts and ask how did I do? It says: you did that thing you normally do. It knows me better than I track myself.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/memorymine/"
+  },
+  {
+    id:"spiral-lite",name:"Spiral Lite",category:"content",
+    accent:"#059669",
+    what:"Say what you want to write about. It drafts 3 variants, scores them against quality criteria, improves the best one.",
+    why:"Kill blank page paralysis. Draft, score, improve, publish.",
+    podcast:"&ldquo;Spiral does content automation. You say what you want, it judges its own output, and improves. The self-critique loop is the magic.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/spiral-lite/"
+  },
+  {
+    id:"agentroster",name:"AgentRoster",category:"agents",
+    accent:"#6C3BED",
+    what:"A roster of AI agents with taste profiles. Route tasks, run in parallel, track performance per task type.",
+    why:"Match tasks to the right agent personality. Run them all, trust the best.",
+    podcast:"&ldquo;Kieran uses Claude Code, Friday, and Charlie simultaneously. Each has a different personality. You route work to the one that&rsquo;s good at it.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/agentroster/"
+  },
+  {
+    id:"adoptionmap",name:"AdoptionMap",category:"org",
+    accent:"#D97706",
+    what:"Survey your team. See who&rsquo;s AI-ready, where blockers are, which teams unlock most leverage.",
+    why:"Find organizational resistance before it blocks adoption. One signal predicts everything.",
+    podcast:"&ldquo;The number one predictor of company-wide AI adoption: does the CEO use ChatGPT? If yes, the whole company adopts. If no, nothing works.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/adoptionmap/"
+  },
+  {
+    id:"promotleague",name:"PromptLeague",category:"org",
+    accent:"#EA580C",
+    what:"Weekly stats: who&rsquo;s using what, top prompts, trending workflows. Leaderboard for the 10% who figure things out.",
+    why:"Make AI usage visible. Reward sharers, not hoarders.",
+    podcast:"&ldquo;Share usage stats every week. Highlight the best prompts and who contributed them. The 10% who figure things out become your internal champions.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/promotleague/"
+  },
+  {
+    id:"jobreshore",name:"JobReshore",category:"support",
+    accent:"#BE185D",
+    what:"AI-augmented customer support. Handles tier-1 autonomously, surfaces trends, costs what a part-time hire would.",
+    why:"Scale support with AI. Cost of one part-time hire, capacity of a full team.",
+    podcast:"&ldquo;10 people in the Midwest with AI can serve what 100 people used to. The jobs came back&mdash;they just look different now.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/jobreshore/"
+  },
+  {
+    id:"agentgardener",name:"AgentGardener",category:"ops",
+    accent:"#2563EB",
+    what:"Dashboard for all company agents: health, error rates, manual intervention frequency. The ops console for the forward deployed engineer.",
+    why:"Monitor every company agent from one place. Fix problems before anyone notices.",
+    podcast:"&ldquo;Nitesh spends his day talking to Claudie in Slack, debugging it, keeping it on track. Every agent needs a human gardener.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/agentgardener/"
+  },
+  {
+    id:"claudiecast",name:"ClaudieCast",category:"agents",
+    accent:"#7C3AED",
+    what:"Agent-to-agent handoff. Your personal agent talks to the company super-agent. Full context preserved. No forms.",
+    why:"Your agent calls their agent. Zero manual handoff. Context survives intact.",
+    podcast:"&ldquo;Two agents are better than one. Your personal agent can tell the company agent way more than you&rsquo;d ever type into a form.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/claudiecast/"
+  },
+  {
+    id:"supportloop",name:"SupportLoop",category:"engineering",
+    accent:"#0891B2",
+    what:"Agent bug reports: exact repro steps, code analysis, suggested fix. Company agent validates and opens the PR.",
+    why:"Bug reports with repro and fix suggestion. Bug to PR in minutes.",
+    podcast:"&ldquo;An agent bug report is way better than a human one. It has the exact repro steps and what it thinks is wrong. The fix is often a PR away.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/supportloop/"
+  },
+  {
+    id:"notionplan",name:"NotionPlan",category:"product",
+    accent:"#0D9488",
+    what:"Agent interviews your team, cross-references goals with strategy, produces structured quarterly plans. CEO reads all in minutes.",
+    why:"Interview 20 people at scale. Read their plans in 20 minutes.",
+    podcast:"&ldquo;A Notion agent asked 20 people about their goals, pushed back on weak answers, then produced plans. I read all 20 in the time it used to take for 2.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/notionplan/"
+  },
+  {
+    id:"benchtunnel",name:"BenchTunnel",category:"ai tools",
+    accent:"#F59E0B",
+    what:"Score any model against canonical rewrites by senior engineers. Tracks model improvement over time.",
+    why:"Score models against human quality standards. Track whether AI is actually getting better.",
+    podcast:"&ldquo;Two senior engineers rewrote my vibe-coded app. Now I score every new model against their versions. GPT-5.5 scored 62 out of 100.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/benchtunnel/"
+  },
+  {
+    id:"ridethemodel",name:"RideTheModel",category:"ai tools",
+    accent:"#FF2D78",
+    what:"Your personal model test suite. Save 5&ndash;10 tasks you care about. Every new model drop: auto-run, compare, share.",
+    why:"Turn over the same rocks every time. Know instantly when models get better for your work.",
+    podcast:"&ldquo;Turn over the same rocks every time. It couldn&rsquo;t do this last time. Now it scores 62. Ride the model curve, don&rsquo;t fight it.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/ridethemodel/"
+  },
+  {
+    id:"slopfilter",name:"SlopFilter",category:"review",
+    accent:"#BC1C1E",
+    what:"Review triage for AI-generated work. Scores confidence, completeness, consistency. Low-confidence flagged, high-confidence auto-approved.",
+    why:"Stop reviewing bad AI output. Flag the noise, approve the signal, save senior hours.",
+    podcast:"&ldquo;Data scientists spend most of their time reviewing bad AI analysis. You need systems to filter the slop so seniors focus on what matters.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/slopfilter/"
+  },
+  {
+    id:"claudiepair",name:"ClaudiePair",category:"writing",
+    accent:"#06B6D4",
+    what:"Collaborative workspace. You write, agent watches: researches, suggests edits, formats. Both see what the other is doing.",
+    why:"Write alongside an agent. It watches, you lead. It handles formatting, you handle thinking.",
+    podcast:"&ldquo;The agent has visibility into what I&rsquo;m doing. I have visibility into what the agent is doing. The agent handles formatting&mdash;I focus on the ideas.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/claudiepair/"
+  },
+  {
+    id:"superagentsetup",name:"SuperAgent Setup",category:"agents",
+    accent:"#EA580C",
+    what:"Configure and scaffold a company super-agent. Slack integration, permissions, tool connections, feedback loop.",
+    why:"Scaffold your super agent in one session. Starts general, gets specialized.",
+    podcast:"&ldquo;One super agent per company. Shopify has River. Ramp has one. A forward deployed engineer maintains it. This is the template.&rdquo;",
+    source:"Dan Shipper, Ride The Model",
+    link:"tools/superagentsetup/"
+  }
+];
+
+// ─── Size/weight variety ───
+const WEIGHTS = ["700","300","500","800","400"];
+const SIZES   = ["lg","md","sm","xs","md","lg","sm","md","xs","md","lg","sm","md","xs","sm","md","lg","xs","md","sm","md"];
+
+// ─── Build shelf ───
+const shelf = document.getElementById("shelf");
+let html = '<div class="batch-label">batch 1 | first conversation</div>';
+
+APPS.slice(0,12).forEach((app,i) => {
+  const w = WEIGHTS[i % WEIGHTS.length];
+  const s = SIZES[i % SIZES.length];
+  html += `<div class="shelf-item" data-index="${i}" data-weight="${w}" data-size="${s}" role="button" tabindex="0" aria-label="Open ${app.name}">
+    <span class="shelf-name">${app.name}</span>
+    <span class="shelf-category">${app.category}</span>
+    <span class="shelf-arrow">&rarr;</span>
+  </div>`;
+});
+
+html += '<div class="batch-label">batch 1.5 | returns episode</div>';
+
+APPS.slice(12).forEach((app,i) => {
+  const idx = i + 12;
+  const w = WEIGHTS[idx % WEIGHTS.length];
+  const s = SIZES[idx % SIZES.length];
+  html += `<div class="shelf-item" data-index="${idx}" data-weight="${w}" data-size="${s}" role="button" tabindex="0" aria-label="Open ${app.name}">
+    <span class="shelf-name">${app.name}</span>
+    <span class="shelf-category">${app.category}</span>
+    <span class="shelf-arrow">&rarr;</span>
+  </div>`;
+});
+
+shelf.innerHTML = html;
+
+// ─── Detail overlay ───
+const detail = document.getElementById("detail");
+const backdrop = document.getElementById("detailBackdrop");
+const panel = document.getElementById("detailPanel");
+const detailAccent = document.getElementById("detailAccent");
+const detailName = document.getElementById("detailName");
+const detailUseBtn = document.getElementById("detailUseBtn");
+const detailWhat = document.getElementById("detailWhat");
+const detailWhy = document.getElementById("detailWhy");
+const detailPodcast = document.getElementById("detailPodcast");
+const detailSource = document.getElementById("detailSource");
+const detailClose = document.getElementById("detailClose");
+
+function openDetail(app) {
+  const a = app.accent;
+  detailAccent.style.background = a;
+  detailName.textContent = app.name;
+  detailWhat.innerHTML = app.what;
+  detailWhy.textContent = app.why;
+  detailPodcast.innerHTML = app.podcast;
+  detailSource.textContent = app.source;
+  detailUseBtn.style.background = a;
+  detailUseBtn.style.setProperty("--accent-dim", a + "22");
+  detailUseBtn.onclick = () => { window.location.href = app.link; };
+  detail.classList.add("is-open");
+  document.body.style.overflow = "hidden";
+  setTimeout(() => detailClose.focus(), 100);
+}
+
+function closeDetail() {
+  detail.classList.remove("is-open");
+  document.body.style.overflow = "";
+}
+
+document.querySelectorAll(".shelf-item").forEach(el => {
+  const idx = parseInt(el.dataset.index);
+  const app = APPS[idx];
+  el.addEventListener("click", () => openDetail(app));
+  el.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openDetail(app); }
+  });
+});
+
+backdrop.addEventListener("click", closeDetail);
+detailClose.addEventListener("click", closeDetail);
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && detail.classList.contains("is-open")) closeDetail();
+});
+
+// ─── Cursor ───
+const cursor = document.getElementById("cursor");
+let cursorTimer;
+document.addEventListener("mousemove", e => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+  cursor.classList.add("is-visible");
+  clearTimeout(cursorTimer);
+  cursorTimer = setTimeout(() => cursor.classList.remove("is-visible"), 2500);
+});
+document.addEventListener("mouseleave", () => cursor.classList.remove("is-visible"));
+document.addEventListener("click", e => {
+  cursor.classList.remove("is-click"); void cursor.offsetWidth;
+  cursor.classList.add("is-click");
+  setTimeout(() => cursor.classList.remove("is-click"), 300);
+});
+
+// ─── Trap focus inside detail ───
+detail.addEventListener("keydown", e => {
+  if (e.key !== "Tab" || !detail.classList.contains("is-open")) return;
+  const focusable = detail.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+</script>
 </body>
 </html>
