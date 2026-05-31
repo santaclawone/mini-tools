@@ -7,124 +7,108 @@
 <meta name="description" content="Twenty-one single-purpose tools. Extracted from two conversations with Dan Shipper.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;height:100%}
-body{min-height:100%;overflow-x:hidden}
+body{min-height:100%;overflow-x:hidden;background:#06060A}
 
 :root{
-  --bg:#08080C;
-  --surface:#101016;
-  --tile-bg:#14141E;
-  --border:rgba(255,255,255,0.06);
-  --border-hover:rgba(255,255,255,0.12);
-  --text:#E8E8EE;
-  --text-dim:#888898;
-  --text-muted:#5B5B6B;
-  --accent:#00E5FF;
-  --accent-dim:rgba(0,229,255,0.1);
-  --radius-md:6px;
+  --text:#EAEAEE;
+  --text-dim:#808090;
+  --text-muted:#555565;
+  --border:rgba(255,255,255,0.04);
+  --tile-bg:#0C0C14;
   --radius-tile:14px;
-  --radius-lg:18px;
-  --space-xs:0.5rem;
-  --space-sm:0.8rem;
-  --space-md:1.5rem;
-  --space-lg:3rem;
-  --space-xl:6rem;
-  font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  --radius-sm:6px;
+  font-family:"Inter",-apple-system,sans-serif;
   font-size:clamp(13px,1.1vw,16px);
   line-height:1.5;
   color:var(--text);
-  background:var(--bg);
   -webkit-font-smoothing:antialiased
 }
 
-/* noise */
+::selection{background:#00E5FF;color:#06060A}
+
 body::after{
   content:"";position:fixed;inset:0;z-index:9999;
-  pointer-events:none;opacity:0.01;
+  pointer-events:none;opacity:0.008;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size:160px
 }
 
-::selection{background:var(--accent);color:#08080C}
-
 /* header */
 .site-header{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0.8rem var(--space-md);
-  display:flex;justify-content:space-between;align-items:center;
-  pointer-events:none
+  padding:0.7rem var(--space-md);display:flex;
+  justify-content:space-between;align-items:center;
+  pointer-events:none;--space-md:1.5rem
 }
 .site-header>*{pointer-events:auto}
 .site-title{
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.75rem;font-weight:600;letter-spacing:0.05em;
+  font-size:0.7rem;font-weight:700;letter-spacing:0.06em;
   text-transform:uppercase;color:var(--text-dim)
 }
-.site-nav{display:flex;gap:var(--space-sm);align-items:center}
+.site-nav{display:flex;gap:0.5rem;align-items:center}
 .site-nav a{
-  font-size:0.6rem;text-transform:uppercase;letter-spacing:0.1em;
-  color:var(--text-muted);padding:0.25rem 0.6rem;
-  border-radius:20px;transition:all 0.2s;font-weight:500
+  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-muted);padding:0.2rem 0.5rem;
+  border-radius:20px;transition:all 0.2s;font-weight:600
 }
-.site-nav a:hover{background:var(--surface);color:var(--text);opacity:1}
+.site-nav a:hover{background:var(--tile-bg);color:var(--text);opacity:1}
 
 /* hero */
 .hero{
-  padding:5.5rem var(--space-md) 1.5rem;
-  max-width:1200px;margin:0 auto
+  padding:5rem 1.5rem 1.25rem;
+  max-width:1100px;margin:0 auto
 }
-.hero-block{display:flex;flex-direction:column;gap:0.2rem}
+.hero-block{display:flex;flex-direction:column;gap:0.15rem}
 .hero-tagline{
-  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.15em;
-  color:var(--text-muted);font-weight:500
+  font-size:0.5rem;text-transform:uppercase;letter-spacing:0.18em;
+  color:var(--text-muted);font-weight:600
 }
 .hero-title{
   font-family:"Space Grotesk",sans-serif;
-  font-size:clamp(2rem,7vw,5.5rem);
+  font-size:clamp(1.8rem,6vw,4.5rem);
   font-weight:800;letter-spacing:-0.04em;
-  line-height:0.85;color:var(--text)
+  line-height:0.8;color:var(--text)
 }
-.hero-title .dot{color:var(--accent)}
+.hero-title .dot{color:#00E5FF}
 .hero-sub{
-  margin-top:0.5rem;
-  font-size:0.8rem;color:var(--text-dim);
-  max-width:420px;line-height:1.5;
-  font-weight:400
+  margin-top:0.35rem;font-size:0.75rem;
+  color:var(--text-dim);max-width:380px;
+  line-height:1.5;font-weight:400
 }
 
 /* batch label */
 .batch-label{
-  max-width:1200px;margin:2rem auto 0.5rem;
-  padding:0 var(--space-md);
+  max-width:1100px;margin:1.5rem auto 0.35rem;
+  padding:0 1.5rem;
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.18em;
-  color:var(--text-muted);font-weight:500
+  font-size:0.5rem;text-transform:uppercase;letter-spacing:0.2em;
+  color:var(--text-muted);font-weight:600
 }
 
 /* ─── APP GRID ─── */
 .app-grid{
-  max-width:1200px;margin:0 auto;
-  padding:0.5rem var(--space-md) var(--space-xl);
+  max-width:1100px;margin:0 auto;
+  padding:0.35rem 1.5rem 5rem;
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
-  gap:0.75rem
+  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
+  gap:0.6rem
 }
 
 /* ─── APP TILE ─── */
 .app-tile{
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  gap:0.5rem;
-  padding:1.25rem 0.5rem 0.85rem;
+  display:flex;flex-direction:column;align-items:center;gap:0.35rem;
+  padding:1.5rem 0.4rem 0.65rem;
   background:var(--tile-bg);
   border:1px solid var(--border);
   border-radius:var(--radius-tile);
   cursor:pointer;
-  transition:all 0.3s cubic-bezier(0.22,1,0.36,1);
+  transition:all 0.35s cubic-bezier(0.22,1,0.36,1);
   user-select:none;
   -webkit-tap-highlight-color:transparent;
   position:relative;overflow:hidden
@@ -135,38 +119,426 @@ body::after{
   background:linear-gradient(135deg,transparent,transparent);
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude;
-  pointer-events:none;transition:all 0.4s
+  pointer-events:none;transition:all 0.5s
 }
-.app-tile:hover{transform:translateY(-3px);border-color:var(--border-hover)}
-.app-tile:hover::before{
-  background:linear-gradient(135deg,var(--accent),var(--accent));
-  opacity:0.5
-}
-.app-tile:active{transform:translateY(-1px) scale(0.97)}
+.app-tile:hover{transform:translateY(-2px);border-color:rgba(255,255,255,0.08)}
+.app-tile:hover::before{opacity:0.6}
+.app-tile:active{transform:translateY(0) scale(0.97)}
 
+/* ─── ANIMATION CANVAS ─── */
 .tile-icon{
-  width:48px;height:48px;
-  border-radius:var(--radius-md);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;flex-shrink:0;
-  transition:transform 0.3s
+  width:56px;height:56px;
+  border-radius:10px;
+  position:relative;overflow:hidden;
+  flex-shrink:0
 }
-.app-tile:hover .tile-icon{transform:scale(1.08)}
+.tile-icon::before,.tile-icon::after{
+  content:"";position:absolute;inset:0;
+  border-radius:10px;pointer-events:none
+}
 
 .tile-name{
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.7rem;font-weight:600;
+  font-size:0.68rem;font-weight:700;
   letter-spacing:-0.01em;
   color:var(--text-dim);
-  text-align:center;line-height:1.2;
+  text-align:center;line-height:1.15;
   transition:color 0.25s
 }
 .app-tile:hover .tile-name{color:var(--text)}
 
 .tile-category{
-  font-size:0.5rem;text-transform:uppercase;letter-spacing:0.1em;
-  color:var(--text-muted);font-weight:500;
+  font-size:0.45rem;text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--text-muted);font-weight:600;
   margin-top:auto
+}
+
+/* ─── 21 UNIQUE ANIMATIONS ─── */
+/* Each uses the accent color via --a */
+.app-tile{--a:#00E5FF;--a2:rgba(0,229,255,0.15)}
+
+/* 1. StylePull — vertical scan lines */
+[data-id="stylepull"] .tile-icon{background:#080810}
+[data-id="stylepull"] .tile-icon::before{
+  background:repeating-linear-gradient(0deg,transparent,transparent 4px,var(--a) 4px,var(--a) 5px);
+  opacity:0.6;animation:scanUp 2s linear infinite
+}
+@keyframes scanUp{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
+
+/* 2. Manuscript — ripple rings */
+[data-id="manuscript"] .tile-icon{background:#080810}
+[data-id="manuscript"] .tile-icon::before{
+  border:1.5px solid var(--a);border-radius:50%;inset:25%;
+  animation:rippleOut 2.5s ease-out infinite
+}
+[data-id="manuscript"] .tile-icon::after{
+  border:1.5px solid var(--a);border-radius:50%;inset:25%;
+  animation:rippleOut 2.5s ease-out 1s infinite
+}
+@keyframes rippleOut{
+  0%{transform:scale(0.3);opacity:0.8}
+  100%{transform:scale(1.8);opacity:0}
+}
+
+/* 3. Rambler → PRD — particles converge to order */
+[data-id="rambler-prd"] .tile-icon{background:#080810}
+[data-id="rambler-prd"] .tile-icon::before{
+  width:4px;height:4px;border-radius:50%;background:var(--a);
+  inset:auto;top:55%;left:55%;box-shadow:
+    20px -20px 0 var(--a),-18px -15px 0 var(--a),22px 18px 0 var(--a),-20px 20px 0 var(--a),
+    -5px 25px 0 var(--a),25px -5px 0 var(--a),-25px -8px 0 var(--a),8px -25px 0 var(--a);
+  animation:converge 3s ease-in-out infinite
+}
+@keyframes converge{
+  0%{transform:translate(0,0);opacity:0.3}
+  25%{transform:translate(-3px,-3px);opacity:0.8}
+  50%{transform:translate(0,0);opacity:1}
+  75%{transform:translate(2px,2px);opacity:0.8}
+  100%{transform:translate(0,0);opacity:0.3}
+}
+
+/* 4. NeverRepeat — rotating ring with trail */
+[data-id="neverrepeat"] .tile-icon{background:#080810}
+[data-id="neverrepeat"] .tile-icon::before{
+  inset:6px;border-radius:50%;
+  border:2px solid transparent;
+  border-top-color:var(--a);
+  animation:spinRing 1.8s linear infinite
+}
+[data-id="neverrepeat"] .tile-icon::after{
+  inset:10px;border-radius:50%;
+  border:1.5px solid transparent;
+  border-bottom-color:var(--a);
+  opacity:0.5;
+  animation:spinRing 2.4s linear infinite reverse
+}
+@keyframes spinRing{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* 5. CopyScout — horizontal sweep beam */
+[data-id="copyscout"] .tile-icon{background:#080810}
+[data-id="copyscout"] .tile-icon::before{
+  background:linear-gradient(90deg,transparent 0%,var(--a) 50%,transparent 100%);
+  opacity:0.5;inset:auto;top:0;left:-30%;width:30%;height:100%;
+  animation:sweepBeam 2.2s ease-in-out infinite
+}
+@keyframes sweepBeam{
+  0%{left:-30%;opacity:0}
+  20%{opacity:0.6}
+  30%{left:100%;opacity:0.6}
+  50%{left:100%;opacity:0}
+  100%{left:-30%;opacity:0}
+}
+
+/* 6. VibeCheck — breathing pulse */
+[data-id="vibecheck"] .tile-icon{background:#080810}
+[data-id="vibecheck"] .tile-icon::before{
+  border-radius:50%;inset:20%;
+  background:radial-gradient(circle,var(--a) 0%,transparent 70%);
+  opacity:0.3;animation:breathing 3s ease-in-out infinite
+}
+@keyframes breathing{
+  0%{transform:scale(0.5);opacity:0.15}
+  50%{transform:scale(1.4);opacity:0.5}
+  100%{transform:scale(0.5);opacity:0.15}
+}
+
+/* 7. MemoryMine — rising particles */
+[data-id="memorymine"] .tile-icon{background:#080810}
+[data-id="memorymine"] .tile-icon::before{
+  width:3px;height:3px;border-radius:50%;background:var(--a);inset:auto;
+  top:80%;left:50%;box-shadow:
+    15px 0 0 var(--a),-12px -10px 0 var(--a),8px -20px 0 var(--a),-20px -5px 0 var(--a),
+    12px -30px 0 rgba(6,182,212,0.3),-8px -40px 0 rgba(6,182,212,0.15);
+  animation:driftUp 3.5s linear infinite
+}
+@keyframes driftUp{
+  0%{transform:translateY(0);opacity:0}
+  15%{opacity:0.8}
+  85%{opacity:0.6}
+  100%{transform:translateY(-50px);opacity:0}
+}
+
+/* 8. Spiral Lite — rotating gradient coil */
+[data-id="spiral-lite"] .tile-icon{background:#080810}
+[data-id="spiral-lite"] .tile-icon::before{
+  background:conic-gradient(from 0deg,transparent 0%,var(--a) 15%,transparent 30%,var(--a) 50%,transparent 65%,var(--a) 80%,transparent 100%);
+  opacity:0.5;animation:spinCoil 2.5s linear infinite
+}
+[data-id="spiral-lite"] .tile-icon::after{
+  background:radial-gradient(circle at 50% 50%,var(--a) 0%,transparent 40%);
+  opacity:0.2;animation:breathing 3s ease-in-out infinite
+}
+@keyframes spinCoil{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+/* 9. AgentRoster — sequential grid activation */
+[data-id="agentroster"] .tile-icon{background:#080810}
+[data-id="agentroster"] .tile-icon::before{
+  width:8px;height:8px;border-radius:2px;background:var(--a);inset:auto;
+  top:50%;left:50%;opacity:0.4;
+  box-shadow:
+    -14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),
+    -14px 0px 0 var(--a),14px 0px 0 var(--a),
+    -14px 14px 0 var(--a),0px 14px 0 var(--a),14px 14px 0 var(--a);
+  animation:rosterBlink 3s step-start infinite
+}
+@keyframes rosterBlink{
+  0%,100%{opacity:0.15}
+  5%{opacity:1;box-shadow:-14px -14px 0 var(--a),0px -14px 0 transparent,14px -14px 0 transparent,-14px 0px 0 transparent,14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
+  10%{opacity:1;box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 transparent,-14px 0px 0 transparent,14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
+  15%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 transparent,14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
+  20%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 var(--a),14px 0px 0 transparent,-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
+  25%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 var(--a),14px 0px 0 var(--a),-14px 14px 0 transparent,0px 14px 0 transparent,14px 14px 0 transparent}
+  30%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 var(--a),14px 0px 0 var(--a),-14px 14px 0 var(--a),0px 14px 0 transparent,14px 14px 0 transparent}
+  35%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 var(--a),14px 0px 0 var(--a),-14px 14px 0 var(--a),0px 14px 0 var(--a),14px 14px 0 transparent}
+  40%{box-shadow:-14px -14px 0 var(--a),0px -14px 0 var(--a),14px -14px 0 var(--a),-14px 0px 0 var(--a),14px 0px 0 var(--a),-14px 14px 0 var(--a),0px 14px 0 var(--a),14px 14px 0 var(--a)}
+  42%{opacity:0.15}45%{opacity:1}47%{opacity:0.15}
+  100%{opacity:0.15}
+}
+
+/* 10. AdoptionMap — growing bar */
+[data-id="adoptionmap"] .tile-icon{background:#080810}
+[data-id="adoptionmap"] .tile-icon::before{
+  width:6px;height:6px;border-radius:1px;background:var(--a);inset:auto;
+  bottom:10px;left:6px;
+  box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 var(--a);
+  animation:growBars 2s ease-in-out infinite
+}
+@keyframes growBars{
+  0%{height:6px;bottom:10px}
+  25%{height:18px;bottom:10px}
+  50%{height:6px;bottom:10px;box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 var(--a)}
+  60%{height:6px;box-shadow:12px 0 0 var(--a),24px 0 0 transparent,36px 0 0 transparent}
+  75%{height:6px;box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 transparent}
+  90%{height:6px;box-shadow:12px 0 0 var(--a),24px 0 0 var(--a),36px 0 0 var(--a);bottom:10px}
+  100%{height:6px;bottom:10px}
+}
+
+/* 11. PromptLeague — shimmer sweep */
+[data-id="promotleague"] .tile-icon{background:#080810}
+[data-id="promotleague"] .tile-icon::before{
+  background:linear-gradient(
+    135deg,
+    transparent 30%,
+    var(--a) 50%,
+    transparent 70%
+  );
+  background-size:200% 200%;
+  animation:shimmer 2.5s ease-in-out infinite
+}
+@keyframes shimmer{
+  0%{background-position:200% 200%}
+  50%{background-position:0% 0%}
+  100%{background-position:200% 200%}
+}
+
+/* 12. JobReshore — steady heartbeat */
+[data-id="jobreshore"] .tile-icon{background:#080810}
+[data-id="jobreshore"] .tile-icon::before{
+  inset:8px;border-radius:4px;background:var(--a);opacity:0.1;
+  animation:heartBeat 2.2s ease-in-out infinite
+}
+[data-id="jobreshore"] .tile-icon::after{
+  inset:auto;top:50%;left:50%;width:40px;height:40px;border-radius:50%;
+  background:radial-gradient(circle,var(--a) 0%,transparent 70%);
+  transform:translate(-50%,-50%);
+  animation:heartPulse 2.2s ease-in-out infinite
+}
+@keyframes heartBeat{
+  0%,100%{opacity:0.08;transform:scale(1)}
+  8%{opacity:0.25;transform:scale(1.02)}
+  12%{opacity:0.08;transform:scale(1)}
+  18%{opacity:0.2;transform:scale(1.01)}
+  22%{opacity:0.08;transform:scale(1)}
+}
+@keyframes heartPulse{
+  0%,100%{opacity:0.15;transform:translate(-50%,-50%) scale(0.8)}
+  8%{opacity:0.5;transform:translate(-50%,-50%) scale(1.2)}
+  12%{opacity:0.15;transform:translate(-50%,-50%) scale(0.8)}
+  18%{opacity:0.35;transform:translate(-50%,-50%) scale(1)}
+  22%{opacity:0.15;transform:translate(-50%,-50%) scale(0.8)}
+}
+
+/* 13. AgentGardener — slow breathe */
+[data-id="agentgardener"] .tile-icon{background:#080810}
+[data-id="agentgardener"] .tile-icon::before{
+  inset:6px;border-radius:50%;
+  background:radial-gradient(circle at 50% 50%,var(--a) 0%,transparent 60%);
+  opacity:0.2;animation:breatheSlow 4.5s ease-in-out infinite
+}
+[data-id="agentgardener"] .tile-icon::after{
+  inset:12px;border-radius:50%;border:1px solid var(--a);opacity:0.3;
+  animation:breatheRing 4.5s ease-in-out infinite
+}
+@keyframes breatheSlow{
+  0%,100%{transform:scale(0.7);opacity:0.1}
+  50%{transform:scale(1.3);opacity:0.4}
+}
+@keyframes breatheRing{
+  0%,100%{transform:scale(0.8);opacity:0.1}
+  50%{transform:scale(1.1);opacity:0.4}
+}
+
+/* 14. ClaudieCast — transmission bars */
+[data-id="claudiecast"] .tile-icon{background:#080810}
+[data-id="claudiecast"] .tile-icon::before{
+  width:3px;height:3px;border-radius:1px;background:var(--a);inset:auto;
+  bottom:12px;left:10px;
+  box-shadow:6px 0 0 var(--a),12px 0 0 var(--a),18px 0 0 var(--a),24px 0 0 var(--a),30px 0 0 var(--a),36px 0 0 var(--a);
+  animation:signalBars 1.8s ease-in-out infinite
+}
+@keyframes signalBars{
+  0%,100%{height:3px}
+  15%{height:12px}
+  30%{height:20px;transform:translateY(-17px)}
+  45%{height:8px;transform:translateY(-5px)}
+  60%{height:16px;transform:translateY(-13px)}
+  75%{height:5px;transform:translateY(-2px)}
+  90%{height:14px;transform:translateY(-11px)}
+}
+
+/* 15. SupportLoop — traveling dot on ring */
+[data-id="supportloop"] .tile-icon{background:#080810}
+[data-id="supportloop"] .tile-icon::before{
+  inset:8px;border-radius:50%;border:1.5px solid var(--a);opacity:0.35
+}
+[data-id="supportloop"] .tile-icon::after{
+  width:5px;height:5px;border-radius:50%;background:var(--a);
+  inset:auto;top:9px;left:50%;margin-left:-2.5px;
+  animation:travelRing 2.5s linear infinite;opacity:0.9
+}
+@keyframes travelRing{
+  0%{transform:rotate(0deg) translateY(-20px);opacity:1}
+  50%{opacity:0.4}
+  100%{transform:rotate(360deg) translateY(-20px);opacity:1}
+}
+
+/* 16. NotionPlan — branching lines */
+[data-id="notionplan"] .tile-icon{background:#080810}
+[data-id="notionplan"] .tile-icon::before{
+  width:2px;height:16px;border-radius:1px;background:var(--a);
+  inset:auto;top:10px;left:28px;opacity:0.5;
+  box-shadow:0 0 0 var(--a),0 0 0 var(--a);
+  animation:branchGrow 2.5s ease-in-out infinite
+}
+@keyframes branchGrow{
+  0%,100%{height:16px;top:10px}
+  30%{height:22px;top:4px;box-shadow:8px 6px 0 var(--a),-8px 6px 0 var(--a)}
+  50%{height:22px;top:4px;box-shadow:8px 6px 0 transparent,-8px 6px 0 transparent;opacity:0.5}
+  55%{box-shadow:10px 12px 0 var(--a),-10px 12px 0 var(--a),8px 6px 0 var(--a),-8px 6px 0 transparent}
+  70%{box-shadow:10px 12px 0 transparent,-10px 12px 0 transparent,8px 6px 0 transparent,-8px 6px 0 transparent}
+  80%{height:16px;top:10px}
+}
+
+/* 17. BenchTunnel — depth zoom */
+[data-id="benchtunnel"] .tile-icon{background:#080810}
+[data-id="benchtunnel"] .tile-icon::before{
+  inset:8px;border-radius:50%;border:1px solid var(--a);opacity:0.4;
+  animation:tunnelZoom 2.8s ease-in-out infinite
+}
+[data-id="benchtunnel"] .tile-icon::after{
+  inset:16px;border-radius:50%;border:1px solid var(--a);opacity:0.2;
+  animation:tunnelZoom 2.8s ease-in-out 0.5s infinite
+}
+@keyframes tunnelZoom{
+  0%{transform:scale(1);opacity:0.4}
+  50%{transform:scale(0.3);opacity:0}
+  51%{transform:scale(1.5);opacity:0}
+  70%{transform:scale(1);opacity:0.4}
+  100%{transform:scale(1);opacity:0.4}
+}
+
+/* 18. RideTheModel — moving wave */
+[data-id="ridethemodel"] .tile-icon{background:#080810}
+[data-id="ridethemodel"] .tile-icon::before{
+  inset:auto;top:28px;left:4px;right:4px;height:4px;
+  background:var(--a);opacity:0.5;border-radius:2px;
+  animation:rideWave 2s ease-in-out infinite
+}
+[data-id="ridethemodel"] .tile-icon::after{
+  inset:auto;top:28px;left:4px;right:4px;height:4px;
+  background:var(--a);opacity:0.15;border-radius:2px;
+  animation:rideWave 2s ease-in-out 0.3s infinite
+}
+@keyframes rideWave{
+  0%,100%{transform:translateY(0) scaleX(1)}
+  15%{transform:translateY(-8px) scaleX(1.1);opacity:0.6}
+  30%{transform:translateY(4px) scaleX(0.9);opacity:0.4}
+  45%{transform:translateY(-10px) scaleX(1.2);opacity:0.7}
+  60%{transform:translateY(6px) scaleX(0.85);opacity:0.3}
+  75%{transform:translateY(-6px) scaleX(1.05);opacity:0.5}
+  90%{transform:translateY(2px) scaleX(0.95);opacity:0.4}
+}
+
+/* 19. SlopFilter — particles filtering through */
+[data-id="slopfilter"] .tile-icon{background:#080810}
+[data-id="slopfilter"] .tile-icon::before{
+  width:4px;height:4px;border-radius:50%;background:var(--a);
+  inset:auto;top:10px;left:14px;opacity:0;
+  box-shadow:20px 0 0 var(--a),-10px 20px 0 var(--a),30px 20px 0 var(--a),15px 35px 0 var(--a);
+  animation:filterDown 2.2s linear infinite
+}
+[data-id="slopfilter"] .tile-icon::after{
+  width:100%;height:1px;background:var(--a);opacity:0.2;
+  inset:auto;top:28px;left:0
+}
+@keyframes filterDown{
+  0%{transform:translateY(0);opacity:0}
+  10%{opacity:0.8;box-shadow:20px 0 0 var(--a),-10px 20px 0 var(--a),30px 20px 0 var(--a),15px 35px 0 var(--a)}
+  20%{transform:translateY(5px);opacity:0.6;box-shadow:20px 5px 0 var(--a),-10px 20px 0 transparent,30px 20px 0 var(--a),15px 35px 0 var(--a)}
+  40%{transform:translateY(18px);opacity:0;box-shadow:20px 18px 0 transparent,-10px 20px 0 transparent,30px 20px 0 transparent,15px 35px 0 var(--a)}
+  50%{transform:translateY(18px);opacity:0}
+  100%{transform:translateY(0);opacity:0}
+}
+
+/* 20. ClaudiePair — two orbiting dots */
+[data-id="claudiepair"] .tile-icon{background:#080810}
+[data-id="claudiepair"] .tile-icon::before{
+  width:5px;height:5px;border-radius:50%;background:var(--a);
+  inset:auto;top:28px;left:28px;opacity:0.8;
+  animation:orbitA 2s linear infinite
+}
+[data-id="claudiepair"] .tile-icon::after{
+  width:5px;height:5px;border-radius:50%;background:var(--a);
+  inset:auto;top:28px;left:28px;opacity:0.4;
+  animation:orbitB 2s linear infinite
+}
+@keyframes orbitA{
+  0%{transform:translate(0,-16px);opacity:0.9}
+  50%{transform:translate(0,16px);opacity:0.4}
+  100%{transform:translate(0,-16px);opacity:0.9}
+}
+@keyframes orbitB{
+  0%{transform:translate(0,16px);opacity:0.4}
+  50%{transform:translate(0,-16px);opacity:0.9}
+  100%{transform:translate(0,16px);opacity:0.4}
+}
+
+/* 21. SuperAgent Setup — geometric assembly */
+[data-id="superagentsetup"] .tile-icon{background:#080810}
+[data-id="superagentsetup"] .tile-icon::before{
+  width:8px;height:8px;border:1.5px solid var(--a);border-radius:2px;
+  inset:auto;top:20px;left:20px;opacity:0;
+  animation:assemble 3s ease-in-out infinite;transform:rotate(0deg)
+}
+[data-id="superagentsetup"] .tile-icon::after{
+  width:6px;height:6px;background:var(--a);border-radius:50%;
+  inset:auto;top:30px;left:30px;opacity:0;
+  animation:assembleDot 3s ease-in-out infinite
+}
+@keyframes assemble{
+  0%,10%{opacity:0;transform:rotate(-90deg) scale(0.5);top:30px;left:30px}
+  25%{opacity:0.6;transform:rotate(0deg) scale(1);top:20px;left:20px}
+  40%{opacity:0.6;transform:rotate(0deg) scale(1);top:20px;left:20px}
+  50%{opacity:0;transform:rotate(90deg) scale(0.5);top:30px;left:30px}
+  100%{opacity:0}
+}
+@keyframes assembleDot{
+  0%{opacity:0;top:30px;left:30px;transform:scale(0)}
+  15%{opacity:0}
+  35%{opacity:0.8;top:30px;left:30px;transform:scale(1)}
+  50%{opacity:0.8;top:30px;left:30px;transform:scale(1)}
+  60%{opacity:0;transform:scale(0)}
+  100%{opacity:0}
 }
 
 /* ─── DETAIL OVERLAY ─── */
@@ -179,125 +551,105 @@ body::after{
 
 .detail-backdrop{
   position:absolute;inset:0;
-  background:rgba(0,0,0,0.7);
-  backdrop-filter:blur(24px) saturate(1.3);
-  -webkit-backdrop-filter:blur(24px) saturate(1.3);
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(28px) saturate(1.3);
+  -webkit-backdrop-filter:blur(28px) saturate(1.3);
   opacity:0;transition:opacity 0.4s ease
 }
 .detail-overlay.is-open .detail-backdrop{opacity:1}
 
 .detail-panel{
-  position:relative;
-  width:100%;max-width:520px;
-  margin:var(--space-md);
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius-lg);
-  padding:2rem var(--space-md) var(--space-md);
-  transform:translateY(20px) scale(0.97);
-  opacity:0;
+  position:relative;width:100%;max-width:480px;
+  margin:1rem;background:#101018;
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;padding:1.75rem 1.5rem 1.5rem;
+  transform:translateY(16px) scale(0.97);opacity:0;
   transition:transform 0.4s cubic-bezier(0.16,1,0.3,1),opacity 0.35s;
   max-height:90vh;overflow-y:auto
 }
-.detail-overlay.is-open .detail-panel{
-  transform:translateY(0) scale(1);
-  opacity:1
-}
-.detail-panel::-webkit-scrollbar{width:3px}
+.detail-overlay.is-open .detail-panel{transform:translateY(0) scale(1);opacity:1}
+.detail-panel::-webkit-scrollbar{width:2px}
 .detail-panel::-webkit-scrollbar-track{background:transparent}
-.detail-panel::-webkit-scrollbar-thumb{background:var(--border-hover);border-radius:4px}
+.detail-panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:4px}
 
 .detail-accent{position:absolute;top:0;left:0;right:0;height:3px}
 
 .detail-close{
-  position:absolute;top:1rem;right:1.25rem;
-  width:30px;height:30px;border-radius:50%;
-  border:1px solid var(--border);
+  position:absolute;top:0.9rem;right:1rem;
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.08);
   background:transparent;color:var(--text-dim);
-  font-size:1rem;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:0.9rem;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;
   transition:all 0.2s;font-family:inherit;line-height:1
 }
-.detail-close:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.detail-close:hover{border-color:#00E5FF;color:#00E5FF;background:rgba(0,229,255,0.08)}
 
-.detail-header{
-  display:flex;align-items:center;gap:0.75rem;
-  margin-bottom:0.5rem;padding-right:2.5rem
-}
-.detail-header-icon{
-  width:44px;height:44px;border-radius:var(--radius-md);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;flex-shrink:0
-}
+.detail-header{display:flex;align-items:center;gap:0.7rem;margin-bottom:0.35rem;padding-right:2.5rem}
+.detail-header-icon{width:40px;height:40px;border-radius:8px;flex-shrink:0;position:relative;overflow:hidden}
+.detail-header-icon::before,.detail-header-icon::after{content:"";position:absolute;inset:0;border-radius:8px;pointer-events:none}
 .detail-header-name{
   font-family:"Space Grotesk",sans-serif;
-  font-size:1.3rem;font-weight:700;letter-spacing:-0.03em;
-  line-height:1
+  font-size:1.15rem;font-weight:700;letter-spacing:-0.03em;line-height:1
 }
 
 .detail-use-btn{
-  display:flex;align-items:center;justify-content:center;gap:0.4rem;
-  width:100%;
-  padding:0.7rem 1.5rem;
+  display:flex;align-items:center;justify-content:center;gap:0.35rem;
+  width:100%;padding:0.65rem 1.25rem;
   border-radius:50px;border:none;
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.85rem;font-weight:600;
-  letter-spacing:-0.01em;
-  color:#08080C;
-  cursor:pointer;transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-  margin:1rem 0 1.5rem
+  font-size:0.8rem;font-weight:700;letter-spacing:-0.01em;
+  color:#06060A;cursor:pointer;
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  margin:0.85rem 0 1.25rem
 }
 .detail-use-btn:hover{transform:scale(1.02)}
 .detail-use-btn:active{transform:scale(0.97)}
 
-.detail-line{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
-
-.detail-section{margin-bottom:1.25rem}
+.detail-line{border:none;border-top:1px solid rgba(255,255,255,0.06);margin:1rem 0}
+.detail-section{margin-bottom:1rem}
 .detail-section:last-child{margin-bottom:0}
 .detail-section-label{
   font-family:"Space Grotesk",sans-serif;
-  font-size:0.55rem;text-transform:uppercase;letter-spacing:0.12em;
-  color:var(--text-muted);font-weight:600;
-  margin-bottom:0.3rem
+  font-size:0.5rem;text-transform:uppercase;letter-spacing:0.14em;
+  color:var(--text-muted);font-weight:700;margin-bottom:0.25rem
 }
-.detail-what{font-size:0.9rem;line-height:1.55;color:var(--text)}
+.detail-what{font-size:0.85rem;line-height:1.55;color:var(--text)}
 .detail-why{
-  font-size:1.05rem;line-height:1.45;font-weight:600;
+  font-size:1rem;line-height:1.45;font-weight:700;
   font-family:"Space Grotesk",sans-serif;letter-spacing:-0.02em
 }
 .detail-podcast{
-  font-size:0.85rem;line-height:1.6;color:var(--text-dim);
-  font-style:italic;padding:0.5rem 0 0.5rem 1rem;
-  border-left:2px solid var(--border)
+  font-size:0.8rem;line-height:1.6;color:var(--text-dim);
+  font-style:italic;padding:0.4rem 0 0.4rem 0.85rem;
+  border-left:2px solid rgba(255,255,255,0.08)
 }
 .detail-source{
-  font-size:0.65rem;color:var(--text-muted);
-  margin-top:0.3rem;font-style:normal;font-weight:500
+  font-size:0.6rem;color:var(--text-muted);
+  margin-top:0.25rem;font-style:normal;font-weight:600
 }
 
 /* footer */
 .site-footer{
-  padding:var(--space-md);max-width:1200px;margin:0 auto;
-  font-size:0.65rem;text-align:center;
-  color:var(--text-muted);border-top:1px solid var(--border)
+  padding:1.25rem;max-width:1100px;margin:0 auto;
+  font-size:0.6rem;text-align:center;
+  color:var(--text-muted);border-top:1px solid var(--border);font-weight:500
 }
 
 /* responsive */
 @media(max-width:768px){
-  .app-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:0.5rem}
-  .tile-icon{width:40px;height:40px;font-size:1.1rem}
+  .app-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:0.45rem}
+  .tile-icon{width:48px;height:48px}
   .tile-name{font-size:0.6rem}
-  .hero-title{font-size:clamp(1.8rem,10vw,3rem)}
-  .hero{padding:4.5rem var(--space-sm) 1rem}
-  .detail-panel{max-width:100%;margin:0.5rem;border-radius:16px;padding:1.5rem}
-  .detail-header-name{font-size:1.1rem}
-  .app-tile{padding:1rem 0.4rem 0.6rem}
+  .hero-title{font-size:clamp(1.5rem,10vw,2.8rem)}
+  .hero{padding:4rem 1rem 1rem}
+  .detail-panel{max-width:calc(100% - 1rem);margin:0.5rem;padding:1.25rem}
+  .detail-header-name{font-size:1rem}
+  .app-tile{padding:1.25rem 0.3rem 0.5rem}
 }
-
 @media(max-width:480px){
-  .app-grid{grid-template-columns:repeat(3,1fr);gap:0.4rem}
-  .tile-icon{width:36px;height:36px;font-size:1rem}
-  .site-header{padding:0.6rem var(--space-sm)}
+  .app-grid{grid-template-columns:repeat(3,1fr);gap:0.35rem}
+  .tile-icon{width:42px;height:42px}
 }
 
 @media(prefers-reduced-motion:reduce){
@@ -306,18 +658,14 @@ body::after{
   .detail-overlay.is-open .detail-panel{opacity:1}
   .detail-backdrop{opacity:0;transition:opacity 0.2s}
   .detail-overlay.is-open .detail-backdrop{opacity:1}
-  .app-tile:hover{transform:none}
 }
 
 /* entrance */
 @keyframes tileIn{
-  from{opacity:0;transform:translateY(12px) scale(0.96)}
+  from{opacity:0;transform:translateY(10px) scale(0.97)}
   to{opacity:1;transform:translateY(0) scale(1)}
 }
-.app-tile{animation:tileIn 0.4s ease both}
-.app-tile:nth-child(1){animation-delay:0.015s}
-.app-tile:nth-child(2){animation-delay:0.03s}
-/* continue via js */
+.app-tile{animation:tileIn 0.35s ease both}
 
 </style>
 </head>
@@ -334,21 +682,17 @@ body::after{
   <div class="hero-block">
     <span class="hero-tagline">21 tools | 2 conversations</span>
     <h1 class="hero-title">mini tools<span class="dot">.</span></h1>
-    <p class="hero-sub">Twenty-one single-purpose tools extracted from two conversations with Dan Shipper. Each does one thing and ships in minutes.</p>
+    <p class="hero-sub">Twenty-one single-purpose tools extracted from two conversations with Dan Shipper.</p>
   </div>
 </section>
 
 <div class="batch-label">batch 1 | first conversation</div>
 <div class="app-grid" id="grid1"></div>
-
 <div class="batch-label">batch 1.5 | returns episode</div>
 <div class="app-grid" id="grid2"></div>
 
-<footer class="site-footer">
-  mini tools | extracted by hand | no generated tools | zero fluff
-</footer>
+<footer class="site-footer">mini tools | extracted by hand | no generated tools</footer>
 
-<!-- Detail overlay -->
 <div class="detail-overlay" id="detail">
   <div class="detail-backdrop" id="detailBackdrop"></div>
   <div class="detail-panel" id="detailPanel">
@@ -377,166 +721,157 @@ body::after{
 </div>
 
 <script>
-const ICONS = ["&#9998;","&#127897;","&#128203;","&#9858;","&#128269;","&#128200;","&#129504;","&#10022;","&#128101;","&#128200;","&#127942;","&#128647;","&#127793;","&#128250;","&#128260;","&#128209;","&#129514;","&#127873;","&#128465;","&#128100;","&#9881;"];
-
 const APPS = [
-  {id:"stylepull",name:"StylePull",icon:0,cat:"writing",accent:"#00E5FF",
-    what:"Extract an author&rsquo;s signature techniques&mdash;sentence rhythm, vocabulary, punctuation habits&mdash;from any text.",
+  {id:"stylepull",name:"StylePull",cat:"writing",accent:"#00E5FF",
+    what:"Extract an author&rsquo;s signature techniques from any text&mdash;sentence rhythm, vocabulary, punctuation habits&mdash;into a playbook.",
     why:"Borrow craft from writers who move you. Build your playbook. Stop writing blind.",
-    podcast:"&ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&rsquo;s descriptions into a guide. Now I have a style reference I can use.&rdquo;",
+    podcast:"&ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&rsquo;s descriptions into a guide. Now I have a style reference.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/stylepull/"},
-  {id:"manuscript",name:"Manuscript",icon:1,cat:"meetings",accent:"#7C3AED",
+  {id:"manuscript",name:"Manuscript",cat:"meetings",accent:"#7C3AED",
     what:"Drop a meeting transcript. Build a voice profile&mdash;hedging rate, question ratio, filler habits, interruption frequency.",
     why:"Hear yourself as others do. Fix the patterns that undermine your point.",
     podcast:"&ldquo;I built a benchmark: can it predict what I&rsquo;m going to say in a meeting? It knew my habits better than I did.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/manuscript/"},
-  {id:"rambler-prd",name:"Rambler &rarr; PRD",icon:2,cat:"product",accent:"#F59E0B",
+  {id:"rambler-prd",name:"Rambler &rarr; PRD",cat:"product",accent:"#F59E0B",
     what:"Type raw ideas. Get a structured PRD&mdash;problem, users, stories, constraints, edge cases, success metrics.",
     why:"Ship structure from chaos. One prompt replaces the spec meeting.",
     podcast:"&ldquo;Instead of writing PRDs from scratch, I write a prompt that turns rambling into a perfect PRD. It&rsquo;s the highest-leverage writing I do.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/rambler-prd/"},
-  {id:"neverrepeat",name:"NeverRepeat",icon:3,cat:"management",accent:"#FF2D78",
-    what:"Every piece of feedback you give becomes a reusable prompt. Build a library of your taste. Your team runs it.",
+  {id:"neverrepeat",name:"NeverRepeat",cat:"management",accent:"#FF2D78",
+    what:"Every piece of feedback you give becomes a reusable prompt. Build a library of your taste.",
     why:"Write feedback once. Let the team encode it into every future deliverable.",
     podcast:"&ldquo;Alex recorded every edit, put it in a prompt, and never made the same mistake twice. He got coaching-level growth from a prompt.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/neverrepeat/"},
-  {id:"copyscout",name:"CopyScout",icon:4,cat:"engineering",accent:"#0D9488",
-    what:"Point it at your codebase. Checks UI copy against your style guide. Flags inconsistencies across every surface.",
+  {id:"copyscout",name:"CopyScout",cat:"engineering",accent:"#0D9488",
+    what:"Point it at your codebase. Checks UI copy against your style guide. Flags inconsistencies everywhere.",
     why:"Catch voice drift before it ships. Brand consistency is a CI check.",
-    podcast:"&ldquo;We have a Claude Code command that checks the entire codebase for copy edits and opens a PR. The design team never catches anything because the prompt already caught it.&rdquo;",
+    podcast:"&ldquo;We have a Claude Code command that checks the entire codebase for copy edits. The design team never catches anything because the prompt already caught it.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/copyscout/"},
-  {id:"vibecheck",name:"VibeCheck",icon:5,cat:"ai tools",accent:"#A855F7",
+  {id:"vibecheck",name:"VibeCheck",cat:"ai tools",accent:"#A855F7",
     what:"Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and feeling.",
     why:"Benchmark models on what you actually ship, not academic trivia.",
-    podcast:"&ldquo;Vibe checks capture how it feels to use a model, which standard benchmarks don&rsquo;t. They&rsquo;re subjective but they matter more for real work.&rdquo;",
+    podcast:"&ldquo;Vibe checks capture how it feels to use a model, which standard benchmarks don&rsquo;t. They matter more for real work.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/vibecheck/"},
-  {id:"memorymine",name:"MemoryMine",icon:6,cat:"personal",accent:"#06B6D4",
+  {id:"memorymine",name:"MemoryMine",cat:"personal",accent:"#06B6D4",
     what:"Weekly self-reflection from your journal entries. Surfaces patterns, blind spots, and recurring themes.",
     why:"Track your thinking week over week. See what you miss in the moment.",
     podcast:"&ldquo;I send it transcripts and ask how did I do? It says: you did that thing you normally do. It knows me better than I track myself.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/memorymine/"},
-  {id:"spiral-lite",name:"Spiral Lite",icon:7,cat:"content",accent:"#059669",
-    what:"Say what you want to write about. It drafts variants, scores them against quality criteria, improves the best one.",
+  {id:"spiral-lite",name:"Spiral Lite",cat:"content",accent:"#059669",
+    what:"Say what you want. It drafts variants, scores them against quality criteria, improves the best one.",
     why:"Kill blank page paralysis. Draft, score, improve, publish in one pass.",
     podcast:"&ldquo;You say what you want, it judges its own output, and improves. The self-critique loop is the magic.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/spiral-lite/"},
-  {id:"agentroster",name:"AgentRoster",icon:8,cat:"agents",accent:"#6C3BED",
-    what:"A roster of AI agents with taste profiles. Route tasks, run in parallel, track performance per task type.",
+  {id:"agentroster",name:"AgentRoster",cat:"agents",accent:"#6C3BED",
+    what:"Roster of AI agents with taste profiles. Route tasks, run in parallel, track per-task performance.",
     why:"Match tasks to the right agent personality. Run them all, trust the best.",
     podcast:"&ldquo;Kieran uses Claude Code, Friday, and Charlie simultaneously. Each has a different personality. You route work to the one that&rsquo;s good at it.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/agentroster/"},
-  {id:"adoptionmap",name:"AdoptionMap",icon:9,cat:"org",accent:"#D97706",
+  {id:"adoptionmap",name:"AdoptionMap",cat:"org",accent:"#D97706",
     what:"Survey your team. See who&rsquo;s AI-ready, where blockers are, which teams unlock most leverage.",
-    why:"Find organizational resistance before it blocks adoption. One signal predicts everything.",
+    why:"Find resistance before it blocks adoption. One signal predicts everything.",
     podcast:"&ldquo;The number one predictor: does the CEO use ChatGPT? If yes, the whole company adopts. If no, nothing works.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/adoptionmap/"},
-  {id:"promotleague",name:"PromptLeague",icon:10,cat:"org",accent:"#EA580C",
-    what:"Weekly stats: who&rsquo;s using what, top prompts, trending workflows. Leaderboard for the 10% who share.",
+  {id:"promotleague",name:"PromptLeague",cat:"org",accent:"#EA580C",
+    what:"Weekly stats: who&rsquo;s using what, top prompts, trending workflows. Leaderboard for the 10%.",
     why:"Make AI usage visible. Reward sharers, not hoarders.",
     podcast:"&ldquo;Share usage stats every week. Highlight the best prompts. The 10% who figure things out become your internal champions.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/promotleague/"},
-  {id:"jobreshore",name:"JobReshore",icon:11,cat:"support",accent:"#BE185D",
+  {id:"jobreshore",name:"JobReshore",cat:"support",accent:"#BE185D",
     what:"AI-augmented customer support. Handles tier-1 autonomously, surfaces trends.",
-    why:"Scale support with AI. Cost of one part-time hire, capacity of a full team.",
+    why:"Scale support with AI. Cost of a part-time hire, capacity of a full team.",
     podcast:"&ldquo;10 people in the Midwest with AI can serve what 100 people used to. The jobs came back&mdash;they just look different now.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/jobreshore/"},
-  {id:"agentgardener",name:"AgentGardener",icon:12,cat:"ops",accent:"#2563EB",
+  {id:"agentgardener",name:"AgentGardener",cat:"ops",accent:"#2563EB",
     what:"Dashboard for all company agents: health, error rates, manual intervention. The ops console.",
-    why:"Monitor every company agent from one place. Fix problems before anyone notices.",
-    podcast:"&ldquo;Nitesh spends his day talking to Claudie in Slack, debugging it, keeping it on track. Every agent needs a human gardener.&rdquo;",
+    why:"Monitor every agent from one place. Fix problems before anyone notices.",
+    podcast:"&ldquo;Nitesh spends his day talking to Claudie in Slack, debugging it. Every agent needs a human gardener.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/agentgardener/"},
-  {id:"claudiecast",name:"ClaudieCast",icon:13,cat:"agents",accent:"#7C3AED",
-    what:"Agent-to-agent handoff. Your personal agent talks to the company super-agent. Full context preserved.",
+  {id:"claudiecast",name:"ClaudieCast",cat:"agents",accent:"#7C3AED",
+    what:"Agent-to-agent handoff. Your personal agent talks to the company super-agent. Context preserved.",
     why:"Your agent calls their agent. Zero manual handoff. Context survives intact.",
     podcast:"&ldquo;Two agents are better than one. Your personal agent can tell the company agent way more than you&rsquo;d ever type into a form.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/claudiecast/"},
-  {id:"supportloop",name:"SupportLoop",icon:14,cat:"engineering",accent:"#0891B2",
+  {id:"supportloop",name:"SupportLoop",cat:"engineering",accent:"#0891B2",
     what:"Agent bug reports: exact repro steps, code analysis, suggested fix. Company agent opens the PR.",
-    why:"Bug reports with repro and fix suggestion. Status: bug to PR in minutes.",
-    podcast:"&ldquo;An agent bug report is way better than a human one. It has the exact repro steps and what it thinks is wrong.&rdquo;",
+    why:"Bug reports with repro and fix suggestion. Bug to PR in minutes.",
+    podcast:"&ldquo;An agent bug report has the exact repro steps and what it thinks is wrong. The fix is often a PR away.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/supportloop/"},
-  {id:"notionplan",name:"NotionPlan",icon:15,cat:"product",accent:"#0D9488",
+  {id:"notionplan",name:"NotionPlan",cat:"product",accent:"#0D9488",
     what:"Agent interviews your team, cross-references goals with strategy, produces structured quarterly plans.",
     why:"Interview 20 people at scale. Read their plans in 20 minutes.",
     podcast:"&ldquo;A Notion agent asked 20 people about their goals, pushed back on weak answers, then produced plans. I read all 20 in the time for 2.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/notionplan/"},
-  {id:"benchtunnel",name:"BenchTunnel",icon:16,cat:"ai tools",accent:"#F59E0B",
-    what:"Score any model against canonical rewrites by senior engineers. Tracks model improvement over time.",
+  {id:"benchtunnel",name:"BenchTunnel",cat:"ai tools",accent:"#F59E0B",
+    what:"Score any model against canonical rewrites by senior engineers. Tracks improvement over time.",
     why:"Score models against human quality. Track whether AI is actually getting better.",
     podcast:"&ldquo;Two senior engineers rewrote my vibe-coded app. Now I score every new model against their versions. GPT-5.5 scored 62 out of 100.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/benchtunnel/"},
-  {id:"ridethemodel",name:"RideTheModel",icon:17,cat:"ai tools",accent:"#FF2D78",
-    what:"Your personal model test suite. Save 5&ndash;10 tasks. Every new model drop: auto-run, compare, share.",
+  {id:"ridethemodel",name:"RideTheModel",cat:"ai tools",accent:"#FF2D78",
+    what:"Your personal model test suite. Save 5&ndash;10 tasks. Every model drop: auto-run, compare, share.",
     why:"Turn over the same rocks every time. Know when models get better for your work.",
     podcast:"&ldquo;Turn over the same rocks every time. It couldn&rsquo;t do this last time. Now it scores 62. Ride the curve, don&rsquo;t fight it.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/ridethemodel/"},
-  {id:"slopfilter",name:"SlopFilter",icon:18,cat:"review",accent:"#BC1C1E",
+  {id:"slopfilter",name:"SlopFilter",cat:"review",accent:"#BC1C1E",
     what:"Review triage for AI-generated work. Scores confidence, completeness, consistency. Auto-approves high-confidence output.",
     why:"Stop reviewing bad AI output. Flag noise, approve signal, save senior hours.",
     podcast:"&ldquo;Data scientists spend most of their time reviewing bad AI analysis. You need systems to filter the slop so seniors focus on what matters.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/slopfilter/"},
-  {id:"claudiepair",name:"ClaudiePair",icon:19,cat:"writing",accent:"#06B6D4",
-    what:"Collaborative workspace. You write, agent watches: researches, suggests edits, formats. Both see what the other is doing.",
+  {id:"claudiepair",name:"ClaudiePair",cat:"writing",accent:"#06B6D4",
+    what:"Collaborative workspace. You write, agent watches: researches, suggests edits, formats. Both see each other.",
     why:"Write alongside an agent. It watches, you lead. It formats, you think.",
     podcast:"&ldquo;The agent has visibility into what I&rsquo;m doing. I have visibility into what the agent is doing. The agent handles formatting&mdash;I focus on the ideas.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/claudiepair/"},
-  {id:"superagentsetup",name:"SuperAgent Setup",icon:20,cat:"agents",accent:"#EA580C",
-    what:"Configure and scaffold a company super-agent. Slack, permissions, tool connections, feedback loop.",
+  {id:"superagentsetup",name:"SuperAgent Setup",cat:"agents",accent:"#EA580C",
+    what:"Configure and scaffold a company super-agent. Slack, permissions, tools, feedback loop.",
     why:"Scaffold your super agent in one session. Starts general, gets specialized.",
     podcast:"&ldquo;One super agent per company. Shopify has River. Ramp has one. A forward deployed engineer maintains it. This is the template.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/superagentsetup/"}
 ];
 
-// ─── Build tile grids ───
-function renderGrid(containerId, apps) {
-  const grid = document.getElementById(containerId);
-  grid.innerHTML = apps.map(a => `
-    <div class="app-tile" data-id="${a.id}" role="button" tabindex="0" aria-label="Open ${a.name}">
-      <div class="tile-icon" style="background:linear-gradient(135deg,${a.accent},${a.accent}cc);color:#fff">
-        ${ICONS[a.icon]}
-      </div>
+// ─── Build grids ───
+function buildGrid(id, apps) {
+  document.getElementById(id).innerHTML = apps.map(a =>
+    `<div class="app-tile" data-id="${a.id}" role="button" tabindex="0" style="--a:${a.accent};--a2:${a.accent}22" aria-label="Open ${a.name}">
+      <div class="tile-icon"></div>
       <span class="tile-name">${a.name}</span>
       <span class="tile-category">${a.cat}</span>
-    </div>
-  `).join("");
+    </div>`
+  ).join("");
 }
+buildGrid("grid1", APPS.slice(0,12));
+buildGrid("grid2", APPS.slice(12));
 
-renderGrid("grid1", APPS.slice(0,12));
-renderGrid("grid2", APPS.slice(12));
+// ─── Dynamic animation delays ───
+document.querySelectorAll(".app-tile").forEach((e,i)=>e.style.animationDelay=(0.02+i*0.02)+"s");
 
 // ─── Detail overlay ───
-const detail = document.getElementById("detail");
-const backdrop = document.getElementById("detailBackdrop");
-const panel = document.getElementById("detailPanel");
-const dAccent = document.getElementById("detailAccent");
-const dIcon = document.getElementById("detailIcon");
-const dName = document.getElementById("detailName");
-const dBtn = document.getElementById("detailUseBtn");
-const dWhat = document.getElementById("detailWhat");
-const dWhy = document.getElementById("detailWhy");
-const dPodcast = document.getElementById("detailPodcast");
-const dSource = document.getElementById("detailSource");
-const dClose = document.getElementById("detailClose");
+const D = { 
+  overlay:document.getElementById("detail"), backdrop:document.getElementById("detailBackdrop"),
+  panel:document.getElementById("detailPanel"), accent:document.getElementById("detailAccent"),
+  icon:document.getElementById("detailIcon"), name:document.getElementById("detailName"),
+  btn:document.getElementById("detailUseBtn"), what:document.getElementById("detailWhat"),
+  why:document.getElementById("detailWhy"), podcast:document.getElementById("detailPodcast"),
+  source:document.getElementById("detailSource"), close:document.getElementById("detailClose")
+};
 
 function openDetail(app) {
-  dAccent.style.background = app.accent;
-  dIcon.innerHTML = ICONS[app.icon];
-  dIcon.style.background = `linear-gradient(135deg,${app.accent},${app.accent}cc)`;
-  dIcon.style.color = "#fff";
-  dName.textContent = app.name;
-  dWhat.innerHTML = app.what;
-  dWhy.textContent = app.why;
-  dPodcast.innerHTML = app.podcast;
-  dSource.textContent = app.source;
-  dBtn.style.background = app.accent;
-  dBtn.onclick = () => { window.location.href = app.link; };
-  detail.classList.add("is-open");
+  D.accent.style.background = app.accent;
+  D.icon.style.background = app.accent;
+  D.name.textContent = app.name;
+  D.what.innerHTML = app.what;
+  D.why.textContent = app.why;
+  D.podcast.innerHTML = app.podcast;
+  D.source.textContent = app.source;
+  D.btn.style.background = app.accent;
+  D.btn.onclick = () => window.location.href = app.link;
+  D.overlay.classList.add("is-open");
   document.body.style.overflow = "hidden";
-  setTimeout(() => dClose.focus(), 200);
+  setTimeout(() => D.close.focus(), 200);
 }
 
 function closeDetail() {
-  detail.classList.remove("is-open");
+  D.overlay.classList.remove("is-open");
   document.body.style.overflow = "";
 }
 
@@ -549,22 +884,16 @@ document.querySelectorAll(".app-tile").forEach(el => {
   });
 });
 
-backdrop.addEventListener("click", closeDetail);
-dClose.addEventListener("click", closeDetail);
+D.backdrop.addEventListener("click", closeDetail);
+D.close.addEventListener("click", closeDetail);
 document.addEventListener("keydown", e => {
-  if (e.key === "Escape" && detail.classList.contains("is-open")) closeDetail();
+  if (e.key === "Escape" && D.overlay.classList.contains("is-open")) closeDetail();
 });
 
-// ─── Dynamic animation delays ───
-document.querySelectorAll(".app-tile").forEach((el,i) => {
-  const delay = 0.02 + (i * 0.025);
-  el.style.animationDelay = delay + "s";
-});
-
-// ─── Focus trap ───
-detail.addEventListener("keydown", e => {
-  if (e.key !== "Tab" || !detail.classList.contains("is-open")) return;
-  const f = detail.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+// Focus trap
+D.overlay.addEventListener("keydown", e => {
+  if (e.key !== "Tab" || !D.overlay.classList.contains("is-open")) return;
+  const f = D.overlay.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
   const first = f[0], last = f[f.length-1];
   if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
