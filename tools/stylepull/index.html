@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>StylePull | author style extractor</title>
 <meta name="description" content="Feed it any text. Extract the author's signature techniques into a usable playbook.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.css">
 <style>
   #stylepull-result { white-space: pre-wrap; }
@@ -13,58 +16,64 @@
   .result-section:nth-child(3) { animation-delay: 0.1s; }
   .result-section:nth-child(4) { animation-delay: 0.15s; }
   .result-section:nth-child(5) { animation-delay: 0.2s; }
-  .result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+  .result-section h4 { font-size: 0.7rem; font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: 0.15em; color: var(--neon-amber); margin-bottom: 0.5rem; opacity: 0.8; }
   .result-section ul { list-style: none; padding: 0; }
-  .result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: var(--space-sm); }
+  .result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-dim); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: var(--space-sm); }
   .result-section li span:first-child { color: var(--text); }
-  .result-section li span:last-child { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem; flex-shrink: 0; }
-  .highlight-block { background: rgba(15, 23, 42, 0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
-  .word-chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono); }
-  #word-count { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
+  .result-section li span:last-child { color: var(--text-muted); font-family: "JetBrains Mono", monospace; font-size: 0.75rem; flex-shrink: 0; }
+  .highlight-block { background: var(--ceramic-cool); border-left: 2px solid var(--neon-amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-dim); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .word-chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: var(--ceramic-cool); border: 1px solid var(--border); border-radius: 4px; font-size: 0.75rem; color: var(--text-dim); font-family: "JetBrains Mono", monospace; }
+  #word-count { font-size: 0.72rem; color: var(--text-muted); font-family: "JetBrains Mono", monospace; }
   @media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<div id="cursor-glow"></div>
-<div id="cursor-dot"></div>
-
 <header class="site-header">
   <div class="container">
-    <div>
-      <div class="site-title">mini<span>tools</span></div>
-      <div class="site-subtitle">extracted from conversations</div>
+    <div class="site-title">
+      <span class="title-icon">&#9670;</span>
+      mini tools
     </div>
     <nav class="site-nav">
-      <a href="../../">home</a>
-      <a href="https://github.com/santaclawone">source</a>
+      <a href="../../">apps</a>
+      <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
     </nav>
   </div>
 </header>
 
 <main class="container tool-page">
-  <div class="tool-page-header">
-    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
-    <div class="tool-badge">tool 01 | working prototype</div>
-    <h1>StylePull</h1>
-    <p>Paste any text. The tool reads your sample, identifies the author's signature techniques — sentence rhythm, word choices, structural patterns — and produces a style playbook you can apply to your own writing.</p>
-  </div>
+  <div class="tool-page-inner">
+    <a href="../../" class="tool-back">&larr; back to tools</a>
 
-  <div class="tool-body">
-    <div class="tool-input-panel">
-      <h3>input text</h3>
-      <textarea id="input-text" placeholder="Paste a passage from any author. Aim for 200+ words.&#10;&#10;Example: paste a paragraph from a novel, a newsletter issue, or a blog post you admire." rows="12"></textarea>
-      <div class="tool-actions">
-        <button class="btn btn-primary" onclick="analyzeStyle()">analyze style</button>
-        <button class="sample-btn" onclick="loadSample()">load sample</button>
-        <span id="word-count"></span>
+    <div class="tool-header">
+      <div class="tool-header-icon" style="background:linear-gradient(135deg,#00E5FF,#FF2D78);color:#fff;">&#9998;</div>
+      <div class="tool-header-text">
+        <h1>StylePull</h1>
+        <div class="tool-meta">
+          <span><span class="meta-dot"></span> batch 1</span>
+          <span>working prototype</span>
+          <span>Dan Shipper / Every</span>
+        </div>
       </div>
     </div>
 
-    <div class="tool-output-panel">
-      <h3>style playbook</h3>
-      <div id="stylepull-result">
-        <div class="tool-output-placeholder">Paste text and click "analyze style" to generate a playbook.</div>
+    <div class="tool-body">
+      <div class="tool-panel">
+        <h3>input text</h3>
+        <textarea id="input-text" placeholder="Paste a passage from any author. Aim for 200+ words.&#10;&#10;Example: paste a paragraph from a novel, a newsletter issue, or a blog post you admire." rows="12"></textarea>
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="analyzeStyle()">analyze style</button>
+          <button class="sample-btn" onclick="loadSample()">load sample</button>
+          <span id="word-count"></span>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <h3>style playbook</h3>
+        <div id="stylepull-result">
+          <div class="tool-output-empty">Paste text and click "analyze style" to generate a playbook.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -75,23 +84,12 @@
 </footer>
 
 <script>
-(function initCursor() {
-  const glow = document.getElementById('cursor-glow'), dot = document.getElementById('cursor-dot');
-  if (!glow || !dot) return;
-  if ('ontouchstart' in window || navigator.maxTouchPoints > 0) { glow.style.display = 'none'; dot.style.display = 'none'; return; }
-  let mx=-100,my=-100,gx=-100,gy=-100;
-  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-  !function anim(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(anim)}();
-  document.querySelectorAll('a,button,.btn,.tool-card,input,textarea,select,.sample-btn').forEach(el=>{el.addEventListener('mouseenter',()=>{glow.style.width='48px';glow.style.height='48px'});el.addEventListener('mouseleave',()=>{glow.style.width='32px';glow.style.height='32px'})});
-  document.addEventListener('mousedown',()=>{dot.style.width='4px';dot.style.height='4px'});document.addEventListener('mouseup',()=>{dot.style.width='6px';dot.style.height='6px'});
-})();
-
 function countWords(t){return t.trim()?t.trim().split(/\s+/).length:0}
 document.getElementById('input-text').addEventListener('input',function(){document.getElementById('word-count').textContent=countWords(this.value)+' words'});
 
 function loadSample(){const s="She was one of those pretty and charming girls born, as though fate had blundered over her, into a family of artisans. She had no marriage portion, no expectations, no means of being known, understood, loved, or wedded by a man of wealth and distinction; and she let herself be married off to a little clerk in the Ministry of Education. Her tastes were simple because she had never been able to afford any other, but she was as unhappy as though she had married beneath her; for women have no caste or class, their beauty, grace, and charm serving them for birth or family, their natural delicacy, their instinctive elegance, their nimbleness of wit, are their only mark of ranking, and the girls in that class may be the equal of the great ladies by means of a fine mouth and a well-turned ankle.\n\nShe suffered endlessly, feeling herself born for every delicacy and every luxury. She suffered from the poorness of her house, from its mean walls, worn chairs, and ugly curtains. All these things, of which other women of her class would not even have been aware, tormented and insulted her. The sight of the little Breton girl who did her humble housework stirred in her disconsolate regrets and wild daydreams.";document.getElementById('input-text').value=s;document.getElementById('word-count').textContent=countWords(s)+' words'}
 
-function analyzeStyle(){const t=document.getElementById('input-text').value.trim();if(!t||countWords(t)<20){document.getElementById('stylepull-result').innerHTML='<div class=\"tool-output-placeholder\">Need at least 20 words to extract meaningful patterns.</div>';return}
+function analyzeStyle(){const t=document.getElementById('input-text').value.trim();if(!t||countWords(t)<20){document.getElementById('stylepull-result').innerHTML='<div class=\"tool-output-empty\">Need at least 20 words to extract meaningful patterns.</div>';return}
 const r=extractStyleGuide(t);document.getElementById('stylepull-result').innerHTML=renderResult(r)}
 
 function extractStyleGuide(text){const s=text.match(/[^.!?\n]+[.!?]+/g)||[text],w=text.match(/\b\w+\b/g)||[],sl=s.map(x=>x.trim().split(/\s+/).length),avg=(sl.reduce((a,b)=>a+b,0)/sl.length).toFixed(1),short=sl.filter(l=>l<=8).length,long=sl.filter(l=>l>=25).length,uw=new Set(w.map(x=>x.toLowerCase().replace(/[^a-z]/g,''))),awl=(w.reduce((s,x)=>s+x.length,0)/w.length).toFixed(1),commas=(text.match(/,/g)||[]).length,semicolons=(text.match(/;/g)||[]).length,colons=(text.match(/:/g)||[]).length,leadIns=text.match(/\b(She|He|It|They|There|This|That)\s+(was|were|had|came|felt|knew|saw|thought|wanted|imagined)\b/gi)||[],andChains=text.match(/\w+(,\s+\w+)*,\s+and\s+\w+/g)||[]

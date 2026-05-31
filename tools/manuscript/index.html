@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Manuscript | meeting pattern analyzer</title>
 <meta name="description" content="Drop your meeting transcripts. Build a voice profile and surface blind spots.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.css">
 <style>
   #manuscript-result { white-space: pre-wrap; }
@@ -12,55 +15,66 @@
   .result-section:nth-child(2) { animation-delay: 0.05s; }
   .result-section:nth-child(3) { animation-delay: 0.1s; }
   .result-section:nth-child(4) { animation-delay: 0.15s; }
-  .result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+  .result-section h4 { font-size: 0.7rem; font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: 0.15em; color: var(--neon-amber); margin-bottom: 0.5rem; opacity: 0.8; }
   .result-section ul { list-style: none; padding: 0; }
-  .result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: var(--space-sm); }
+  .result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-dim); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: var(--space-sm); }
   .result-section li span:first-child { color: var(--text); }
-  .result-section li span:last-child { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.75rem; flex-shrink: 0; }
-  .pattern-block { background: rgba(15, 23, 42, 0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .result-section li span:last-child { color: var(--text-muted); font-family: "JetBrains Mono", monospace; font-size: 0.75rem; flex-shrink: 0; }
+  .pattern-block { background: var(--ceramic-cool); border-left: 2px solid var(--neon-amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-dim); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
   .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
-  .metric-box { background: rgba(15, 23, 42, 0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
-  .metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+  .metric-box { background: var(--ceramic-cool); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+  .metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: "Space Grotesk", sans-serif; color: var(--neon-cyan); }
   .metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
-  #para-count { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
+  #para-count { font-size: 0.72rem; color: var(--text-muted); font-family: "JetBrains Mono", monospace; }
   @media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<div id="cursor-glow"></div>
-<div id="cursor-dot"></div>
 
 <header class="site-header">
   <div class="container">
-    <div>
-      <div class="site-title">mini<span>tools</span></div>
-      <div class="site-subtitle">extracted from conversations</div>
+    <div class="site-title">
+      <span class="title-icon">&#9670;</span>
+      mini tools
     </div>
-    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+    <nav class="site-nav">
+      <a href="../../">apps</a>
+      <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
+    </nav>
   </div>
 </header>
 
 <main class="container tool-page">
-  <div class="tool-page-header">
-    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
-    <div class="tool-badge">tool 02 | working prototype</div>
-    <h1>Manuscript</h1>
-    <p>Paste a meeting transcript (or any conversation). The tool builds a profile of your speaking patterns: who you interrupt, when you hedge, where your energy peaks and dips.</p>
-  </div>
+  <div class="tool-page-inner">
+    <a href="../../" class="tool-back">&larr; back to tools</a>
 
-  <div class="tool-body">
-    <div class="tool-input-panel">
-      <h3>transcript</h3>
-      <textarea id="input-transcript" placeholder="Paste a meeting transcript with speaker labels.&#10;&#10;Format: SpeakerName: text" rows="12"></textarea>
-      <div class="tool-actions">
-        <button class="btn btn-primary" onclick="analyzeTranscript()">analyze transcript</button>
-        <button class="sample-btn" onclick="loadSample()">load sample</button>
-        <span id="para-count"></span>
+    <div class="tool-header">
+      <div class="tool-header-icon" style="background:linear-gradient(135deg,#7C3AED,#FF2D78);color:#fff;">&#9782;</div>
+      <div class="tool-header-text">
+        <h1>Manuscript</h1>
+        <div class="tool-meta">
+          <span><span class="meta-dot"></span> batch 1</span>
+          <span>working prototype</span>
+          <span>Dan Shipper / Every</span>
+        </div>
       </div>
     </div>
-    <div class="tool-output-panel">
-      <h3>patterns</h3>
-      <div id="manuscript-result"><div class="tool-output-placeholder">Paste a transcript and click "analyze transcript" to surface your patterns.</div></div>
+
+    <div class="tool-body">
+      <div class="tool-panel">
+        <h3>transcript</h3>
+        <textarea id="input-transcript" placeholder="Paste a meeting transcript with speaker labels.&#10;&#10;Format: SpeakerName: text" rows="12"></textarea>
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="analyzeTranscript()">analyze transcript</button>
+          <button class="sample-btn" onclick="loadSample()">load sample</button>
+          <span id="para-count"></span>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <h3>patterns</h3>
+        <div id="manuscript-result"><div class="tool-output-empty">Paste a transcript and click "analyze transcript" to surface your patterns.</div></div>
+      </div>
     </div>
   </div>
 </main>
@@ -68,13 +82,11 @@
 <footer class="site-footer"><div class="container">Manuscript — extracted from Dan Shipper on Lenny's Podcast</div></footer>
 
 <script>
-(function initCursor(){const g=document.getElementById('cursor-glow'),d=document.getElementById('cursor-dot');if(!g||!d)return;if('ontouchstart'in window||navigator.maxTouchPoints>0){g.style.display='none';d.style.display='none';return}let mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px'});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+'px';g.style.top=gy+'px';requestAnimationFrame(a)}();document.querySelectorAll('a,button,.btn,input,textarea,select,.sample-btn').forEach(e=>{e.addEventListener('mouseenter',()=>{g.style.width='48px';g.style.height='48px'});e.addEventListener('mouseleave',()=>{g.style.width='32px';g.style.height='32px'})});document.addEventListener('mousedown',()=>{d.style.width='4px';d.style.height='4px'});document.addEventListener('mouseup',()=>{d.style.width='6px';d.style.height='6px'})})();
-
 document.getElementById('input-transcript').addEventListener('input',function(){document.getElementById('para-count').textContent=this.value.trim().split('\n').filter(l=>l.trim()).length+' lines'});
 
 function loadSample(){const s="Alex: I've been working on the new onboarding flow. I think we should add a video tutorial.\nYou: Interesting. What kind of video?\nAlex: Maybe a 90-second walkthrough. Show the key features.\nYou: That could work. Though I worry about maintenance. Videos get stale.\nAlex: We could split-test it. See if it improves activation.\nYou: Let me think about that. I mean, it's a good idea. Testing is always smart. But I'm not sure we have the bandwidth right now.\nAlex: What if I owned it? I could keep it updated as part of my regular cycle.\nYou: Hmm. That's a decent offer. Let me consider the trade-offs. The team is already stretched thin.";document.getElementById('input-transcript').value=s;document.getElementById('para-count').textContent=s.trim().split('\n').filter(l=>l.trim()).length+' lines'}
 
-function analyzeTranscript(){const t=document.getElementById('input-transcript').value.trim();if(!t||t.split('\n').filter(l=>l.trim()).length<3){document.getElementById('manuscript-result').innerHTML='<div class="tool-output-placeholder">Need at least 3 lines of transcript.</div>';return}
+function analyzeTranscript(){const t=document.getElementById('input-transcript').value.trim();if(!t||t.split('\n').filter(l=>l.trim()).length<3){document.getElementById('manuscript-result').innerHTML='<div class="tool-output-empty">Need at least 3 lines of transcript.</div>';return}
 const e=[];for(const l of t.split('\n').filter(l=>l.trim())){const m=l.match(/^([A-Za-z0-9][A-Za-z0-9\s]*?):\s(.+)$/);if(m)e.push({speaker:m[1].trim(),text:m[2].trim()})}
 if(e.length===0)e.push({speaker:'Speaker',text:t});const ss={};e.forEach(e=>{if(!ss[e.speaker])ss[e.speaker]={turns:0,words:0,questions:0,hedges:0,affirmatives:0,negatives:0};const s=ss[e.speaker];s.turns++;s.words+=e.text.split(/\s+/).length;s.questions+=(e.text.match(/\?/g)||[]).length;s.hedges+=(e.text.match(/\b(maybe|perhaps|possibly|I think|I feel|not sure|kind of|sort of|I guess)\b/gi)||[]).length;s.affirmatives+=(e.text.match(/\b(yes|sure|okay|great|good|alright|agreed|absolutely)\b/gi)||[]).length;s.negatives+=(e.text.match(/\b(no|but|however|though|worried|concerned|problem|issue|hard|difficult)\b/gi)||[]).length})
 const sorted=Object.entries(ss).sort((a,b)=>b[1].turns-a[1].turns),main=sorted[0],ms=main[1];let h=''

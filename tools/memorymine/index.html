@@ -5,64 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MemoryMine | personal reflection tool</title>
 <meta name="description" content="Paste journal entries. Surface patterns and insights.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.css">
 <style>
 .result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
-.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section h4 { font-size: 0.7rem; font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: 0.15em; color: var(--neon-amber); margin-bottom: 0.5rem; opacity: 0.8; }
 .result-section ul { list-style: none; padding: 0; }
-.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
-.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+.highlight-block { background: var(--ceramic-cool); border-left: 2px solid var(--neon-amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-dim); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
 .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
-.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
-.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box { background: var(--ceramic-cool); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: "Space Grotesk", sans-serif; color: var(--neon-cyan); }
 .metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
-.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
-.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
-.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
-.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
-.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
-.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-dim); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: "Inter", sans-serif; }
+.choice-btn:hover { border-color: var(--neon-amber); color: var(--neon-amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--neon-amber); color: var(--neon-amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: var(--ceramic-cool); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-dim); font-family: "JetBrains Mono", monospace; }
+.bar-container { background: var(--ceramic-cool); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--neon-cyan), rgba(0,229,255,0.4)); transition: width 0.6s ease; }
 @media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
-
 </style>
 </head>
 <body>
-<div id="cursor-glow"></div><div id="cursor-dot"></div>
+
 <header class="site-header">
   <div class="container">
-    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
-    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+    <div class="site-title">
+      <span class="title-icon">&#9670;</span>
+      mini tools
+    </div>
+    <nav class="site-nav">
+      <a href="../../">apps</a>
+      <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
+    </nav>
   </div>
 </header>
+
 <main class="container tool-page">
-  <div class="tool-page-header">
-    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
-    <div class="tool-badge">tool 09 | interactive</div>
-    <h1>MemoryMine</h1>
-    <p>Paste journal entries. Surface patterns and insights.</p>
-  </div>
-  <div class="tool-body">
-    <div class="tool-input-panel">
-      <h3>journal entry</h3>
-      <textarea id="mm-input" placeholder="Paste a journal entry, diary page, or personal reflection.&#10;&#10;The tool surfaces patterns, emotional arcs, and blind spots." rows="10"></textarea>
-      <div class="tool-actions">
-        <button class="btn btn-primary" onclick="mineMemory()">mine patterns</button>
-        <button class="sample-btn" onclick="loadMMSample()">sample entry</button>
+  <div class="tool-page-inner">
+    <a href="../../" class="tool-back">&larr; back to tools</a>
+
+    <div class="tool-header">
+      <div class="tool-header-icon" style="background:linear-gradient(135deg,#F59E0B,#FF2D78);color:#fff;">&#9881;</div>
+      <div class="tool-header-text">
+        <h1>MemoryMine</h1>
+        <div class="tool-meta">
+          <span><span class="meta-dot"></span> batch 1</span>
+          <span>interactive</span>
+          <span>every.to / Lenny</span>
+        </div>
       </div>
     </div>
-    <div class="tool-output-panel">
-      <h3>patterns and insights</h3>
-      <div id="mm-output"><div class="tool-output-placeholder">Paste a journal entry and click "mine patterns".</div></div>
+
+    <div class="tool-body">
+      <div class="tool-panel">
+        <h3>journal entry</h3>
+        <textarea id="mm-input" placeholder="Paste a journal entry, diary page, or personal reflection.&#10;&#10;The tool surfaces patterns, emotional arcs, and blind spots." rows="10"></textarea>
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="mineMemory()">mine patterns</button>
+          <button class="sample-btn" onclick="loadMMSample()">sample entry</button>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <h3>patterns and insights</h3>
+        <div id="mm-output"><div class="tool-output-empty">Paste a journal entry and click "mine patterns".</div></div>
+      </div>
     </div>
   </div>
 </main>
-<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
-<script>
-(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
 
+<footer class="site-footer"><div class="container">MemoryMine — surface patterns from personal writing</div></footer>
+
+<script>
 function mineMemory() {
   var txt = document.getElementById("mm-input").value.trim();
-  if (!txt || txt.split(/\s+/).length < 15) { document.getElementById("mm-output").innerHTML = '<div class="tool-output-placeholder">Need more journal content. Aim for 50+ words.</div>'; return; }
+  if (!txt || txt.split(/\s+/).length < 15) { document.getElementById("mm-output").innerHTML = '<div class="tool-output-empty">Need more journal content. Aim for 50+ words.</div>'; return; }
   var w = txt.match(/\b\w+\b/g)||[], sents = txt.match(/[^.!?\n]+[.!?]+/g)||[txt];
   var themes = [];
   var emotionWords = txt.match(/\b(happy|sad|angry|frustrated|excited|anxious|tired|grateful|worried|hopeful|stressed|calm|proud|guilty|ashamed|lost|confident|inspired|burnout|overwhelm|joy|fear|love|hate|regret|relief|dread|hope|disappointed|content|restless|doubt|trust)\b/gi)||[];
@@ -83,15 +103,14 @@ function mineMemory() {
   if (workWords.length > 2) {h += '<div class="result-section"><h4>work themes ('+workWords.length+' signals)</h4><div class="highlight-block">'+workWords.map(function(e){return '<span class="chip">'+e.toLowerCase()+'</span>'}).join(" ")+'</div></div>';}
   if (peopleWords.length > 1) {h += '<div class="result-section"><h4>people & relationships</h4><div class="highlight-block">'+peopleWords.map(function(e){return '<span class="chip">'+e.toLowerCase()+'</span>'}).join(" ")+'</div></div>';}
   if (actionWords.length > 2) {h += '<div class="result-section"><h4>action patterns</h4><div class="highlight-block">'+actionWords.map(function(e){return '<span class="chip">'+e.toLowerCase()+'</span>'}).join(" ")+'</div></div>';}
-  h += '<div class="result-section"><h4>repeated vocabulary</h4><div style="font-size:0.75rem;color:var(--text-muted);font-family:var(--font-mono)">'+freqWords+'</div></div>';
-  var insight = tone.includes("challenging") ? 'Tone suggests a difficult period. Consider what support you might need.' : tone.includes("positive") ? 'Forward-looking tone. Capture what's driving the momentum.' : 'Balanced entry. Look for what's absent — what topics did you avoid?';
+  h += '<div class="result-section"><h4>repeated vocabulary</h4><div style="font-size:0.75rem;color:var(--text-muted);font-family:\'JetBrains Mono\',monospace">'+freqWords+'</div></div>';
+  var insight = tone.includes("challenging") ? 'Tone suggests a difficult period. Consider what support you might need.' : tone.includes("positive") ? 'Forward-looking tone. Capture what\'s driving the momentum.' : 'Balanced entry. Look for what\'s absent — what topics did you avoid?';
   h += '<div class="result-section"><h4>one insight</h4><div class="highlight-block">'+insight+'</div></div>';
   document.getElementById("mm-output").innerHTML = h;
 }
 function loadMMSample() {
   document.getElementById("mm-input").value = "This week was tough. I had three project deadlines converge and I felt completely overwhelmed. The team meeting on Tuesday was good though — we finally aligned on the architecture direction. I'm frustrated that the database migration took longer than expected, but proud that we caught the edge cases before they hit production. I keep thinking about whether I should ask for a promotion. I've been leading this project for six months and the results speak for themselves. But I'm anxious about the conversation. What if they say no? What if I'm not ready? My partner says I'm ready. My friends say I'm ready. Why can't I believe it?";
 }
-
 </script>
 </body>
 </html>

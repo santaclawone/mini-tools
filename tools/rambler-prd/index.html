@@ -5,74 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rambler to PRD | structured spec from raw ideas</title>
 <meta name="description" content="Type raw ideas. Get a structured PRD back.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.css">
 <style>
   #rambler-output { white-space: pre-wrap; }
   .result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
   .result-section:nth-child(2) { animation-delay: 0.05s; }
-  .result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+  .result-section h4 { font-size: 0.7rem; font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: 0.15em; color: var(--neon-amber); margin-bottom: 0.5rem; opacity: 0.8; }
   .result-section ul { list-style: none; padding: 0; }
-  .result-section li { padding: 0.3rem 0; font-size: 0.82rem; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
-  .result-section li::before { content: "> "; color: var(--amber); }
-  .prd-field { margin: var(--space-xs) 0; padding: var(--space-xs) var(--space-sm); border-left: 2px solid var(--amber); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
-  .prd-field strong { display: block; font-size: 0.7rem; color: var(--amber); font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
-  .prd-field p { font-size: 0.82rem; color: var(--text-secondary); margin: 0; line-height: 1.6; }
+  .result-section li { padding: 0.3rem 0; font-size: 0.82rem; border-bottom: 1px solid var(--border); color: var(--text-dim); }
+  .result-section li::before { content: "> "; color: var(--neon-amber); }
+  .prd-field { margin: var(--space-xs) 0; padding: var(--space-xs) var(--space-sm); border-left: 2px solid var(--neon-amber); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  .prd-field strong { display: block; font-size: 0.7rem; color: var(--neon-amber); font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+  .prd-field p { font-size: 0.82rem; color: var(--text-dim); margin: 0; line-height: 1.6; }
   .quick-fill { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-  .quick-fill button { font-size: 0.72rem; padding: 0.25rem 0.65rem; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-family: var(--font-body); }
-  .quick-fill button:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
-  #input-stats { font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); }
+  .quick-fill button { font-size: 0.72rem; padding: 0.25rem 0.65rem; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--text-muted); cursor: pointer; transition: all 0.2s; font-family: "Inter", sans-serif; }
+  .quick-fill button:hover { border-color: var(--neon-amber); color: var(--neon-amber); background: rgba(245,158,11,0.04); }
+  #input-stats { font-size: 0.72rem; color: var(--text-muted); font-family: "JetBrains Mono", monospace; }
   @media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-<div id="cursor-glow"></div><div id="cursor-dot"></div>
+
 <header class="site-header">
   <div class="container">
-    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
-    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+    <div class="site-title">
+      <span class="title-icon">&#9670;</span>
+      mini tools
+    </div>
+    <nav class="site-nav">
+      <a href="../../">apps</a>
+      <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
+    </nav>
   </div>
 </header>
+
 <main class="container tool-page">
-  <div class="tool-page-header">
-    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
-    <div class="tool-badge">tool 03 | working prototype</div>
-    <h1>Rambler to PRD</h1>
-    <p>Type or paste raw ideas. The tool structures them into a proper product requirements document — problem, users, stories, constraints, edge cases. Each time you refine, the template gets better.</p>
-  </div>
-  <div class="tool-body">
-    <div class="tool-input-panel">
-      <h3>brain dump</h3>
-      <textarea id="input-rambling" placeholder="Type whatever's in your head. Bullet points. Paragraphs. Questions. Half-baked ideas. The structure comes after." rows="12"></textarea>
-      <div class="quick-fill" style="margin:0.5rem 0;">
-        <button onclick="fillSample('tool')">sample: tool idea</button>
-        <button onclick="fillSample('feature')">sample: feature</button>
-        <button onclick="fillSample('service')">sample: service</button>
-      </div>
-      <div class="tool-actions">
-        <button class="btn btn-primary" onclick="generatePRD()">generate PRD</button>
-        <span id="input-stats"></span>
+  <div class="tool-page-inner">
+    <a href="../../" class="tool-back">&larr; back to tools</a>
+
+    <div class="tool-header">
+      <div class="tool-header-icon" style="background:linear-gradient(135deg,#F59E0B,#00E5FF);color:#fff;">&#9997;</div>
+      <div class="tool-header-text">
+        <h1>Rambler to PRD</h1>
+        <div class="tool-meta">
+          <span><span class="meta-dot"></span> batch 1</span>
+          <span>working prototype</span>
+          <span>Dan Shipper / Every</span>
+        </div>
       </div>
     </div>
-    <div class="tool-output-panel">
-      <h3>PRD</h3>
-      <div id="rambler-output"><div class="tool-output-placeholder">Type your idea and click "generate PRD" to get a structured spec.</div></div>
+
+    <div class="tool-body">
+      <div class="tool-panel">
+        <h3>brain dump</h3>
+        <textarea id="input-rambling" placeholder="Type whatever's in your head. Bullet points. Paragraphs. Questions. Half-baked ideas. The structure comes after." rows="12"></textarea>
+        <div class="quick-fill" style="margin:0.5rem 0;">
+          <button onclick="fillSample('tool')">sample: tool idea</button>
+          <button onclick="fillSample('feature')">sample: feature</button>
+          <button onclick="fillSample('service')">sample: service</button>
+        </div>
+        <div class="tool-actions">
+          <button class="btn btn-primary" onclick="generatePRD()">generate PRD</button>
+          <span id="input-stats"></span>
+        </div>
+      </div>
+
+      <div class="tool-panel">
+        <h3>PRD</h3>
+        <div id="rambler-output"><div class="tool-output-empty">Type your idea and click "generate PRD" to get a structured spec.</div></div>
+      </div>
     </div>
   </div>
 </main>
+
 <footer class="site-footer"><div class="container">Rambler to PRD — extracted from Dan Shipper on Lenny's Podcast</div></footer>
 
 <script>
-(function initCursor(){const g=document.getElementById('cursor-glow'),d=document.getElementById('cursor-dot');if(!g||!d)return;if('ontouchstart'in window||navigator.maxTouchPoints>0){g.style.display='none';d.style.display='none';return}let mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;d.style.left=mx+'px';d.style.top=my+'px'});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+'px';g.style.top=gy+'px';requestAnimationFrame(a)}();document.querySelectorAll('a,button,.btn,input,textarea,select').forEach(e=>{e.addEventListener('mouseenter',()=>{g.style.width='48px';g.style.height='48px'});e.addEventListener('mouseleave',()=>{g.style.width='32px';g.style.height='32px'})});document.addEventListener('mousedown',()=>{d.style.width='4px';d.style.height='4px'});document.addEventListener('mouseup',()=>{d.style.width='6px';d.style.height='6px'})})();
-
 document.getElementById('input-rambling').addEventListener('input',function(){const w=this.value.trim()?this.value.trim().split(/\s+/).length:0;document.getElementById('input-stats').textContent=w+' words'});
 
 function fillSample(t){const s={tool:"I want to build a tool that helps small business owners automatically respond to Google reviews.\n\nThe problem: nobody has time to respond to every review, but customers expect a response within 48 hours. Bad reviews hurt SEO.\n\nTarget users: local business owners with 5-50 employees. Coffee shops, dentists, plumbers.\n\nIt needs to integrate with Google My Business API, keep response history, and let owners customize tone. Free tier for 10 reviews/month.\n\nEdge cases: fake reviews, Google flagging AI responses, owner wanting to write their own.",feature:"I keep losing track of customer feedback across different channels. Intercom, GitHub, email, sales calls — nobody has a single view.\n\nI need a feedback aggregator. Pull from all sources, deduplicate, let me prioritize. AI groups similar requests so I see the top 3 things customers want.\n\nUsers: product managers and founders. Success metric: time from feedback capture to action decreases by 50%.",service:"I want to launch a ghostwriting service for B2B founders who want to post on LinkedIn but don't have time.\n\nFounder does 15-minute voice recording. AI turns it into a polished LinkedIn post. Founder reviews and publishes.\n\nTarget: SaaS founders, Series A to B. Pricing: $500/month for 4 posts."};document.getElementById('input-rambling').value=s[t];document.getElementById('input-stats').textContent=s[t].trim().split(/\s+/).length+' words'}
 
 function extractKw(text,kw){const lower=text.toLowerCase(),lines=text.split('\n');let best=[];for(let i=0;i<lines.length;i++){let sc=0;const l=lines[i].toLowerCase();for(const k of kw){if(l.includes(k))sc++}if(sc>0)best.push({idx:i,score:sc,text:lines[i]})}return best.sort((a,b)=>b.score-a.score).slice(0,3)}
 
-function generatePRD(){const t=document.getElementById('input-rambling').value.trim();if(!t||t.split(/\s+/).length<15){document.getElementById('rambler-output').innerHTML='<div class="tool-output-placeholder">Need more detail. Try a sample to see how it works.</div>';return}
+function generatePRD(){const t=document.getElementById('input-rambling').value.trim();if(!t||t.split(/\s+/).length<15){document.getElementById('rambler-output').innerHTML='<div class="tool-output-empty">Need more detail. Try a sample to see how it works.</div>';return}
 const lower=t.toLowerCase();const pLines=extractKw(t,['problem','issue','pain','struggle','hard','broken','frustrat','waste','slow','sucks']);const uLines=extractKw(t,['user','customer','founder','business','owner','target','persona','client']);const sLines=extractKw(t,['build','create','tool','app','feature','integrat','automate','need','want']);const eLines=extractKw(t,['edge case','what if','if .+ then','fail','error','break']);const wantMatch=t.match(/(?:I want to build|I need|build a) (.+?)[.\\n]/i);const title=wantMatch?wantMatch[1].charAt(0).toUpperCase()+wantMatch[1].slice(1):'Untitled Product';const stories=t.match(/as (?:a|an) (.+?)[,.] i (?:want|need) (.+?)(?:[.]|$)/gi)||['As a user, I can use this tool to solve my core problem.'];const features=t.split(/[.!?\n]+/).map(s=>s.trim().toLowerCase()).filter(s=>/^(need|should|must|could|will|integrat|handle|allow|let|enable)/.test(s)||/(api|automate|ai|track|sync|push)/.test(s)).slice(0,5);const edges=eLines.map(l=>l.text.substring(0,120)).filter(Boolean);if(edges.length===0){if(lower.includes('fake'))edges.push('Handle fraudulent or spam inputs.');if(lower.includes('api'))edges.push('API rate limits or service disruptions.');if(edges.length===0)edges.push('All external integrations become unavailable simultaneously.')}
-let h='';h+=`<div class="result-section"><div class="prd-field" style="border-left-width:3px"><strong>product</strong><span style="font-size:1.15rem;color:var(--text);font-weight:600;font-family:var(--font-heading)">${title}</span></div></div>`
+let h='';h+=`<div class="result-section"><div class="prd-field" style="border-left-width:3px"><strong>product</strong><span style="font-size:1.15rem;color:var(--text);font-weight:600;font-family:'Space Grotesk',sans-serif">${title}</span></div></div>`
 h+=`<div class="result-section"><h4>problem</h4><div class="prd-field"><p>${pLines.map(l=>l.text).join(' ').substring(0,300)||'Extracted from your description.'}</p></div></div>`
 h+=`<div class="result-section"><h4>target users</h4><div class="prd-field"><p>${uLines.map(l=>l.text).join(' ').substring(0,200)||'Define target users.'}</p></div></div>`
 h+=`<div class="result-section"><h4>solution</h4><div class="prd-field"><p>${sLines.map(l=>l.text).join(' ').substring(0,250)||'A focused tool addressing the problem above.'}</p></div></div>`
@@ -80,7 +100,7 @@ h+=`<div class="result-section"><h4>user stories</h4><ul>${stories.map(s=>`<li>$
 if(features.length){h+=`<div class="result-section"><h4>key features</h4><ul>${features.slice(0,5).map(f=>`<li>${f.substring(0,100)}</li>`).join('')}</ul></div>`}
 h+=`<div class="result-section"><h4>edge cases</h4><ul>${edges.map(e=>`<li>${e}</li>`).join('')}</ul></div>`
 h+=`<div class="result-section"><h4>success metrics</h4><div class="prd-field"><p>Define specific, measurable outcomes after initial build.</p></div></div>`
-h+=`<div class="result-section"><h4>compounding prompt</h4><div class="prd-field" style="background:rgba(15,23,42,0.5)"><strong style="color:var(--amber)">save this prompt</strong><p style="font-family:var(--font-mono);font-size:0.78rem">"Based on this brain dump, produce a PRD with sections: problem, target users, solution, user stories, key features, constraints, edge cases, and success metrics."</p></div></div>`
+h+=`<div class="result-section"><h4>compounding prompt</h4><div class="prd-field" style="background:var(--ceramic-cool)"><strong style="color:var(--neon-amber)">save this prompt</strong><p style="font-family:'JetBrains Mono',monospace;font-size:0.78rem">"Based on this brain dump, produce a PRD with sections: problem, target users, solution, user stories, key features, constraints, edge cases, and success metrics."</p></div></div>`
 document.getElementById('rambler-output').innerHTML=h}
 </script>
 </body>

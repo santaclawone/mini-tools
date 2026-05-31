@@ -5,58 +5,78 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AgentRoster | agent personality comparison</title>
 <meta name="description" content="Select agents. Compare taste profiles and strengths.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.css">
 <style>
 .result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
-.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section h4 { font-size: 0.7rem; font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: 0.15em; color: var(--neon-amber); margin-bottom: 0.5rem; opacity: 0.8; }
 .result-section ul { list-style: none; padding: 0; }
-.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
-.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+.highlight-block { background: var(--ceramic-cool); border-left: 2px solid var(--neon-amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-dim); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
 .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
-.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
-.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box { background: var(--ceramic-cool); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: "Space Grotesk", sans-serif; color: var(--neon-cyan); }
 .metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
-.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
-.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
-.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
-.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
-.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
-.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-dim); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: "Inter", sans-serif; }
+.choice-btn:hover { border-color: var(--neon-amber); color: var(--neon-amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--neon-amber); color: var(--neon-amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: var(--ceramic-cool); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-dim); font-family: "JetBrains Mono", monospace; }
+.bar-container { background: var(--ceramic-cool); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--neon-cyan), rgba(0,229,255,0.4)); transition: width 0.6s ease; }
 @media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
-
 </style>
 </head>
 <body>
-<div id="cursor-glow"></div><div id="cursor-dot"></div>
+
 <header class="site-header">
   <div class="container">
-    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
-    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+    <div class="site-title">
+      <span class="title-icon">&#9670;</span>
+      mini tools
+    </div>
+    <nav class="site-nav">
+      <a href="../../">apps</a>
+      <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
+    </nav>
   </div>
 </header>
+
 <main class="container tool-page">
-  <div class="tool-page-header">
-    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
-    <div class="tool-badge">tool 11 | interactive</div>
-    <h1>AgentRoster</h1>
-    <p>Select agents. Compare taste profiles and strengths.</p>
-  </div>
-  <div class="tool-body">
-    <div class="tool-input-panel">
-      <h3>select agents</h3>
-      <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">Choose 1-3 agents to compare personality and taste profiles.</p>
-      <div id="ar-list" style="display:flex;flex-wrap:wrap;gap:0.35rem"></div>
+  <div class="tool-page-inner">
+    <a href="../../" class="tool-back">&larr; back to tools</a>
+
+    <div class="tool-header">
+      <div class="tool-header-icon" style="background:linear-gradient(135deg,#7C3AED,#F59E0B);color:#fff;">&#9783;</div>
+      <div class="tool-header-text">
+        <h1>AgentRoster</h1>
+        <div class="tool-meta">
+          <span><span class="meta-dot"></span> batch 2</span>
+          <span>interactive</span>
+          <span>every.to / Lenny</span>
+        </div>
+      </div>
     </div>
-    <div class="tool-output-panel">
-      <h3>taste profile comparison</h3>
-      <div id="ar-output"><div class="tool-output-placeholder">Select agents above to see their taste profiles.</div></div>
+
+    <div class="tool-body">
+      <div class="tool-panel">
+        <h3>select agents</h3>
+        <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:0.5rem">Choose 1-3 agents to compare personality and taste profiles.</p>
+        <div id="ar-list" style="display:flex;flex-wrap:wrap;gap:0.35rem"></div>
+      </div>
+
+      <div class="tool-panel">
+        <h3>taste profile comparison</h3>
+        <div id="ar-output"><div class="tool-output-empty">Select agents above to see their taste profiles.</div></div>
+      </div>
     </div>
   </div>
 </main>
-<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
-<script>
-(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
 
+<footer class="site-footer"><div class="container">AgentRoster — compare coding agent personalities</div></footer>
+
+<script>
 var agents = ["Claude Code","GPT Engineer","Cursor","Devin","Copilot","Replit Agent"];
 var agentsData = { "Claude Code": {taste:"thoughtful, precise, good at architecture",strength:"code architecture, refactoring, edge cases",weakness:"faster with context, slower cold start",bestFor:"complex refactors, system design"}, "GPT Engineer": {taste:"fast, pragmatic, good at scaffolding",strength:"rapid prototyping, boilerplate, full-stack",weakness:"can miss subtle bugs, less thorough",bestFor:"prototypes, MVPs, quick scripts"}, "Cursor": {taste:"interactive, good at context, agentic",strength:"large codebase work, multi-file edits",weakness:"can be overly aggressive with changes",bestFor:"feature implementation, bug fixes"}, "Devin": {taste:"autonomous, good at planning",strength:"end-to-end tasks, debugging, deployment",weakness:"slow, expensive, can go down rabbit holes",bestFor:"complex multi-step tasks"}, "Copilot": {taste:"conversational, inline suggestions",strength:"code completion, simple tasks, learning",weakness:"limited context, no planning",bestFor:"boilerplate, simple functions"}, "Replit Agent": {taste:"creative, good at full apps",strength:"app generation, deployment, iteration",weakness:"quality varies, limited customization",bestFor:"side projects, MVPs, prototypes"}
 };
@@ -68,7 +88,7 @@ function toggleAgent(a) {
 }
 function renderRoster() {
   var h = '<div class="result-section"><h4>your roster</h4>';
-  if (selectedAgents.length === 0) {h += '<div class="tool-output-placeholder">Select 1-3 agents to compare their taste profiles.</div>';}
+  if (selectedAgents.length === 0) {h += '<div class="tool-output-empty">Select 1-3 agents to compare their taste profiles.</div>';}
   else { h += '<div class="metric-grid"><div class="metric-box"><strong>'+selectedAgents.length+'</strong><span>agents selected</span></div><div class="metric-box"><strong>plus 3 max</strong><span>selection limit</span></div></div>';
     selectedAgents.forEach(function(a, i) { var d = agentsData[a];
       h += '<div class="result-section" style="animation-delay:'+(i*0.1)+'s"><h4>'+a+'</h4><ul><li><span>taste</span><span style="font-size:0.7rem">'+d.taste+'</span></li><li><span>strength</span><span style="font-size:0.7rem">'+d.strength+'</span></li><li><span>weakness</span><span style="font-size:0.7rem">'+d.weakness+'</span></li><li><span>best for</span><span style="font-size:0.7rem">'+d.bestFor+'</span></li></ul></div>';
@@ -84,8 +104,7 @@ function renderRoster() {
   }
   document.getElementById("ar-output").innerHTML = h;
 }
-(function() { var h=''; agents.forEach(function(a){h+='<button class="choice-btn agent-btn" onclick="toggleAgent(''+a+'')">'+a+'</button> '}); document.getElementById("ar-list").innerHTML = h; })();
-
+(function() { var h=''; agents.forEach(function(a){h+='<button class="choice-btn agent-btn" onclick="toggleAgent(\''+a+'\')">'+a+'</button> '}); document.getElementById("ar-list").innerHTML = h; })();
 </script>
 </body>
 </html>

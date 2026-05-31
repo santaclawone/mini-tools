@@ -5,82 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AdoptionMap | team AI readiness</title>
 <meta name="description" content="Answer survey questions. Get a readiness dashboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../style.css">
 <style>
 .result-section { margin-bottom: var(--space-md); animation: fadeSlideIn 0.4s ease both; }
-.result-section h4 { font-size: 0.7rem; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0.15em; color: var(--amber); margin-bottom: 0.5rem; opacity: 0.8; }
+.result-section h4 { font-size: 0.7rem; font-family: "Space Grotesk", sans-serif; text-transform: uppercase; letter-spacing: 0.15em; color: var(--neon-amber); margin-bottom: 0.5rem; opacity: 0.8; }
 .result-section ul { list-style: none; padding: 0; }
-.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-secondary); border-bottom: 1px solid var(--border); }
-.highlight-block { background: rgba(15,23,42,0.5); border-left: 2px solid var(--amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.result-section li { padding: 0.3rem 0; font-size: 0.82rem; color: var(--text-dim); border-bottom: 1px solid var(--border); }
+.highlight-block { background: var(--ceramic-cool); border-left: 2px solid var(--neon-amber); padding: var(--space-xs) var(--space-sm); margin: var(--space-xs) 0; font-size: 0.8rem; color: var(--text-dim); line-height: 1.7; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
 .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-xs); margin: var(--space-sm) 0; }
-.metric-box { background: rgba(15,23,42,0.5); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
-.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: var(--font-heading); color: var(--amber); }
+.metric-box { background: var(--ceramic-cool); padding: var(--space-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); text-align: center; }
+.metric-box strong { display: block; font-size: 1.5rem; font-weight: 700; font-family: "Space Grotesk", sans-serif; color: var(--neon-cyan); }
 .metric-box span { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 0.2rem; display: block; }
-.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: var(--font-body); }
-.choice-btn:hover { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.04); }
-.choice-btn.active { border-color: var(--amber); color: var(--amber); background: rgba(245,158,11,0.08); }
-.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-secondary); font-family: var(--font-mono); }
-.bar-container { background: rgba(15,23,42,0.5); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
-.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--amber), rgba(245,158,11,0.4)); transition: width 0.6s ease; }
+.choice-btn { padding: 0.4rem 0.8rem; background: transparent; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-dim); cursor: pointer; transition: all 0.2s; font-size: 0.8rem; font-family: "Inter", sans-serif; }
+.choice-btn:hover { border-color: var(--neon-amber); color: var(--neon-amber); background: rgba(245,158,11,0.04); }
+.choice-btn.active { border-color: var(--neon-amber); color: var(--neon-amber); background: rgba(245,158,11,0.08); }
+.chip { display: inline-block; padding: 0.1rem 0.35rem; margin: 0.1rem; background: var(--ceramic-cool); border: 1px solid var(--border); border-radius: 4px; font-size: 0.72rem; color: var(--text-dim); font-family: "JetBrains Mono", monospace; }
+.bar-container { background: var(--ceramic-cool); border-radius: 4px; height: 8px; overflow: hidden; margin: 0.25rem 0; }
+.bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--neon-cyan), rgba(0,229,255,0.4)); transition: width 0.6s ease; }
 @media (max-width: 768px) { .tool-body { grid-template-columns: 1fr; } }
-
 </style>
 </head>
 <body>
-<div id="cursor-glow"></div><div id="cursor-dot"></div>
+
 <header class="site-header">
   <div class="container">
-    <div><div class="site-title">mini<span>tools</span></div><div class="site-subtitle">extracted from conversations</div></div>
-    <nav class="site-nav"><a href="../../">home</a><a href="https://github.com/santaclawone">source</a></nav>
+    <div class="site-title">
+      <span class="title-icon">&#9670;</span>
+      mini tools
+    </div>
+    <nav class="site-nav">
+      <a href="../../">apps</a>
+      <a href="https://github.com/santaclawone/mini-tools" target="_blank">source</a>
+    </nav>
   </div>
 </header>
+
 <main class="container tool-page">
-  <div class="tool-page-header">
-    <a href="../../" class="back-link"><span>&larr;</span> back to tools</a>
-    <div class="tool-badge">tool 12 | interactive</div>
-    <h1>AdoptionMap</h1>
-    <p>Answer survey questions. Get a readiness dashboard.</p>
-  </div>
-  <div class="tool-body">
-    <div class="tool-input-panel">
-      <h3>team readiness survey</h3>
-      <div style="font-size:0.82rem;color:var(--text-secondary);display:flex;flex-direction:column;gap:0.75rem">
-        <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q1: Does your team have access to paid AI tools?</div>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q1" value="yes"> Yes</label>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q1" value="partial"> Partial</label>
-          <label style="font-size:0.8rem"><input type="radio" name="adopt-q1" value="no"> No</label></div>
-        <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q2: Does your culture encourage AI experimentation?</div>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q2" value="yes"> Yes</label>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q2" value="partial"> Some teams</label>
-          <label style="font-size:0.8rem"><input type="radio" name="adopt-q2" value="no"> No</label></div>
-        <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q3: Has your team received AI training?</div>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q3" value="yes"> Yes</label>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q3" value="partial"> Self-taught</label>
-          <label style="font-size:0.8rem"><input type="radio" name="adopt-q3" value="no"> No</label></div>
-        <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q4: Does leadership actively use AI?</div>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q4" value="yes"> Yes</label>
-          <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q4" value="partial"> Some execs</label>
-          <label style="font-size:0.8rem"><input type="radio" name="adopt-q4" value="no"> No</label></div>
+  <div class="tool-page-inner">
+    <a href="../../" class="tool-back">&larr; back to tools</a>
+
+    <div class="tool-header">
+      <div class="tool-header-icon" style="background:linear-gradient(135deg,#00E5FF,#FF2D78);color:#fff;">&#9776;</div>
+      <div class="tool-header-text">
+        <h1>AdoptionMap</h1>
+        <div class="tool-meta">
+          <span><span class="meta-dot"></span> batch 2</span>
+          <span>interactive</span>
+          <span>every.to / Lenny</span>
+        </div>
       </div>
-      <div class="tool-actions"><button class="btn btn-primary" onclick="runAdoptionMap()" style="margin-top:0.5rem">calculate readiness</button></div>
     </div>
-    <div class="tool-output-panel">
-      <h3>readiness dashboard</h3>
-      <div id="am-output"><div class="tool-output-placeholder">Answer the 4 questions and click "calculate readiness".</div></div>
+
+    <div class="tool-body">
+      <div class="tool-panel">
+        <h3>team readiness survey</h3>
+        <div style="font-size:0.82rem;color:var(--text-dim);display:flex;flex-direction:column;gap:0.75rem">
+          <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q1: Does your team have access to paid AI tools?</div>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q1" value="yes"> Yes</label>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q1" value="partial"> Partial</label>
+            <label style="font-size:0.8rem"><input type="radio" name="adopt-q1" value="no"> No</label></div>
+          <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q2: Does your culture encourage AI experimentation?</div>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q2" value="yes"> Yes</label>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q2" value="partial"> Some teams</label>
+            <label style="font-size:0.8rem"><input type="radio" name="adopt-q2" value="no"> No</label></div>
+          <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q3: Has your team received AI training?</div>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q3" value="yes"> Yes</label>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q3" value="partial"> Self-taught</label>
+            <label style="font-size:0.8rem"><input type="radio" name="adopt-q3" value="no"> No</label></div>
+          <div><div style="margin-bottom:0.2rem;font-size:0.75rem;color:var(--text-muted)">Q4: Does leadership actively use AI?</div>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q4" value="yes"> Yes</label>
+            <label style="margin-right:0.5rem;font-size:0.8rem"><input type="radio" name="adopt-q4" value="partial"> Some execs</label>
+            <label style="font-size:0.8rem"><input type="radio" name="adopt-q4" value="no"> No</label></div>
+        </div>
+        <div class="tool-actions"><button class="btn btn-primary" onclick="runAdoptionMap()" style="margin-top:0.5rem">calculate readiness</button></div>
+      </div>
+
+      <div class="tool-panel">
+        <h3>readiness dashboard</h3>
+        <div id="am-output"><div class="tool-output-empty">Answer the 4 questions and click "calculate readiness".</div></div>
+      </div>
     </div>
   </div>
 </main>
-<footer class="site-footer"><div class="container">Built from podcast conversations. No fluff.</div></footer>
-<script>
-(function(){var g=document.getElementById("cursor-glow"),d=document.getElementById("cursor-dot");if(!g||!d)return;if("ontouchstart"in window||navigator.maxTouchPoints>0){g.style.display="none";d.style.display="none";return}var mx=-100,my=-100,gx=-100,gy=-100;document.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;d.style.left=mx+"px";d.style.top=my+"px"});!function a(){gx+=(mx-gx)*.12;gy+=(my-gy)*.12;g.style.left=gx+"px";g.style.top=gy+"px";requestAnimationFrame(a)}();document.querySelectorAll("a,button,.btn,input,textarea,select,.sample-btn,.chip,.quick-fill button,.choice-btn").forEach(function(e){e.addEventListener("mouseenter",function(){g.style.width="48px";g.style.height="48px"});e.addEventListener("mouseleave",function(){g.style.width="32px";g.style.height="32px"})});document.addEventListener("mousedown",function(){d.style.width="4px";d.style.height="4px"});document.addEventListener("mouseup",function(){d.style.width="6px";d.style.height="6px"})})();
 
+<footer class="site-footer"><div class="container">AdoptionMap — assess your team's AI readiness</div></footer>
+
+<script>
 function runAdoptionMap() {
   var answers = { q1: document.querySelector('input[name="adopt-q1"]:checked'), q2: document.querySelector('input[name="adopt-q2"]:checked'), q3: document.querySelector('input[name="adopt-q3"]:checked'), q4: document.querySelector('input[name="adopt-q4"]:checked') };
-  if (!answers.q1 || !answers.q2 || !answers.q3 || !answers.q4) { document.getElementById("am-output").innerHTML = '<div class="tool-output-placeholder">Answer all 4 questions to see your readiness dashboard.</div>'; return; }
+  if (!answers.q1 || !answers.q2 || !answers.q3 || !answers.q4) { document.getElementById("am-output").innerHTML = '<div class="tool-output-empty">Answer all 4 questions to see your readiness dashboard.</div>'; return; }
   var scores = { tooling: 0, culture: 0, skills: 0, leadership: 0 };
   scores.tooling = answers.q1.value === "yes" ? 80 : answers.q1.value === "partial" ? 40 : 10;
   scores.culture = answers.q2.value === "yes" ? 75 : answers.q2.value === "partial" ? 40 : 10;
-  scores.skills = answers.q3.value === "yes" ? 70 : answers.q3.value === "partial" : 40;
+  scores.skills = answers.q3.value === "yes" ? 70 : answers.q3.value === "partial" ? 40 : 10;
   scores.leadership = answers.q4.value === "yes" ? 90 : answers.q4.value === "partial" ? 50 : 15;
   var total = Math.round((scores.tooling + scores.culture + scores.skills + scores.leadership) / 4);
   var label = total >= 70 ? "high readiness" : total >= 40 ? "developing" : "early stage";
@@ -93,7 +113,6 @@ function runAdoptionMap() {
   else {h += '<div class="result-section"><h4>next step</h4><div class="highlight-block">Good foundation. Focus on '+(scores.skills < scores.tooling ? 'upskilling — tooling access exceeds team ability to use it.' : 'deepening — move from experimental to production-grade AI workflows.')+'</div></div>';}
   document.getElementById("am-output").innerHTML = h;
 }
-
 </script>
 </body>
 </html>
