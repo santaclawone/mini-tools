@@ -687,16 +687,16 @@ body{
 
 <section class="hero">
   <div class="hero-block">
-    <span class="hero-tagline">21 tools | 2 conversations</span>
+    <span class="hero-tagline">12 solo | 9 team | 2 conversations</span>
     <h1 class="hero-title">mini tools<span class="dot">.</span></h1>
-    <p class="hero-sub">Twenty-one single-purpose tools extracted from two conversations with Dan Shipper.</p>
+    <p class="hero-sub">Twelve work alone. Nine need a team. Each extracted from two conversations with Dan Shipper.</p>
   </div>
 </section>
 
-<div class="batch-label">batch 1 | first conversation</div>
-<div class="app-grid" id="grid1"></div>
-<div class="batch-label">batch 1.5 | returns episode</div>
-<div class="app-grid" id="grid2"></div>
+<div class="batch-label">works alone</div>
+<div class="app-grid" id="soloGrid"></div>
+<div class="batch-label" style="margin-top:2.5rem">needs a team</div>
+<div class="app-grid" id="teamGrid" style="opacity:0.7"></div>
 
 <footer class="site-footer">mini tools | extracted by hand | no generated tools</footer>
 
@@ -729,42 +729,42 @@ body{
 
 <script>
 const APPS = [
-  {id:"stylepull",name:"StylePull",cat:"writing",accent:"#00E5FF",
+  {id:"stylepull",name:"StylePull",cat:"writing",accent:"#00E5FF",solo:true,
     what:"Extract an author&rsquo;s signature techniques from any text&mdash;sentence rhythm, vocabulary, punctuation habits&mdash;into a playbook.",
     why:"Borrow craft from writers who move you. Build your playbook. Stop writing blind.",
     podcast:"&ldquo;I downloaded War and Peace and had Claude extract all of Tolstoy&rsquo;s descriptions into a guide. Now I have a style reference.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/stylepull/"},
-  {id:"manuscript",name:"Manuscript",cat:"meetings",accent:"#7C3AED",
+  {id:"manuscript",name:"Manuscript",cat:"meetings",accent:"#7C3AED",solo:true,
     what:"Drop a meeting transcript. Build a voice profile&mdash;hedging rate, question ratio, filler habits, interruption frequency.",
     why:"Hear yourself as others do. Fix the patterns that undermine your point.",
     podcast:"&ldquo;I built a benchmark: can it predict what I&rsquo;m going to say in a meeting? It knew my habits better than I did.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/manuscript/"},
-  {id:"rambler-prd",name:"Rambler &rarr; PRD",cat:"product",accent:"#F59E0B",
+  {id:"rambler-prd",name:"Rambler &rarr; PRD",cat:"product",accent:"#F59E0B",solo:true,
     what:"Type raw ideas. Get a structured PRD&mdash;problem, users, stories, constraints, edge cases, success metrics.",
     why:"Ship structure from chaos. One prompt replaces the spec meeting.",
     podcast:"&ldquo;Instead of writing PRDs from scratch, I write a prompt that turns rambling into a perfect PRD. It&rsquo;s the highest-leverage writing I do.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/rambler-prd/"},
-  {id:"neverrepeat",name:"NeverRepeat",cat:"management",accent:"#FF2D78",
+  {id:"neverrepeat",name:"NeverRepeat",cat:"management",accent:"#FF2D78",solo:true,
     what:"Every piece of feedback you give becomes a reusable prompt. Build a library of your taste.",
     why:"Write feedback once. Let the team encode it into every future deliverable.",
     podcast:"&ldquo;Alex recorded every edit, put it in a prompt, and never made the same mistake twice. He got coaching-level growth from a prompt.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/neverrepeat/"},
-  {id:"copyscout",name:"CopyScout",cat:"engineering",accent:"#0D9488",
+  {id:"copyscout",name:"CopyScout",cat:"engineering",accent:"#0D9488",solo:true,
     what:"Point it at your codebase. Checks UI copy against your style guide. Flags inconsistencies everywhere.",
     why:"Catch voice drift before it ships. Brand consistency is a CI check.",
     podcast:"&ldquo;We have a Claude Code command that checks the entire codebase for copy edits. The design team never catches anything because the prompt already caught it.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/copyscout/"},
-  {id:"vibecheck",name:"VibeCheck",cat:"ai tools",accent:"#A855F7",
+  {id:"vibecheck",name:"VibeCheck",cat:"ai tools",accent:"#A855F7",solo:true,
     what:"Run any AI model through 5 real-world tasks. Score on quality, speed, cost, and feeling.",
     why:"Benchmark models on what you actually ship, not academic trivia.",
     podcast:"&ldquo;Vibe checks capture how it feels to use a model, which standard benchmarks don&rsquo;t. They matter more for real work.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/vibecheck/"},
-  {id:"memorymine",name:"MemoryMine",cat:"personal",accent:"#06B6D4",
+  {id:"memorymine",name:"MemoryMine",cat:"personal",accent:"#06B6D4",solo:true,
     what:"Weekly self-reflection from your journal entries. Surfaces patterns, blind spots, and recurring themes.",
     why:"Track your thinking week over week. See what you miss in the moment.",
     podcast:"&ldquo;I send it transcripts and ask how did I do? It says: you did that thing you normally do. It knows me better than I track myself.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/memorymine/"},
-  {id:"spiral-lite",name:"Spiral Lite",cat:"content",accent:"#059669",
+  {id:"spiral-lite",name:"Spiral Lite",cat:"content",accent:"#059669",solo:true,
     what:"Say what you want. It drafts variants, scores them against quality criteria, improves the best one.",
     why:"Kill blank page paralysis. Draft, score, improve, publish in one pass.",
     podcast:"&ldquo;You say what you want, it judges its own output, and improves. The self-critique loop is the magic.&rdquo;",
@@ -809,22 +809,22 @@ const APPS = [
     why:"Interview 20 people at scale. Read their plans in 20 minutes.",
     podcast:"&ldquo;A Notion agent asked 20 people about their goals, pushed back on weak answers, then produced plans. I read all 20 in the time for 2.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/notionplan/"},
-  {id:"benchtunnel",name:"BenchTunnel",cat:"ai tools",accent:"#F59E0B",
+  {id:"benchtunnel",name:"BenchTunnel",cat:"ai tools",accent:"#F59E0B",solo:true,
     what:"Score any model against canonical rewrites by senior engineers. Tracks improvement over time.",
     why:"Score models against human quality. Track whether AI is actually getting better.",
     podcast:"&ldquo;Two senior engineers rewrote my vibe-coded app. Now I score every new model against their versions. GPT-5.5 scored 62 out of 100.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/benchtunnel/"},
-  {id:"ridethemodel",name:"RideTheModel",cat:"ai tools",accent:"#FF2D78",
+  {id:"ridethemodel",name:"RideTheModel",cat:"ai tools",accent:"#FF2D78",solo:true,
     what:"Your personal model test suite. Save 5&ndash;10 tasks. Every model drop: auto-run, compare, share.",
     why:"Turn over the same rocks every time. Know when models get better for your work.",
     podcast:"&ldquo;Turn over the same rocks every time. It couldn&rsquo;t do this last time. Now it scores 62. Ride the curve, don&rsquo;t fight it.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/ridethemodel/"},
-  {id:"slopfilter",name:"SlopFilter",cat:"review",accent:"#BC1C1E",
+  {id:"slopfilter",name:"SlopFilter",cat:"review",accent:"#BC1C1E",solo:true,
     what:"Review triage for AI-generated work. Scores confidence, completeness, consistency. Auto-approves high-confidence output.",
     why:"Stop reviewing bad AI output. Flag noise, approve signal, save senior hours.",
     podcast:"&ldquo;Data scientists spend most of their time reviewing bad AI analysis. You need systems to filter the slop so seniors focus on what matters.&rdquo;",
     source:"Dan Shipper, Ride The Model", link:"tools/slopfilter/"},
-  {id:"claudiepair",name:"ClaudiePair",cat:"writing",accent:"#06B6D4",
+  {id:"claudiepair",name:"ClaudiePair",cat:"writing",accent:"#06B6D4",solo:true,
     what:"Collaborative workspace. You write, agent watches: researches, suggests edits, formats. Both see each other.",
     why:"Write alongside an agent. It watches, you lead. It formats, you think.",
     podcast:"&ldquo;The agent has visibility into what I&rsquo;m doing. I have visibility into what the agent is doing. The agent handles formatting&mdash;I focus on the ideas.&rdquo;",
@@ -841,12 +841,12 @@ function buildGrid(id, apps) {
     `<div class="app-tile" data-id="${a.id}" role="button" tabindex="0" style="--a:${a.accent}" aria-label="Open ${a.name}">
       <div class="tile-icon"></div>
       <span class="tile-name">${a.name}</span>
-      <span class="tile-category">${a.cat}</span>
+      <span class="tile-category">${a.solo ? a.cat : a.cat + ' &middot; team'}</span>
     </div>`
   ).join("");
 }
-buildGrid("grid1", APPS.slice(0,12));
-buildGrid("grid2", APPS.slice(12));
+buildGrid("soloGrid", APPS.filter(a=>a.solo));
+buildGrid("teamGrid", APPS.filter(a=>!a.solo));
 
 document.querySelectorAll(".app-tile").forEach((e,i)=>e.style.animationDelay=(0.02+i*0.02)+"s");
 
